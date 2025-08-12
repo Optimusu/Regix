@@ -495,4 +495,13 @@
   <data name="Validation_Required" xml:space="preserve">
     <value>The Field {0} is required</value>
   </data>
+  <data name="BirthSex" xml:space="preserve">
+    <value>Birth Sex</value>
+  </data>
+  <data name="GenderIdentity" xml:space="preserve">
+    <value>Gender Identity</value>
+  </data>
+  <data name="MaritalStatus" xml:space="preserve">
+    <value>Marital Status</value>
+  </data>
 </root>

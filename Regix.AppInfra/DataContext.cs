@@ -34,6 +34,9 @@ public class DataContext : IdentityDbContext<User>
     //EntitiesGen
 
     public DbSet<DocumentType> DocumentTypes => Set<DocumentType>();
+    public DbSet<EstadoCivil> EstadoCivils => Set<EstadoCivil>();
+    public DbSet<IdentidadGenero> IdentidadGeneros => Set<IdentidadGenero>();
+    public DbSet<SexoAsignado> SexoAsignados => Set<SexoAsignado>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

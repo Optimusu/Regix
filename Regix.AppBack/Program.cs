@@ -118,7 +118,7 @@ builder.Services.AddSwaggerGen(options =>
 
 // Base de datos
 builder.Services.AddDbContext<DataContext>(x =>
-    x.UseSqlServer("name=DefaultConnection", option => option.MigrationsAssembly("Trial.AppBack")));
+    x.UseSqlServer("name=DefaultConnection", option => option.MigrationsAssembly("Regix.AppBack")));
 
 //Para realizar logueo de los usuarios
 builder.Services.AddIdentity<AppUser, IdentityRole>(cfg =>
@@ -215,7 +215,7 @@ if (app.Environment.IsDevelopment())
         options.SwaggerEndpoint("/swagger/v2/swagger.json", "Orders Backend - V2");
     });
 
-    Task.Run(() => OpenBrowser("https://localhost:7229/swagger"));
+    Task.Run(() => OpenBrowser("https://localhost:7137/swagger"));
 }
 
 // Archivos estáticos

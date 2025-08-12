@@ -49,7 +49,7 @@ public class CorporationService : ICorporationService
             var defaultItem = new Corporation
             {
                 CorporationId = 0,
-                Name = "[Select Plan]",
+                Name = "[Select Corporation]",
                 Active = true
             };
             ListModel.Insert(0, defaultItem);

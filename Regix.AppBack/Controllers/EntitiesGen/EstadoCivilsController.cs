@@ -1,0 +1,136 @@
+﻿using Asp.Versioning;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
+using Regix.AppInfra.ErrorHandling;
+using Regix.Domain.EntitiesGen;
+using Regix.DomainLogic.Pagination;
+using Regix.UnitOfWork.InterfacesGen;
+
+namespace Regix.AppBack.Controllers.EntitiesGen
+{
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/estadosciviles")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin, Administrator")]
+    [ApiController]
+    public class EstadoCivilsController : ControllerBase
+    {
+        private readonly IEstadoCivilUnitOfWork _unitOfWork;
+        private readonly IStringLocalizer _localizer;
+
+        public EstadoCivilsController(IEstadoCivilUnitOfWork unitOfWork, IStringLocalizer localizer)
+        {
+            _unitOfWork = unitOfWork;
+            _localizer = localizer;
+        }
+
+        [HttpGet("loadCombo")]
+        public async Task<IActionResult> GetComboAsync()
+        {
+            try
+            {
+                var response = await _unitOfWork.ComboAsync();
+                return ResponseHelper.Format(response);
+            }
+            catch (ApplicationException ex)
+            {
+                return BadRequest(ex.Message); // Ya está localizado
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, _localizer["Generic_UnexpectedError"] + ": " + ex.Message);
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAll([FromQuery] PaginationDTO pagination)
+        {
+            try
+            {
+                var response = await _unitOfWork.GetAsync(pagination);
+                return ResponseHelper.Format(response);
+            }
+            catch (ApplicationException ex)
+            {
+                return BadRequest(ex.Message); // Ya está localizado
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, _localizer["Generic_UnexpectedError"] + ": " + ex.Message);
+            }
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetAsync(int id)
+        {
+            try
+            {
+                var response = await _unitOfWork.GetAsync(id);
+                return ResponseHelper.Format(response);
+            }
+            catch (ApplicationException ex)
+            {
+                return BadRequest(ex.Message); // Ya está localizado
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, _localizer["Generic_UnexpectedError"] + ": " + ex.Message);
+            }
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> PutAsync(EstadoCivil modelo)
+        {
+            try
+            {
+                var response = await _unitOfWork.UpdateAsync(modelo);
+                return ResponseHelper.Format(response);
+            }
+            catch (ApplicationException ex)
+            {
+                return BadRequest(ex.Message); // Ya está localizado
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, _localizer["Generic_UnexpectedError"] + ": " + ex.Message);
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> PostAsync(EstadoCivil modelo)
+        {
+            try
+            {
+                var response = await _unitOfWork.AddAsync(modelo);
+                return ResponseHelper.Format(response);
+            }
+            catch (ApplicationException ex)
+            {
+                return BadRequest(ex.Message); // Ya está localizado
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, _localizer["Generic_UnexpectedError"] + ": " + ex.Message);
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteAsync(int id)
+        {
+            try
+            {
+                var response = await _unitOfWork.DeleteAsync(id);
+                return ResponseHelper.Format(response);
+            }
+            catch (ApplicationException ex)
+            {
+                return BadRequest(ex.Message); // Ya está localizado
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, _localizer["Generic_UnexpectedError"] + ": " + ex.Message);
+            }
+        }
+    }
+}

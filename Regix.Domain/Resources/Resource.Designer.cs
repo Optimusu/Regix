@@ -79,6 +79,15 @@ namespace Regix.Domain.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Birth Sex.
+        /// </summary>
+        public static string BirthSex {
+            get {
+                return ResourceManager.GetString("BirthSex", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cities.
         /// </summary>
         public static string Cities {
@@ -408,6 +417,15 @@ namespace Regix.Domain.Resources {
         public static string FullName {
             get {
                 return ResourceManager.GetString("FullName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gender Identity.
+        /// </summary>
+        public static string GenderIdentity {
+            get {
+                return ResourceManager.GetString("GenderIdentity", resourceCulture);
             }
         }
         
@@ -876,6 +894,15 @@ namespace Regix.Domain.Resources {
         public static string Logo {
             get {
                 return ResourceManager.GetString("Logo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Marital Status.
+        /// </summary>
+        public static string MaritalStatus {
+            get {
+                return ResourceManager.GetString("MaritalStatus", resourceCulture);
             }
         }
         

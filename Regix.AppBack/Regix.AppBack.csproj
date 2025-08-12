@@ -31,4 +31,8 @@
     <ProjectReference Include="..\Regix.UnitOfWork\Regix.UnitOfWork.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\Images\" />
+  </ItemGroup>
+
 </Project>

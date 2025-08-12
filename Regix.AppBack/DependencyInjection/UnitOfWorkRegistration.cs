@@ -42,6 +42,12 @@ namespace Trial.AppBack.DependencyInjection
             //EntitiesGen
             services.AddScoped<IDocumentTypeUnitOfWork, DocumentTypeUnitOfWork>();
             services.AddScoped<IDocumentTypeService, DocumentTypeService>();
+            services.AddScoped<IEstadoCivilUnitOfWork, EstadoCivilUnitOfWork>();
+            services.AddScoped<IEstadoCivilService, EstadoCivilService>();
+            services.AddScoped<IIdentidadGeneroUnitOfWork, IdentidadGeneroUnitOfWork>();
+            services.AddScoped<IIdentidadGeneroService, IdentidadGeneroService>();
+            services.AddScoped<ISexoAsignadoUnitOfWork, SexoAsignadoUnitOfWork>();
+            services.AddScoped<ISexoAsignadoService, SexoAsignadoService>();
         }
     }
 }

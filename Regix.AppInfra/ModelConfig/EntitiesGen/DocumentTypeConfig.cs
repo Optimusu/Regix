@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Trial.Domain.EntitiesGen;
+using Regix.Domain.EntitiesGen;
 
-namespace Trial.AppInfra.ModelConfig.EntitiesGen;
+namespace Regix.AppInfra.ModelConfig.EntitiesGen;
 
 public class DocumentTypeConfig : IEntityTypeConfiguration<DocumentType>
 {
