@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="ImplementEntties\SoftPlanService.cs~RFe02902.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.13.1" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.13.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Regix.AppInfra\Regix.AppInfra.csproj" />
+    <ProjectReference Include="..\Regix.DomainLogic\Regix.DomainLogic.csproj" />
+    <ProjectReference Include="..\Regix.Domain\Regix.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

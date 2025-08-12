@@ -1,0 +1,47 @@
+﻿using Regix.Services.ImplementEntties;
+using Regix.Services.ImplementGen;
+using Regix.Services.ImplementSecure;
+using Regix.Services.InterfaceEntities;
+using Regix.Services.InterfacesGen;
+using Regix.Services.InterfacesSecure;
+using Regix.UnitOfWork.ImplementEntities;
+using Regix.UnitOfWork.ImplementGen;
+using Regix.UnitOfWork.ImplementSecure;
+using Regix.UnitOfWork.InterfaceEntities;
+using Regix.UnitOfWork.InterfacesGen;
+using Regix.UnitOfWork.InterfacesSecure;
+
+namespace Trial.AppBack.DependencyInjection
+{
+    public class UnitOfWorkRegistration
+    {
+        public static void AddUnitOfWorkRegistration(IServiceCollection services)
+        {
+            //EntitiesSecurities Software
+            services.AddScoped<IAccountUnitOfWork, AccountUnitOfWork>();
+            services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<IUsuarioUnitOfWork, UsuarioUnitOfWork>();
+            services.AddScoped<IUsuarioService, UsuarioService>();
+            services.AddScoped<IUsuarioRoleUnitOfWork, UsuarioRoleUnitOfWork>();
+            services.AddScoped<IUsuarioRoleService, UsuarioRoleService>();
+
+            //Entities
+            services.AddScoped<ICountryUnitOfWork, CountryUnitOfWork>();
+            services.AddScoped<ICountryServices, CountryService>();
+            services.AddScoped<IStateUnitOfWork, StateUnitOfWork>();
+            services.AddScoped<IStateService, StateService>();
+            services.AddScoped<ICityUnitOfWork, CityUnitOfWork>();
+            services.AddScoped<ICityService, CityService>();
+            services.AddScoped<ISoftPlanUnitOfWork, SoftPlanUnitOfWork>();
+            services.AddScoped<ISoftPlanService, SoftPlanService>();
+            services.AddScoped<ICorporationUnitOfWork, CorporationUnitOfWork>();
+            services.AddScoped<ICorporationService, CorporationService>();
+            services.AddScoped<IManagerUnitOfWork, ManagerUnitOfWork>();
+            services.AddScoped<IManagerService, ManagerService>();
+
+            //EntitiesGen
+            services.AddScoped<IDocumentTypeUnitOfWork, DocumentTypeUnitOfWork>();
+            services.AddScoped<IDocumentTypeService, DocumentTypeService>();
+        }
+    }
+}

@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Regix.DomainLogic\Regix.DomainLogic.csproj" />
+    <ProjectReference Include="..\Regix.Domain\Regix.Domain.csproj" />
+    <ProjectReference Include="..\Regix.Services\Regix.Services.csproj" />
+  </ItemGroup>
+
+</Project>
