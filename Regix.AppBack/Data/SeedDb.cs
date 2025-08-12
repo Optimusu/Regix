@@ -31,6 +31,7 @@ public class SeedDb
         await CheckEstadoCivil();
         await CheckIdentidadGenero();
         await CheckSexoAsignado();
+        await CheckLenguage();
         await CheckCountries();
         await CheckUserAsync("Optimus U", "TrialPro", "optimusu.soft@gmail.com", "+1 786 503", UserType.Admin);
     }
@@ -43,6 +44,16 @@ public class SeedDb
         await _userHelper.CheckRoleAsync(UserType.Investigator.ToString());
         await _userHelper.CheckRoleAsync(UserType.Researcher.ToString());
         await _userHelper.CheckRoleAsync(UserType.Monitor.ToString());
+    }
+
+    private async Task CheckLenguage()
+    {
+        if (!_context.Idiomas.Any())
+        {
+            _context.Idiomas.Add(new Idioma { Name = "English", Active = true });
+            _context.Idiomas.Add(new Idioma { Name = "Spanish", Active = true });
+            await _context.SaveChangesAsync();
+        }
     }
 
     private async Task CheckDocumentType()

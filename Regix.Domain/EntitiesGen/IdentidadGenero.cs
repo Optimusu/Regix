@@ -1,4 +1,5 @@
-﻿using Regix.Domain.Resources;
+﻿using Regix.Domain.EntitiesSoft;
+using Regix.Domain.Resources;
 using System.ComponentModel.DataAnnotations;
 
 namespace Regix.Domain.EntitiesGen;
@@ -15,4 +16,6 @@ public class IdentidadGenero
 
     [Display(Name = nameof(Resource.Active), ResourceType = typeof(Resource))]
     public bool Active { get; set; }
+
+    public ICollection<Patient>? Patients { get; set; }
 }

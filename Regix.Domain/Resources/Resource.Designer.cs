@@ -844,6 +844,24 @@ namespace Regix.Domain.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Lenguage.
+        /// </summary>
+        public static string Idioma {
+            get {
+                return ResourceManager.GetString("Idioma", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lenguage.
+        /// </summary>
+        public static string Idiomas {
+            get {
+                return ResourceManager.GetString("Idiomas", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Image.
         /// </summary>
         public static string Image {
@@ -858,6 +876,15 @@ namespace Regix.Domain.Resources {
         public static string Indication {
             get {
                 return ResourceManager.GetString("Indication", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Interpreter.
+        /// </summary>
+        public static string Interpreter {
+            get {
+                return ResourceManager.GetString("Interpreter", resourceCulture);
             }
         }
         
@@ -961,6 +988,15 @@ namespace Regix.Domain.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Occupation / Job.
+        /// </summary>
+        public static string Occupation {
+            get {
+                return ResourceManager.GetString("Occupation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Origin.
         /// </summary>
         public static string Origin {
@@ -984,6 +1020,15 @@ namespace Regix.Domain.Resources {
         public static string Photo {
             get {
                 return ResourceManager.GetString("Photo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Prefer Name.
+        /// </summary>
+        public static string Prefername {
+            get {
+                return ResourceManager.GetString("Prefername", resourceCulture);
             }
         }
         

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Regix.Domain.EntitiesSoft;
 using Regix.Domain.Resources;
 
 namespace Regix.Domain.EntitiesGen;
@@ -15,4 +16,6 @@ public class DocumentType
 
     [Display(Name = nameof(Resource.Active), ResourceType = typeof(Resource))]
     public bool Active { get; set; }
+
+    public ICollection<Patient>? Patients { get; set; }
 }

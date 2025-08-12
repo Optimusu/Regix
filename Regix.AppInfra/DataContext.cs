@@ -4,6 +4,7 @@ using System.Reflection;
 using Regix.Domain.EntitesSoftSec;
 using Regix.Domain.Entities;
 using Regix.Domain.EntitiesGen;
+using Regix.Domain.EntitiesSoft;
 
 namespace Regix.AppInfra;
 
@@ -37,6 +38,11 @@ public class DataContext : IdentityDbContext<User>
     public DbSet<EstadoCivil> EstadoCivils => Set<EstadoCivil>();
     public DbSet<IdentidadGenero> IdentidadGeneros => Set<IdentidadGenero>();
     public DbSet<SexoAsignado> SexoAsignados => Set<SexoAsignado>();
+    public DbSet<Idioma> Idiomas => Set<Idioma>();
+
+    //EntitiesSoft
+
+    public DbSet<Patient> Patients => Set<Patient>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

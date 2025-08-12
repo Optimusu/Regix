@@ -1,14 +1,18 @@
 ﻿using Regix.Services.ImplementEntties;
 using Regix.Services.ImplementGen;
 using Regix.Services.ImplementSecure;
+using Regix.Services.ImplementSoft;
 using Regix.Services.InterfaceEntities;
 using Regix.Services.InterfacesGen;
+using Regix.Services.InterfaceSoft;
 using Regix.Services.InterfacesSecure;
 using Regix.UnitOfWork.ImplementEntities;
 using Regix.UnitOfWork.ImplementGen;
 using Regix.UnitOfWork.ImplementSecure;
+using Regix.UnitOfWork.ImplementSoft;
 using Regix.UnitOfWork.InterfaceEntities;
 using Regix.UnitOfWork.InterfacesGen;
+using Regix.UnitOfWork.InterfaceSoft;
 using Regix.UnitOfWork.InterfacesSecure;
 
 namespace Trial.AppBack.DependencyInjection
@@ -48,6 +52,12 @@ namespace Trial.AppBack.DependencyInjection
             services.AddScoped<IIdentidadGeneroService, IdentidadGeneroService>();
             services.AddScoped<ISexoAsignadoUnitOfWork, SexoAsignadoUnitOfWork>();
             services.AddScoped<ISexoAsignadoService, SexoAsignadoService>();
+            services.AddScoped<IIdiomaUnitOfWork, IdiomaUnitOfWork>();
+            services.AddScoped<IIdiomaService, IdiomaService>();
+
+            //EntitiesSoft
+            services.AddScoped<IPatientUnitOfWork, PatientUnitOfWork>();
+            services.AddScoped<IPatientService, PatientService>();
         }
     }
 }

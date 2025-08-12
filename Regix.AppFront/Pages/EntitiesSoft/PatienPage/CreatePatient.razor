@@ -1,0 +1,36 @@
+﻿@page "/regpatient/create"
+@attribute [Authorize(Roles = "Administrator")]
+
+@if (Patient is null)
+{
+    <Loading />
+}
+else
+{
+    <div class="container pt-4">
+        <div class="card shadow-lg p-4 mb-5" style="border-radius: 12px;">
+            <FormPatient Patient="Patient"
+                         OnSubmit="Create"
+                         ReturnAction="Return" />
+        </div>
+    </div>
+
+    @* <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5); z-index: 1055;">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content modal-create-shadow p-4 position-relative">
+                <div class="modal-header d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="modal-title">
+                        @Title
+                    </h5>
+                    <button class="btn-close-modal" @onclick="Return" title="Close">
+                        <i class="fa fa-times"></i>
+                    </button>
+                </div>
+
+
+
+        </div>
+    </div>
+</div> *@
+
+}

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Regix.AppInfra;
 
@@ -11,9 +12,11 @@ using Regix.AppInfra;
 namespace Regix.AppBack.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20250812165323_IdiomasDB")]
+    partial class IdiomasDB
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -769,120 +772,6 @@ namespace Regix.AppBack.Migrations
                     b.ToTable("SexoAsignados");
                 });
 
-            modelBuilder.Entity("Regix.Domain.EntitiesSoft.Patient", b =>
-                {
-                    b.Property<Guid>("PatientId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasDefaultValueSql("NEWSEQUENTIALID()");
-
-                    b.Property<bool>("Active")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<bool>("Confirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("CorporationId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("DOB")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("DocumentTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("EstadoCivilId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("FullName")
-                        .HasMaxLength(101)
-                        .HasColumnType("nvarchar(101)");
-
-                    b.Property<int>("IdentidadGeneroId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("IdiomaId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("Interpreter")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<bool>("Migrated")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Nro_Document")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<string>("Ocupacion")
-                        .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("nvarchar(25)");
-
-                    b.Property<string>("PhoneCell")
-                        .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("nvarchar(25)");
-
-                    b.Property<string>("PhoneHome")
-                        .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("nvarchar(25)");
-
-                    b.Property<string>("Preferido")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<int>("SexoAsignadoId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.HasKey("PatientId");
-
-                    b.HasIndex("CorporationId");
-
-                    b.HasIndex("DocumentTypeId");
-
-                    b.HasIndex("EstadoCivilId");
-
-                    b.HasIndex("IdentidadGeneroId");
-
-                    b.HasIndex("IdiomaId");
-
-                    b.HasIndex("PatientId");
-
-                    b.HasIndex("SexoAsignadoId");
-
-                    b.HasIndex("UserName")
-                        .IsUnique();
-
-                    b.HasIndex("FullName", "CorporationId")
-                        .IsUnique()
-                        .HasFilter("[FullName] IS NOT NULL");
-
-                    b.ToTable("Patients");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -1035,57 +924,6 @@ namespace Regix.AppBack.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Regix.Domain.EntitiesSoft.Patient", b =>
-                {
-                    b.HasOne("Regix.Domain.Entities.Corporation", "Corporation")
-                        .WithMany()
-                        .HasForeignKey("CorporationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Regix.Domain.EntitiesGen.DocumentType", "DocumentType")
-                        .WithMany("Patients")
-                        .HasForeignKey("DocumentTypeId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Regix.Domain.EntitiesGen.EstadoCivil", "EstadoCivil")
-                        .WithMany("Patients")
-                        .HasForeignKey("EstadoCivilId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Regix.Domain.EntitiesGen.IdentidadGenero", "IdentidadGenero")
-                        .WithMany("Patients")
-                        .HasForeignKey("IdentidadGeneroId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Regix.Domain.EntitiesGen.Idioma", "Idioma")
-                        .WithMany("Patients")
-                        .HasForeignKey("IdiomaId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Regix.Domain.EntitiesGen.SexoAsignado", "SexoAsignado")
-                        .WithMany("Patients")
-                        .HasForeignKey("SexoAsignadoId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Corporation");
-
-                    b.Navigation("DocumentType");
-
-                    b.Navigation("EstadoCivil");
-
-                    b.Navigation("IdentidadGenero");
-
-                    b.Navigation("Idioma");
-
-                    b.Navigation("SexoAsignado");
-                });
-
             modelBuilder.Entity("Regix.Domain.EntitesSoftSec.Usuario", b =>
                 {
                     b.Navigation("UsuarioRoles");
@@ -1120,31 +958,6 @@ namespace Regix.AppBack.Migrations
             modelBuilder.Entity("Regix.Domain.Entities.User", b =>
                 {
                     b.Navigation("UserRoleDetails");
-                });
-
-            modelBuilder.Entity("Regix.Domain.EntitiesGen.DocumentType", b =>
-                {
-                    b.Navigation("Patients");
-                });
-
-            modelBuilder.Entity("Regix.Domain.EntitiesGen.EstadoCivil", b =>
-                {
-                    b.Navigation("Patients");
-                });
-
-            modelBuilder.Entity("Regix.Domain.EntitiesGen.IdentidadGenero", b =>
-                {
-                    b.Navigation("Patients");
-                });
-
-            modelBuilder.Entity("Regix.Domain.EntitiesGen.Idioma", b =>
-                {
-                    b.Navigation("Patients");
-                });
-
-            modelBuilder.Entity("Regix.Domain.EntitiesGen.SexoAsignado", b =>
-                {
-                    b.Navigation("Patients");
                 });
 #pragma warning restore 612, 618
         }

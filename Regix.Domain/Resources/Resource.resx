@@ -504,4 +504,19 @@
   <data name="MaritalStatus" xml:space="preserve">
     <value>Marital Status</value>
   </data>
+  <data name="Idioma" xml:space="preserve">
+    <value>Lenguage</value>
+  </data>
+  <data name="Idiomas" xml:space="preserve">
+    <value>Lenguage</value>
+  </data>
+  <data name="Interpreter" xml:space="preserve">
+    <value>Interpreter</value>
+  </data>
+  <data name="Occupation" xml:space="preserve">
+    <value>Occupation / Job</value>
+  </data>
+  <data name="Prefername" xml:space="preserve">
+    <value>Prefer Name</value>
+  </data>
 </root>

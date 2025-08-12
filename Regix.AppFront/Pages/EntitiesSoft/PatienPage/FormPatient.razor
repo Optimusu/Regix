@@ -1,0 +1,224 @@
+﻿<EditForm Model="Patient" OnValidSubmit="OnSubmit">
+    <DataAnnotationsValidator />
+
+    <div class="mb-2">
+        <div class="input-group">
+            <span class="input-group-text" style="width: 150px">
+                @GetDisplayName(() => Patient.FirstName)
+            </span>
+            <InputText class="form-control" placeholder="First Name..." @bind-Value="Patient.FirstName" />
+        </div>
+        <ValidationMessage For="@(() => Patient.FirstName)" />
+    </div>
+
+    <div class="mb-2">
+        <div class="input-group">
+            <span class="input-group-text" style="width: 150px">
+                @GetDisplayName(() => Patient.LastName)
+            </span>
+            <InputText class="form-control" placeholder="Last Name..." @bind-Value="Patient.LastName" />
+        </div>
+        <ValidationMessage For="@(() => Patient.LastName)" />
+    </div>
+
+    <div class="mb-2">
+        <div class="input-group">
+            <span class="input-group-text" style="width: 150px">
+                @GetDisplayName(() => Patient.Preferido)
+            </span>
+            <InputText class="form-control" placeholder="Prefer Name..." @bind-Value="Patient.Preferido" />
+        </div>
+        <ValidationMessage For="@(() => Patient.Preferido)" />
+    </div>
+
+    <!-- SexoAsignado -->
+    <div class="mb-2">
+        @if (SexoAsignados is null)
+        {
+            <Loading />
+        }
+        else
+        {
+            <div class="input-group">
+                <span class="input-group-text" style="width: 150px">Sex Birth </span>
+                <select class="form-select" value="@Patient.SexoAsignadoId" @onchange="SexoAsignadoChanged">
+                    @foreach (var item in SexoAsignados)
+                    {
+                        <option value="@item.SexoAsignadoId">@item.Name</option>
+                    }
+                </select>
+            </div>
+        }
+    </div>
+
+    <!-- IdentidadGenero -->
+    <div class="mb-2">
+        @if (IdentidadGeneros is null)
+        {
+            <Loading />
+        }
+        else
+        {
+            <div class="input-group">
+                <span class="input-group-text" style="width: 150px">Gender Identity </span>
+                <select class="form-select" value="@Patient.IdentidadGeneroId" @onchange="IdentidadGeneroChanged">
+                    @foreach (var item in IdentidadGeneros)
+                    {
+                        <option value="@item.IdentidadGeneroId">@item.Name</option>
+                    }
+                </select>
+            </div>
+        }
+    </div>
+
+    <!-- Fecha inicio -->
+    <div class="mb-2">
+        <div class="input-group">
+            <span class="input-group-text" style="width: 150px">Date Birth</span>
+            <input type="date" class="form-control"
+                   @bind="Patient.DOB"
+                   min="@DateMin?.ToString("yyyy-MM-dd")" />
+        </div>
+    </div>
+
+        <!-- TipoDocument -->
+    <div class="mb-2">
+        @if (DocumentTypes is null)
+        {
+            <Loading />
+        }
+        else
+        {
+            <div class="input-group">
+                <span class="input-group-text" style="width: 150px">Document Type </span>
+                <select class="form-select" value="@Patient.IdentidadGeneroId" @onchange="TipoDocumentoChanged">
+                    @foreach (var item in DocumentTypes)
+                    {
+                        <option value="@item.DocumentTypeId">@item.DocumentName</option>
+                    }
+                </select>
+            </div>
+        }
+    </div>
+
+    <div class="mb-2">
+        <div class="input-group">
+            <span class="input-group-text" style="width: 150px">
+                @GetDisplayName(() => Patient.Nro_Document)
+            </span>
+            <InputText class="form-control" placeholder="Documento Number..." @bind-Value="Patient.Nro_Document" />
+        </div>
+        <ValidationMessage For="@(() => Patient.Nro_Document)" />
+    </div>
+
+    <div class="mb-2">
+        <div class="input-group">
+            <span class="input-group-text" style="width: 150px">
+                @GetDisplayName(() => Patient.Address)
+            </span>
+            <InputTextArea class="form-control" placeholder="Address..." @bind-Value="Patient.Address" />
+        </div>
+        <ValidationMessage For="@(() => Patient.Address)" />
+    </div>
+
+    <div class="mb-2">
+        <div class="input-group">
+            <span class="input-group-text" style="width: 150px">
+                @GetDisplayName(() => Patient.PhoneCell)
+            </span>
+            <InputText class="form-control" placeholder="Phone Cell..." @bind-Value="Patient.PhoneCell" />
+        </div>
+        <ValidationMessage For="@(() => Patient.PhoneCell)" />
+    </div>
+
+    <div class="mb-2">
+        <div class="input-group">
+            <span class="input-group-text" style="width: 150px">
+                @GetDisplayName(() => Patient.PhoneHome)
+            </span>
+            <InputText class="form-control" placeholder="Phone Home..." @bind-Value="Patient.PhoneHome" />
+        </div>
+        <ValidationMessage For="@(() => Patient.PhoneHome)" />
+    </div>
+
+    <div class="mb-2">
+        <div class="input-group">
+            <span class="input-group-text" style="width: 150px">
+                @GetDisplayName(() => Patient.UserName)
+            </span>
+            <InputText class="form-control" placeholder="youmail@Domain.com..." @bind-Value="Patient.UserName" />
+        </div>
+        <ValidationMessage For="@(() => Patient.UserName)" />
+    </div>
+
+     <!-- Idiomas -->
+    <div class="mb-2">
+        @if (Idiomas is null)
+        {
+            <Loading />
+        }
+        else
+        {
+            <div class="input-group">
+                <span class="input-group-text" style="width: 150px">Language </span>
+                <select class="form-select" value="@Patient.IdiomaId" @onchange="IdiomasChanged">
+                    @foreach (var item in Idiomas)
+                    {
+                        <option value="@item.IdiomaId">@item.Name</option>
+                    }
+                </select>
+            </div>
+        }
+    </div>
+
+    <div class="mb-3">
+        <div class="input-group">
+            <span class="input-group-text" style="width: 150px">
+                @GetDisplayName(() => Patient.Interpreter)
+            </span>
+            <div class="d-flex align-items-center ps-3">
+                <InputCheckbox @bind-Value="Patient.Interpreter" class="form-check-input me-2" />
+            </div>
+        </div>
+    </div>
+
+    <!-- EstadoCivil -->
+    <div class="mb-2">
+        @if (EstadoCivils is null)
+        {
+            <Loading />
+        }
+        else
+        {
+            <div class="input-group">
+                <span class="input-group-text" style="width: 150px">Marital Status </span>
+                <select class="form-select" value="@Patient.IdentidadGeneroId" @onchange="EstadoCivilChanged">
+                    @foreach (var item in EstadoCivils)
+                    {
+                        <option value="@item.EstadoCivilId">@item.Name</option>
+                    }
+                </select>
+            </div>
+        }
+    </div>
+
+    <div class="mb-2">
+        <div class="input-group">
+            <span class="input-group-text" style="width: 150px">
+                @GetDisplayName(() => Patient.Ocupacion)
+            </span>
+            <InputText class="form-control" placeholder="Ocuppation..." @bind-Value="Patient.Ocupacion" />
+        </div>
+        <ValidationMessage For="@(() => Patient.Ocupacion)" />
+    </div>
+
+    <!-- Botones -->
+    <div class="d-flex justify-content-center gap-3 mt-5">
+        <button type="submit" class="btn btn-gradient-primary" style="min-width: 160px;">
+            <i class="fa fa-floppy-disk me-2"></i> Save
+        </button>
+        <button class="btn btn-gradient-black" @onclick="ReturnAction" style="min-width: 160px;">
+            <i class="fa fa-arrow-left"></i> Back
+        </button>
+    </div>
+</EditForm>

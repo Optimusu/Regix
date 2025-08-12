@@ -1,5 +1,6 @@
 ﻿using Mapster;
 using Regix.Domain.Entities;
+using Regix.Domain.EntitiesSoft;
 
 namespace Regix.AppInfra.Mappings;
 
@@ -11,5 +12,13 @@ public static class MapsterConfig
 
         config.NewConfig<Manager, Manager>()
              .Ignore(dest => dest.Corporation!);
+
+        config.NewConfig<Patient, Patient>()
+            .Ignore(dest => dest.Corporation!)
+            .Ignore(dest => dest.SexoAsignado!)
+            .Ignore(dest => dest.IdentidadGenero!)
+            .Ignore(dest => dest.DocumentType!)
+            .Ignore(dest => dest.Idioma!)
+            .Ignore(dest => dest.EstadoCivil!);
     }
 }
