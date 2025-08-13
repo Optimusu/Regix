@@ -3,12 +3,11 @@ using Microsoft.AspNetCore.Components;
 using Regix.AppFront.GenericoModal;
 using Regix.AppFront.Helpers;
 using Regix.Domain.EntitiesGen;
-using Regix.Domain.EntitiesSoft;
 using Regix.HttpServices;
 
-namespace Regix.AppFront.Pages.EntitiesSoft.PatienPage;
+namespace Regix.AppFront.Pages.EntitiesGen.PharmacyPage;
 
-public partial class IndexPatient
+public partial class IndexPharmacy
 {
     [Inject] private IRepository _repository { get; set; } = null!;
     [Inject] private NavigationManager _navigationManager { get; set; } = null!;
@@ -22,8 +21,8 @@ public partial class IndexPatient
     private int TotalPages;      //Cantidad total de paginas
     private int PageSize = 15;  //Cantidad de registros por pagina
 
-    private const string baseUrl = "api/v1/regpatient";
-    public List<Patient>? Patients { get; set; }
+    private const string baseUrl = "api/v1/pharmacies";
+    public List<Pharmacy>? Pharmacies { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -49,7 +48,7 @@ public partial class IndexPatient
         {
             url += $"&filter={Filter}";
         }
-        var responseHttp = await _repository.GetAsync<List<Patient>>(url);
+        var responseHttp = await _repository.GetAsync<List<Pharmacy>>(url);
         // Centralizamos el manejo de errores
         bool errorHandled = await _responseHandler.HandleErrorAsync(responseHttp);
         if (errorHandled)
@@ -58,34 +57,32 @@ public partial class IndexPatient
             return;
         }
 
-        Patients = responseHttp.Response;
+        Pharmacies = responseHttp.Response;
         TotalPages = int.Parse(responseHttp.HttpResponseMessage.Headers.GetValues("Totalpages").FirstOrDefault()!);
     }
 
-    private void ShowModalAsync(Guid? id = null, bool isEdit = false)
+    private async Task ShowModalAsync(int id = 0, bool isEdit = false)
     {
-        var url = isEdit ? $"/regpatient/edit/{id}" : $"/regpatient/create";
-        _navigationManager.NavigateTo(url);
-        //if (isEdit)
-        //{
-        //    var parameters = new Dictionary<string, object>
-        //    {
-        //        { "Id", id! },
-        //        { "Title", "Edit Patient"  }
-        //    };
-        //    await _modalService.ShowAsync<EditPatient>(parameters);
-        //}
-        //else
-        //{
-        //    var parameters = new Dictionary<string, object>
-        //    {
-        //        { "Title", "Create Patient"  }
-        //    };
-        //    await _modalService.ShowAsync<CreatePatient>(parameters);
-        //}
+        if (isEdit)
+        {
+            var parameters = new Dictionary<string, object>
+            {
+                { "Id", id },
+                { "Title", "Edit Pharmacy"  }
+            };
+            await _modalService.ShowAsync<EditPharmacy>(parameters);
+        }
+        else
+        {
+            var parameters = new Dictionary<string, object>
+            {
+                { "Title", "Create Pharmacy"  }
+            };
+            await _modalService.ShowAsync<CreatePharmacy>(parameters);
+        }
     }
 
-    private async Task DeleteAsync(Guid id)
+    private async Task DeleteAsync(int id)
     {
         var result = await _sweetAlert.FireAsync(new SweetAlertOptions
         {

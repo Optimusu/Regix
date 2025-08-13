@@ -27,6 +27,7 @@ public partial class FormPatient
     private List<IdentidadGenero>? IdentidadGeneros;
     private List<EstadoCivil>? EstadoCivils;
     private List<Idioma>? Idiomas;
+    private List<Pharmacy>? Pharmacies;
     private DateTime? DateMin = new DateTime(1900, 1, 1);
 
     protected override async Task OnInitializedAsync()
@@ -36,6 +37,23 @@ public partial class FormPatient
         await LoadEstadoCivil();
         await LoadTipoDocumento();
         await LoadIdiomas();
+        await LoadPharmacy();
+    }
+
+    private async Task LoadPharmacy()
+    {
+        var responseHTTP = await _repository.GetAsync<List<Pharmacy>>($"api/v1/pharmacies/loadCombo");
+        bool errorHandled = await _responseHandler.HandleErrorAsync(responseHTTP);
+        if (errorHandled) return;
+        Pharmacies = responseHTTP.Response;
+    }
+
+    private void PharmacyChanged(ChangeEventArgs e)
+    {
+        if (int.TryParse(e?.Value?.ToString(), out int selectedId))
+        {
+            Patient.PharmacyId = selectedId;
+        }
     }
 
     private async Task LoadIdiomas()

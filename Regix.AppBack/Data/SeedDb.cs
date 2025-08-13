@@ -32,6 +32,7 @@ public class SeedDb
         await CheckIdentidadGenero();
         await CheckSexoAsignado();
         await CheckLenguage();
+        await CheckPharmacy();
         await CheckCountries();
         await CheckUserAsync("Optimus U", "TrialPro", "optimusu.soft@gmail.com", "+1 786 503", UserType.Admin);
     }
@@ -44,6 +45,23 @@ public class SeedDb
         await _userHelper.CheckRoleAsync(UserType.Investigator.ToString());
         await _userHelper.CheckRoleAsync(UserType.Researcher.ToString());
         await _userHelper.CheckRoleAsync(UserType.Monitor.ToString());
+    }
+
+    private async Task CheckPharmacy()
+    {
+        if (!_context.Pharmacies.Any())
+        {
+            _context.Pharmacies.Add(new Pharmacy { Name = "Express Scripts", Active = true });
+            _context.Pharmacies.Add(new Pharmacy { Name = "CVS Pharmacy", Active = true });
+            _context.Pharmacies.Add(new Pharmacy { Name = "Walgreens", Active = true });
+            _context.Pharmacies.Add(new Pharmacy { Name = "Health Mart", Active = true });
+            _context.Pharmacies.Add(new Pharmacy { Name = "Good Neighbor Pharmacy", Active = true });
+            _context.Pharmacies.Add(new Pharmacy { Name = "Genoa Healthcare", Active = true });
+            _context.Pharmacies.Add(new Pharmacy { Name = "The Medicine Shoppe Pharmacy", Active = true });
+            _context.Pharmacies.Add(new Pharmacy { Name = "Ascension Health Pharmacy", Active = true });
+            _context.Pharmacies.Add(new Pharmacy { Name = "Medicap Pharmacy", Active = true });
+            await _context.SaveChangesAsync();
+        }
     }
 
     private async Task CheckLenguage()

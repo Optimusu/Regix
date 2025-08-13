@@ -1,15 +1,13 @@
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.FileSystemGlobbing.Internal.PatternContexts;
 using Regix.AppFront.GenericoModal;
 using Regix.AppFront.Helpers;
-using Regix.Domain.EntitiesGen;
 using Regix.Domain.EntitiesSoft;
 using Regix.HttpServices;
 
-namespace Regix.AppFront.Pages.EntitiesSoft.PatienPage;
+namespace Regix.AppFront.Pages.EntitiesSoft.Patient2Page;
 
-public partial class CreatePatient
+public partial class CreatePatient2
 {
     //Services
 
@@ -21,30 +19,39 @@ public partial class CreatePatient
 
     //Parameters
 
+    [Parameter] public Guid Id { get; set; } //PatientId
     [Parameter] public string? Title { get; set; }
 
     //Local State
 
-    private Patient Patient = new() { Active = true, DOB = DateTime.Now };
-    private string BaseUrl = "/api/v1/regpatient";
-    private string BaseView = "/regpatient";
+    private Patient Patient = new();
+    private Patient2 Patient2 = new() { DateStart = DateTime.Now };
+    private const string BaseUrlPatient = "/api/v1/regpatient";
+    private string BaseUrl = "/api/v1/regpatient2s";
+    private string BaseView = "/regpatient/edit";
+
+    protected override async Task OnInitializedAsync()
+    {
+        var responseHttp = await _repository.GetAsync<Patient>($"{BaseUrlPatient}/{Id}");
+        if (await _responseHandler.HandleErrorAsync(responseHttp)) return;
+
+        Patient = responseHttp.Response!;
+        Title = Patient.FullName;
+    }
 
     private async Task Create()
     {
-        var responseHttp = await _repository.PostAsync<Patient, Patient>($"{BaseUrl}", Patient);
+        Patient2.PatientId = Id;
+        var responseHttp = await _repository.PostAsync($"{BaseUrl}", Patient2);
         bool errorHandled = await _responseHandler.HandleErrorAsync(responseHttp);
         if (errorHandled) return;
-        Patient = responseHttp.Response!;
 
         await _sweetAlert.FireAsync(Messages.CreateSuccessTitle, Messages.CreateSuccessMessage, SweetAlertIcon.Success);
-        _modalService.Close();
-        _navigationManager.NavigateTo($"/regpatient2s/create/{Patient.PatientId}");
+        _navigationManager.NavigateTo($"{BaseView}/{Id}");
     }
 
     private void Return()
     {
-        _modalService.Close();
-        _navigationManager.NavigateTo("/");
-        _navigationManager.NavigateTo($"{BaseView}");
+        _navigationManager.NavigateTo($"{BaseView}/{Id}");
     }
 }

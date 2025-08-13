@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Regix.AppInfra;
 
@@ -11,9 +12,11 @@ using Regix.AppInfra;
 namespace Regix.AppBack.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20250813184535_UpdatePatien2DB")]
+    partial class UpdatePatien2DB
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -940,16 +943,10 @@ namespace Regix.AppBack.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasDefaultValueSql("NEWSEQUENTIALID()");
 
-                    b.Property<bool>("Alcohol")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("Asthma")
                         .HasColumnType("bit");
 
                     b.Property<bool>("AutoimmuneDisease")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("Caffeine")
                         .HasColumnType("bit");
 
                     b.Property<bool>("Cancer")
@@ -972,18 +969,12 @@ namespace Regix.AppBack.Migrations
                     b.Property<bool>("Diabetes")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("DietaryPattern")
-                        .HasColumnType("bit");
-
                     b.Property<string>("DurationPattern")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<bool>("Heartdisease")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("HousingSituation")
                         .HasColumnType("bit");
 
                     b.Property<bool>("Hyperlipidemia")
@@ -1006,9 +997,6 @@ namespace Regix.AppBack.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<bool>("OccupationalHazards")
-                        .HasColumnType("bit");
-
                     b.Property<string>("OtherPersonalMedical")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -1025,13 +1013,7 @@ namespace Regix.AppBack.Migrations
                     b.Property<Guid>("PatientId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<bool>("PhysicalActivity")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("PriorEpisodes")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("RecreationalDrugs")
                         .HasColumnType("bit");
 
                     b.Property<string>("RelatedSymptoms")
@@ -1039,18 +1021,12 @@ namespace Regix.AppBack.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
-                    b.Property<bool>("Sleep")
-                        .HasColumnType("bit");
-
                     b.Property<string>("SymptomLocation")
                         .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
                     b.Property<bool>("ThyroidDisorder")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("Tobacco")
                         .HasColumnType("bit");
 
                     b.Property<string>("TypeCancer")

@@ -54,10 +54,14 @@ namespace Trial.AppBack.DependencyInjection
             services.AddScoped<ISexoAsignadoService, SexoAsignadoService>();
             services.AddScoped<IIdiomaUnitOfWork, IdiomaUnitOfWork>();
             services.AddScoped<IIdiomaService, IdiomaService>();
+            services.AddScoped<IPharmacyUnitOfWork, PharmacyUnitOfWork>();
+            services.AddScoped<IPharmacyService, PharmacyService>();
 
             //EntitiesSoft
             services.AddScoped<IPatientUnitOfWork, PatientUnitOfWork>();
             services.AddScoped<IPatientService, PatientService>();
+            services.AddScoped<IPatient2UnitOfWork, Patient2UnitOfWork>();
+            services.AddScoped<IPatient2Service, Patient2Service>();
         }
     }
 }

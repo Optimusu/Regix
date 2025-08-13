@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Regix.AppInfra;
 
@@ -11,9 +12,11 @@ using Regix.AppInfra;
 namespace Regix.AppBack.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20250813124413_PharmaciesDB")]
+    partial class PharmaciesDB
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -815,31 +818,11 @@ namespace Regix.AppBack.Migrations
                     b.Property<int>("CorporationId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("DOB")
+                    b.Property<DateTime?>("DOB")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("DocumentTypeId")
                         .HasColumnType("int");
-
-                    b.Property<string>("EmgAddress")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("EmgName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("EmgPhone")
-                        .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("nvarchar(25)");
-
-                    b.Property<string>("EmgRelation")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
 
                     b.Property<int>("EstadoCivilId")
                         .HasColumnType("int");
@@ -931,142 +914,6 @@ namespace Regix.AppBack.Migrations
                         .HasFilter("[FullName] IS NOT NULL");
 
                     b.ToTable("Patients");
-                });
-
-            modelBuilder.Entity("Regix.Domain.EntitiesSoft.Patient2", b =>
-                {
-                    b.Property<Guid>("Patient2Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasDefaultValueSql("NEWSEQUENTIALID()");
-
-                    b.Property<bool>("Alcohol")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("Asthma")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("AutoimmuneDisease")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("Caffeine")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("Cancer")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("CoagulationDisorder")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("ConsultationReason")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<int>("CorporationId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("DateStart")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("Diabetes")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("DietaryPattern")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("DurationPattern")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<bool>("Heartdisease")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("HousingSituation")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("Hyperlipidemia")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("Hypertension")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("InfectiousDiseases")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("Kidneydisease")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("LiverDisease")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("ModifyingFactors")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<bool>("OccupationalHazards")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("OtherPersonalMedical")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("PainQuality")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<int>("PainSeverity")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("PatientId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("PhysicalActivity")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("PriorEpisodes")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("RecreationalDrugs")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("RelatedSymptoms")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<bool>("Sleep")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("SymptomLocation")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<bool>("ThyroidDisorder")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("Tobacco")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("TypeCancer")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("Patient2Id");
-
-                    b.HasIndex("CorporationId");
-
-                    b.HasIndex("Patient2Id");
-
-                    b.HasIndex("PatientId");
-
-                    b.ToTable("Patient2s");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -1280,25 +1127,6 @@ namespace Regix.AppBack.Migrations
                     b.Navigation("SexoAsignado");
                 });
 
-            modelBuilder.Entity("Regix.Domain.EntitiesSoft.Patient2", b =>
-                {
-                    b.HasOne("Regix.Domain.Entities.Corporation", "Corporation")
-                        .WithMany()
-                        .HasForeignKey("CorporationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Regix.Domain.EntitiesSoft.Patient", "Patient")
-                        .WithMany("Patient2s")
-                        .HasForeignKey("PatientId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Corporation");
-
-                    b.Navigation("Patient");
-                });
-
             modelBuilder.Entity("Regix.Domain.EntitesSoftSec.Usuario", b =>
                 {
                     b.Navigation("UsuarioRoles");
@@ -1363,11 +1191,6 @@ namespace Regix.AppBack.Migrations
             modelBuilder.Entity("Regix.Domain.EntitiesGen.SexoAsignado", b =>
                 {
                     b.Navigation("Patients");
-                });
-
-            modelBuilder.Entity("Regix.Domain.EntitiesSoft.Patient", b =>
-                {
-                    b.Navigation("Patient2s");
                 });
 #pragma warning restore 612, 618
         }

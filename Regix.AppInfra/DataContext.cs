@@ -39,10 +39,12 @@ public class DataContext : IdentityDbContext<User>
     public DbSet<IdentidadGenero> IdentidadGeneros => Set<IdentidadGenero>();
     public DbSet<SexoAsignado> SexoAsignados => Set<SexoAsignado>();
     public DbSet<Idioma> Idiomas => Set<Idioma>();
+    public DbSet<Pharmacy> Pharmacies => Set<Pharmacy>();
 
     //EntitiesSoft
 
     public DbSet<Patient> Patients => Set<Patient>();
+    public DbSet<Patient2> Patient2s => Set<Patient2>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

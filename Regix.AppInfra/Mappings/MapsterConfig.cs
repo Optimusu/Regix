@@ -19,6 +19,8 @@ public static class MapsterConfig
             .Ignore(dest => dest.IdentidadGenero!)
             .Ignore(dest => dest.DocumentType!)
             .Ignore(dest => dest.Idioma!)
+            .Ignore(dest => dest.Pharmacy!)
+            .Ignore(dest => dest.Patient2s!)
             .Ignore(dest => dest.EstadoCivil!);
     }
 }

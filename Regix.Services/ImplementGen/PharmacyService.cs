@@ -4,19 +4,17 @@ using Microsoft.Extensions.Localization;
 using Regix.AppInfra;
 using Regix.AppInfra.ErrorHandling;
 using Regix.AppInfra.Extensions;
-using Regix.AppInfra.Mappings;
 using Regix.AppInfra.Transactions;
 using Regix.AppInfra.UserHelper;
 using Regix.AppInfra.Validations;
-using Regix.Domain.Entities;
-using Regix.Domain.EntitiesSoft;
+using Regix.Domain.EntitiesGen;
 using Regix.DomainLogic.Pagination;
 using Regix.DomainLogic.TrialResponse;
-using Regix.Services.InterfaceSoft;
+using Regix.Services.InterfacesGen;
 
-namespace Regix.Services.ImplementSoft;
+namespace Regix.Services.ImplementGen;
 
-public class PatientService : IPatientService
+public class PharmacyService : IPharmacyService
 {
     private readonly DataContext _context;
     private readonly IHttpContextAccessor _httpContextAccessor;
@@ -24,11 +22,10 @@ public class PatientService : IPatientService
     private readonly HttpErrorHandler _httpErrorHandler;
     private readonly IStringLocalizer _localizer;
     private readonly IUserHelper _userHelper;
-    private readonly IMapperService _mapperService;
 
-    public PatientService(DataContext context, IHttpContextAccessor httpContextAccessor,
+    public PharmacyService(DataContext context, IHttpContextAccessor httpContextAccessor,
         ITransactionManager transactionManager, HttpErrorHandler httpErrorHandler,
-        IStringLocalizer localizer, IUserHelper userHelper, IMapperService mapperService)
+        IStringLocalizer localizer, IUserHelper userHelper)
     {
         _context = context;
         _httpContextAccessor = httpContextAccessor;
@@ -36,36 +33,49 @@ public class PatientService : IPatientService
         _httpErrorHandler = httpErrorHandler;
         _localizer = localizer;
         _userHelper = userHelper;
-        _mapperService = mapperService;
     }
 
-    public async Task<ActionResponse<IEnumerable<Patient>>> GetAsync(PaginationDTO pagination, string Email)
+    public async Task<ActionResponse<IEnumerable<Pharmacy>>> ComboAsync()
     {
         try
         {
-            User user = await _userHelper.GetUserAsync(Email);
-            if (user == null)
+            List<Pharmacy> ListModel = await _context.Pharmacies.Where(x => x.Active).ToListAsync();
+            // Insertar el elemento neutro al inicio
+            var defaultItem = new Pharmacy
             {
-                return new ActionResponse<IEnumerable<Patient>>
-                {
-                    WasSuccess = false,
-                    Message = "Problemas para Conseguir el Usuario"
-                };
-            }
+                PharmacyId = 0,
+                Name = "[Select Pharmacy]",
+                Active = true
+            };
+            ListModel.Insert(0, defaultItem);
 
-            var queryable = _context.Patients
-                 .Include(x => x.Patient2s)
-                .Where(x => x.CorporationId == user.CorporationId).AsQueryable();
+            return new ActionResponse<IEnumerable<Pharmacy>>
+            {
+                WasSuccess = true,
+                Result = ListModel
+            };
+        }
+        catch (Exception ex)
+        {
+            return await _httpErrorHandler.HandleErrorAsync<IEnumerable<Pharmacy>>(ex); // ✅ Manejo de errores automático
+        }
+    }
+
+    public async Task<ActionResponse<IEnumerable<Pharmacy>>> GetAsync(PaginationDTO pagination)
+    {
+        try
+        {
+            var queryable = _context.Pharmacies.AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(pagination.Filter))
             {
                 //Busqueda grandes mateniendo los indices de los campos, campo Esta Collation CI para Case Insensitive
-                queryable = queryable.Where(u => EF.Functions.Like(u.FullName, $"%{pagination.Filter}%"));
+                queryable = queryable.Where(u => EF.Functions.Like(u.Name, $"%{pagination.Filter}%"));
             }
             await _httpContextAccessor.HttpContext!.InsertParameterPagination(queryable, pagination.RecordsNumber);
-            var modelo = await queryable.OrderBy(x => x.FullName).Paginate(pagination).ToListAsync();
+            var modelo = await queryable.OrderBy(x => x.Name).Paginate(pagination).ToListAsync();
 
-            return new ActionResponse<IEnumerable<Patient>>
+            return new ActionResponse<IEnumerable<Pharmacy>>
             {
                 WasSuccess = true,
                 Result = queryable
@@ -73,36 +83,35 @@ public class PatientService : IPatientService
         }
         catch (Exception ex)
         {
-            return await _httpErrorHandler.HandleErrorAsync<IEnumerable<Patient>>(ex); // ✅ Manejo de errores automático
+            return await _httpErrorHandler.HandleErrorAsync<IEnumerable<Pharmacy>>(ex); // ✅ Manejo de errores automático
         }
     }
 
-    public async Task<ActionResponse<Patient>> GetAsync(Guid id)
+    public async Task<ActionResponse<Pharmacy>> GetAsync(int id)
     {
         try
         {
-            if (id == Guid.Empty)
+            if (id <= 0)
             {
-                return new ActionResponse<Patient>
+                return new ActionResponse<Pharmacy>
                 {
                     WasSuccess = false,
                     Message = _localizer["Generic_InvalidId"]
                 };
             }
-            var modelo = await _context.Patients
+            var modelo = await _context.Pharmacies
                 .AsNoTracking()
-                .Include(x=> x.Patient2s)
-                .FirstOrDefaultAsync(x => x.PatientId == id);
+                .FirstOrDefaultAsync(x => x.PharmacyId == id);
             if (modelo == null)
             {
-                return new ActionResponse<Patient>
+                return new ActionResponse<Pharmacy>
                 {
                     WasSuccess = false,
                     Message = "Problemas para Enconstrar el Registro Indicado"
                 };
             }
 
-            return new ActionResponse<Patient>
+            return new ActionResponse<Pharmacy>
             {
                 WasSuccess = true,
                 Result = modelo
@@ -110,15 +119,15 @@ public class PatientService : IPatientService
         }
         catch (Exception ex)
         {
-            return await _httpErrorHandler.HandleErrorAsync<Patient>(ex); // ✅ Manejo de errores automático
+            return await _httpErrorHandler.HandleErrorAsync<Pharmacy>(ex); // ✅ Manejo de errores automático
         }
     }
 
-    public async Task<ActionResponse<Patient>> UpdateAsync(Patient modelo)
+    public async Task<ActionResponse<Pharmacy>> UpdateAsync(Pharmacy modelo)
     {
-        if (modelo == null || modelo.PatientId == Guid.Empty)
+        if (modelo == null || modelo.PharmacyId <= 0)
         {
-            return new ActionResponse<Patient>
+            return new ActionResponse<Pharmacy>
             {
                 WasSuccess = false,
                 Message = _localizer["Generic_InvalidId"]
@@ -128,14 +137,12 @@ public class PatientService : IPatientService
         await _transactionManager.BeginTransactionAsync();
         try
         {
-            modelo.FullName = $"{modelo.FirstName} {modelo!.LastName}";
-            Patient NuevoModelo = _mapperService.Map<Patient, Patient>(modelo);
-            _context.Patients.Update(NuevoModelo);
+            _context.Pharmacies.Update(modelo);
 
             await _transactionManager.SaveChangesAsync();
             await _transactionManager.CommitTransactionAsync();
 
-            return new ActionResponse<Patient>
+            return new ActionResponse<Pharmacy>
             {
                 WasSuccess = true,
                 Result = modelo,
@@ -145,32 +152,17 @@ public class PatientService : IPatientService
         catch (Exception ex)
         {
             await _transactionManager.RollbackTransactionAsync();
-            return await _httpErrorHandler.HandleErrorAsync<Patient>(ex); //Manejo de errores automático
+            return await _httpErrorHandler.HandleErrorAsync<Pharmacy>(ex); //Manejo de errores automático
         }
     }
 
-    public async Task<ActionResponse<Patient>> AddAsync(Patient modelo, string Email)
+    public async Task<ActionResponse<Pharmacy>> AddAsync(Pharmacy modelo)
     {
-        User user = await _userHelper.GetUserAsync(Email);
-        if (user == null)
-        {
-            return new ActionResponse<Patient>
-            {
-                WasSuccess = false,
-                Message = _localizer["Generic_AuthIdFail"]
-            };
-        }
-
-        modelo.CorporationId = Convert.ToInt32(user.CorporationId);
-        modelo.FullName = $"{modelo.FirstName} {modelo!.LastName}";
-        Patient NuevoModelo = _mapperService.Map<Patient, Patient>(modelo);
-
         if (!ValidatorModel.IsValid(modelo, out var errores))
         {
-            return new ActionResponse<Patient>
+            return new ActionResponse<Pharmacy>
             {
                 WasSuccess = false,
-                Result = modelo,
                 Message = _localizer["Generic_InvalidModel"] //Clave multilenguaje para modelo nulo
             };
         }
@@ -178,31 +170,30 @@ public class PatientService : IPatientService
         await _transactionManager.BeginTransactionAsync();
         try
         {
-            _context.Patients.Add(NuevoModelo);
-
+            _context.Pharmacies.Add(modelo);
             await _transactionManager.SaveChangesAsync();
             await _transactionManager.CommitTransactionAsync();
 
-            return new ActionResponse<Patient>
+            return new ActionResponse<Pharmacy>
             {
                 WasSuccess = true,
-                Result = NuevoModelo,
+                Result = modelo,
                 Message = _localizer["Generic_Success"]
             };
         }
         catch (Exception ex)
         {
             await _transactionManager.RollbackTransactionAsync();
-            return await _httpErrorHandler.HandleErrorAsync<Patient>(ex); // ✅ Manejo de errores automático
+            return await _httpErrorHandler.HandleErrorAsync<Pharmacy>(ex); // ✅ Manejo de errores automático
         }
     }
 
-    public async Task<ActionResponse<bool>> DeleteAsync(Guid id)
+    public async Task<ActionResponse<bool>> DeleteAsync(int id)
     {
         await _transactionManager.BeginTransactionAsync();
         try
         {
-            var DataRemove = await _context.Patients.FindAsync(id);
+            var DataRemove = await _context.Pharmacies.FindAsync(id);
             if (DataRemove == null)
             {
                 return new ActionResponse<bool>
@@ -212,7 +203,7 @@ public class PatientService : IPatientService
                 };
             }
 
-            _context.Patients.Remove(DataRemove);
+            _context.Pharmacies.Remove(DataRemove);
 
             await _transactionManager.SaveChangesAsync();
             await _transactionManager.CommitTransactionAsync();

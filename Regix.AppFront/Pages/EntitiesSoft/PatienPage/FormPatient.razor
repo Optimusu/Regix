@@ -1,25 +1,32 @@
 ﻿<EditForm Model="Patient" OnValidSubmit="OnSubmit">
     <DataAnnotationsValidator />
 
-    <div class="mb-2">
-        <div class="input-group">
-            <span class="input-group-text" style="width: 150px">
-                @GetDisplayName(() => Patient.FirstName)
-            </span>
-            <InputText class="form-control" placeholder="First Name..." @bind-Value="Patient.FirstName" />
+    <h2>Personal Infomation</h2>
+    <hr />
+    <div class="row mb-2">
+        <!-- First Name -->
+        <div class="col-md-6">
+            <div class="input-group">
+                <span class="input-group-text" style="width: 150px">
+                    @GetDisplayName(() => Patient.FirstName)
+                </span>
+                <InputText class="form-control" placeholder="First Name..." @bind-Value="Patient.FirstName" />
+            </div>
+            <ValidationMessage For="@(() => Patient.FirstName)" />
         </div>
-        <ValidationMessage For="@(() => Patient.FirstName)" />
+
+        <!-- Last Name -->
+        <div class="col-md-6">
+            <div class="input-group">
+                <span class="input-group-text" style="width: 150px">
+                    @GetDisplayName(() => Patient.LastName)
+                </span>
+                <InputText class="form-control" placeholder="Last Name..." @bind-Value="Patient.LastName" />
+            </div>
+            <ValidationMessage For="@(() => Patient.LastName)" />
+        </div>
     </div>
 
-    <div class="mb-2">
-        <div class="input-group">
-            <span class="input-group-text" style="width: 150px">
-                @GetDisplayName(() => Patient.LastName)
-            </span>
-            <InputText class="form-control" placeholder="Last Name..." @bind-Value="Patient.LastName" />
-        </div>
-        <ValidationMessage For="@(() => Patient.LastName)" />
-    </div>
 
     <div class="mb-2">
         <div class="input-group">
@@ -31,44 +38,86 @@
         <ValidationMessage For="@(() => Patient.Preferido)" />
     </div>
 
-    <!-- SexoAsignado -->
-    <div class="mb-2">
-        @if (SexoAsignados is null)
-        {
-            <Loading />
-        }
-        else
-        {
-            <div class="input-group">
-                <span class="input-group-text" style="width: 150px">Sex Birth </span>
-                <select class="form-select" value="@Patient.SexoAsignadoId" @onchange="SexoAsignadoChanged">
-                    @foreach (var item in SexoAsignados)
-                    {
-                        <option value="@item.SexoAsignadoId">@item.Name</option>
-                    }
-                </select>
-            </div>
-        }
+    <div class="row mb-2">
+        <!-- First Name -->
+        <div class="col-md-6">
+            @if (SexoAsignados is null)
+            {
+                <Loading />
+            }
+            else
+            {
+                <div class="input-group">
+                    <span class="input-group-text" style="width: 150px">Sex Birth </span>
+                    <select class="form-select" value="@Patient.SexoAsignadoId" @onchange="SexoAsignadoChanged">
+                        @foreach (var item in SexoAsignados)
+                        {
+                            <option value="@item.SexoAsignadoId">@item.Name</option>
+                        }
+                    </select>
+                </div>
+                <ValidationMessage For="@(() => Patient.SexoAsignadoId)" />
+            }
+        </div>
+
+        <!-- Last Name -->
+        <div class="col-md-6">
+            @if (IdentidadGeneros is null)
+            {
+                <Loading />
+            }
+            else
+            {
+                <div class="input-group">
+                    <span class="input-group-text" style="width: 150px">Gender Identity </span>
+                    <select class="form-select" value="@Patient.IdentidadGeneroId" @onchange="IdentidadGeneroChanged">
+                        @foreach (var item in IdentidadGeneros)
+                        {
+                            <option value="@item.IdentidadGeneroId">@item.Name</option>
+                        }
+                    </select>
+                </div>
+                <ValidationMessage For="@(() => Patient.IdentidadGeneroId)" />
+            }
+        </div>
     </div>
 
-    <!-- IdentidadGenero -->
-    <div class="mb-2">
-        @if (IdentidadGeneros is null)
-        {
-            <Loading />
-        }
-        else
-        {
+    <div class="row mb-2">
+        <!-- First Name -->
+        <div class="col-md-6">
+            @if (DocumentTypes is null)
+            {
+                <Loading />
+            }
+            else
+            {
+                <div class="input-group">
+                    <span class="input-group-text" style="width: 150px">Document Type </span>
+                    <select class="form-select" value="@Patient.DocumentTypeId" @onchange="TipoDocumentoChanged">
+                        @foreach (var item in DocumentTypes)
+                        {
+                            <option value="@item.DocumentTypeId">@item.DocumentName</option>
+                        }
+                    </select>
+                </div>
+                <ValidationMessage For="@(() => Patient.DocumentTypeId)" />
+            }
+        </div>
+
+        <!-- Last Name -->
+        <div class="col-md-6">
             <div class="input-group">
-                <span class="input-group-text" style="width: 150px">Gender Identity </span>
-                <select class="form-select" value="@Patient.IdentidadGeneroId" @onchange="IdentidadGeneroChanged">
-                    @foreach (var item in IdentidadGeneros)
-                    {
-                        <option value="@item.IdentidadGeneroId">@item.Name</option>
-                    }
-                </select>
+
+                <div class="input-group">
+                    <span class="input-group-text" style="width: 150px">
+                        @GetDisplayName(() => Patient.Nro_Document)
+                    </span>
+                    <InputText class="form-control" placeholder="Documento Number..." @bind-Value="Patient.Nro_Document" />
+                </div>
+                <ValidationMessage For="@(() => Patient.Nro_Document)" />
+
             </div>
-        }
+        </div>
     </div>
 
     <!-- Fecha inicio -->
@@ -80,37 +129,6 @@
                    min="@DateMin?.ToString("yyyy-MM-dd")" />
         </div>
     </div>
-
-        <!-- TipoDocument -->
-    <div class="mb-2">
-        @if (DocumentTypes is null)
-        {
-            <Loading />
-        }
-        else
-        {
-            <div class="input-group">
-                <span class="input-group-text" style="width: 150px">Document Type </span>
-                <select class="form-select" value="@Patient.IdentidadGeneroId" @onchange="TipoDocumentoChanged">
-                    @foreach (var item in DocumentTypes)
-                    {
-                        <option value="@item.DocumentTypeId">@item.DocumentName</option>
-                    }
-                </select>
-            </div>
-        }
-    </div>
-
-    <div class="mb-2">
-        <div class="input-group">
-            <span class="input-group-text" style="width: 150px">
-                @GetDisplayName(() => Patient.Nro_Document)
-            </span>
-            <InputText class="form-control" placeholder="Documento Number..." @bind-Value="Patient.Nro_Document" />
-        </div>
-        <ValidationMessage For="@(() => Patient.Nro_Document)" />
-    </div>
-
     <div class="mb-2">
         <div class="input-group">
             <span class="input-group-text" style="width: 150px">
@@ -121,24 +139,28 @@
         <ValidationMessage For="@(() => Patient.Address)" />
     </div>
 
-    <div class="mb-2">
-        <div class="input-group">
-            <span class="input-group-text" style="width: 150px">
-                @GetDisplayName(() => Patient.PhoneCell)
-            </span>
-            <InputText class="form-control" placeholder="Phone Cell..." @bind-Value="Patient.PhoneCell" />
+    <div class="row mb-2">
+        <!-- First Name -->
+        <div class="col-md-6">
+            <div class="input-group">
+                <span class="input-group-text" style="width: 150px">
+                    @GetDisplayName(() => Patient.PhoneCell)
+                </span>
+                <InputText class="form-control" placeholder="Phone Cell..." @bind-Value="Patient.PhoneCell" />
+            </div>
+            <ValidationMessage For="@(() => Patient.PhoneCell)" />
         </div>
-        <ValidationMessage For="@(() => Patient.PhoneCell)" />
-    </div>
 
-    <div class="mb-2">
-        <div class="input-group">
-            <span class="input-group-text" style="width: 150px">
-                @GetDisplayName(() => Patient.PhoneHome)
-            </span>
-            <InputText class="form-control" placeholder="Phone Home..." @bind-Value="Patient.PhoneHome" />
+        <!-- Last Name -->
+        <div class="col-md-6">
+            <div class="input-group">
+                <span class="input-group-text" style="width: 150px">
+                    @GetDisplayName(() => Patient.PhoneHome)
+                </span>
+                <InputText class="form-control" placeholder="Phone Home..." @bind-Value="Patient.PhoneHome" />
+            </div>
+            <ValidationMessage For="@(() => Patient.PhoneHome)" />
         </div>
-        <ValidationMessage For="@(() => Patient.PhoneHome)" />
     </div>
 
     <div class="mb-2">
@@ -151,74 +173,150 @@
         <ValidationMessage For="@(() => Patient.UserName)" />
     </div>
 
-     <!-- Idiomas -->
-    <div class="mb-2">
-        @if (Idiomas is null)
+
+    <div class="row mb-2">
+        <!-- First Name -->
+        <div class="col-md-6">
+            @if (Idiomas is null)
+            {
+                <Loading />
+            }
+            else
+            {
+                <div class="input-group">
+                    <span class="input-group-text" style="width: 150px">Language </span>
+                    <select class="form-select" value="@Patient.IdiomaId" @onchange="IdiomasChanged">
+                        @foreach (var item in Idiomas)
+                        {
+                            <option value="@item.IdiomaId">@item.Name</option>
+                        }
+                    </select>
+                </div>
+                <ValidationMessage For="@(() => Patient.IdiomaId)" />
+            }
+        </div>
+
+        <!-- Last Name -->
+        <div class="col-md-6">
+            <div class="input-group">
+                <span class="input-group-text" style="width: 150px">
+                    @GetDisplayName(() => Patient.Interpreter)
+                </span>
+                <div class="d-flex align-items-center ps-3">
+                    <InputCheckbox @bind-Value="Patient.Interpreter" class="form-check-input me-2" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-2">
+        <!-- First Name -->
+        <div class="col-md-6">
+            @if (EstadoCivils is null)
+            {
+                <Loading />
+            }
+            else
+            {
+                <div class="input-group">
+                    <span class="input-group-text" style="width: 150px">Marital Status </span>
+                    <select class="form-select" value="@Patient.EstadoCivilId" @onchange="EstadoCivilChanged">
+                        @foreach (var item in EstadoCivils)
+                        {
+                            <option value="@item.EstadoCivilId">@item.Name</option>
+                        }
+                    </select>
+                </div>
+                <ValidationMessage For="@(() => Patient.EstadoCivilId)" />
+            }
+        </div>
+
+        <!-- Last Name -->
+        <div class="col-md-6">
+            <div class="input-group">
+                <span class="input-group-text" style="width: 150px">
+                    @GetDisplayName(() => Patient.Ocupacion)
+                </span>
+                <InputText class="form-control" placeholder="Ocuppation..." @bind-Value="Patient.Ocupacion" />
+            </div>
+            <ValidationMessage For="@(() => Patient.Ocupacion)" />
+        </div>
+    </div>
+
+    <!-- Pharmacy -->
+    <div class="mb-5">
+        @if (Pharmacies is null)
         {
             <Loading />
         }
         else
         {
             <div class="input-group">
-                <span class="input-group-text" style="width: 150px">Language </span>
-                <select class="form-select" value="@Patient.IdiomaId" @onchange="IdiomasChanged">
-                    @foreach (var item in Idiomas)
+                <span class="input-group-text" style="width: 150px">Pharmacy </span>
+                <select class="form-select" value="@Patient.PharmacyId" @onchange="PharmacyChanged">
+                    @foreach (var item in Pharmacies)
                     {
-                        <option value="@item.IdiomaId">@item.Name</option>
+                        <option value="@item.PharmacyId">@item.Name</option>
                     }
                 </select>
             </div>
+            <ValidationMessage For="@(() => Patient.PharmacyId)" />
         }
     </div>
 
-    <div class="mb-3">
+    <h2>Emergency Infomation</h2>
+    <hr />
+
+    <div class="mb-2">
         <div class="input-group">
             <span class="input-group-text" style="width: 150px">
-                @GetDisplayName(() => Patient.Interpreter)
+                @GetDisplayName(() => Patient.EmgName)
             </span>
-            <div class="d-flex align-items-center ps-3">
-                <InputCheckbox @bind-Value="Patient.Interpreter" class="form-check-input me-2" />
-            </div>
+            <InputText class="form-control" placeholder="Full Name..." @bind-Value="Patient.EmgName" />
         </div>
+        <ValidationMessage For="@(() => Patient.EmgName)" />
     </div>
 
-    <!-- EstadoCivil -->
-    <div class="mb-2">
-        @if (EstadoCivils is null)
-        {
-            <Loading />
-        }
-        else
-        {
+    <div class="row mb-2">
+        <!-- First Name -->
+        <div class="col-md-6">
             <div class="input-group">
-                <span class="input-group-text" style="width: 150px">Marital Status </span>
-                <select class="form-select" value="@Patient.IdentidadGeneroId" @onchange="EstadoCivilChanged">
-                    @foreach (var item in EstadoCivils)
-                    {
-                        <option value="@item.EstadoCivilId">@item.Name</option>
-                    }
-                </select>
+                <span class="input-group-text" style="width: 150px">
+                    @GetDisplayName(() => Patient.EmgRelation)
+                </span>
+                <InputText class="form-control" placeholder="Relation..." @bind-Value="Patient.EmgRelation" />
             </div>
-        }
-    </div>
+            <ValidationMessage For="@(() => Patient.EmgRelation)" />
+        </div>
 
+        <!-- Last Name -->
+        <div class="col-md-6">
+            <div class="input-group">
+                <span class="input-group-text" style="width: 150px">
+                    @GetDisplayName(() => Patient.EmgPhone)
+                </span>
+                <InputText class="form-control" placeholder="Cell Phone..." @bind-Value="Patient.EmgPhone" />
+            </div>
+            <ValidationMessage For="@(() => Patient.EmgPhone)" />
+        </div>
+    </div>
     <div class="mb-2">
         <div class="input-group">
             <span class="input-group-text" style="width: 150px">
-                @GetDisplayName(() => Patient.Ocupacion)
+                @GetDisplayName(() => Patient.EmgAddress)
             </span>
-            <InputText class="form-control" placeholder="Ocuppation..." @bind-Value="Patient.Ocupacion" />
+            <InputTextArea class="form-control" placeholder="Address..." @bind-Value="Patient.EmgAddress" />
         </div>
-        <ValidationMessage For="@(() => Patient.Ocupacion)" />
+        <ValidationMessage For="@(() => Patient.EmgAddress)" />
     </div>
 
     <!-- Botones -->
     <div class="d-flex justify-content-center gap-3 mt-5">
-        <button type="submit" class="btn btn-gradient-primary" style="min-width: 160px;">
-            <i class="fa fa-floppy-disk me-2"></i> Save
-        </button>
         <button class="btn btn-gradient-black" @onclick="ReturnAction" style="min-width: 160px;">
             <i class="fa fa-arrow-left"></i> Back
+        </button>
+        <button type="submit" class="btn btn-gradient-primary" style="min-width: 160px;">
+            <i class="fa fa-arrow-right me-2"></i> Next
         </button>
     </div>
 </EditForm>

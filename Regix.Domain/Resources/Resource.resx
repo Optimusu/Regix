@@ -519,4 +519,46 @@
   <data name="Prefername" xml:space="preserve">
     <value>Prefer Name</value>
   </data>
+  <data name="Pharmacy" xml:space="preserve">
+    <value>Pharmacy</value>
+  </data>
+  <data name="Validation_Combo" xml:space="preserve">
+    <value>No item selected. Please choose one.</value>
+  </data>
+  <data name="CellPhone" xml:space="preserve">
+    <value>Cell Phone</value>
+  </data>
+  <data name="HomePhone" xml:space="preserve">
+    <value>Home Phone</value>
+  </data>
+  <data name="Relation" xml:space="preserve">
+    <value>Relation</value>
+  </data>
+  <data name="Patient" xml:space="preserve">
+    <value>Patient</value>
+  </data>
+  <data name="ConsultationReason" xml:space="preserve">
+    <value>Consultation Reason</value>
+  </data>
+  <data name="SymptomLocation" xml:space="preserve">
+    <value>Symptom Location</value>
+  </data>
+  <data name="PainQuality" xml:space="preserve">
+    <value>Pain Quality</value>
+  </data>
+  <data name="PainSeverity" xml:space="preserve">
+    <value>Pain Severity</value>
+  </data>
+  <data name="DurationPattern" xml:space="preserve">
+    <value>Duration/Pattern</value>
+  </data>
+  <data name="ModifyingFactors" xml:space="preserve">
+    <value>Modifying Factors</value>
+  </data>
+  <data name="RelatedSymptoms" xml:space="preserve">
+    <value>RelatedSymptoms</value>
+  </data>
+  <data name="PriorEpisodes" xml:space="preserve">
+    <value>PriorEpisodes</value>
+  </data>
 </root>

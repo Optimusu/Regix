@@ -16,7 +16,7 @@ using Regix.Services.InterfaceSoft;
 
 namespace Regix.Services.ImplementSoft;
 
-public class PatientService : IPatientService
+public class Patient2Service : IPatient2Service
 {
     private readonly DataContext _context;
     private readonly IHttpContextAccessor _httpContextAccessor;
@@ -26,7 +26,7 @@ public class PatientService : IPatientService
     private readonly IUserHelper _userHelper;
     private readonly IMapperService _mapperService;
 
-    public PatientService(DataContext context, IHttpContextAccessor httpContextAccessor,
+    public Patient2Service(DataContext context, IHttpContextAccessor httpContextAccessor,
         ITransactionManager transactionManager, HttpErrorHandler httpErrorHandler,
         IStringLocalizer localizer, IUserHelper userHelper, IMapperService mapperService)
     {
@@ -39,33 +39,28 @@ public class PatientService : IPatientService
         _mapperService = mapperService;
     }
 
-    public async Task<ActionResponse<IEnumerable<Patient>>> GetAsync(PaginationDTO pagination, string Email)
+    public async Task<ActionResponse<IEnumerable<Patient2>>> GetAsync(PaginationDTO pagination, string Email)
     {
         try
         {
             User user = await _userHelper.GetUserAsync(Email);
             if (user == null)
             {
-                return new ActionResponse<IEnumerable<Patient>>
+                return new ActionResponse<IEnumerable<Patient2>>
                 {
                     WasSuccess = false,
                     Message = "Problemas para Conseguir el Usuario"
                 };
             }
 
-            var queryable = _context.Patients
-                 .Include(x => x.Patient2s)
+            var queryable = _context.Patient2s
+                .Include(x => x.Patient)
                 .Where(x => x.CorporationId == user.CorporationId).AsQueryable();
 
-            if (!string.IsNullOrWhiteSpace(pagination.Filter))
-            {
-                //Busqueda grandes mateniendo los indices de los campos, campo Esta Collation CI para Case Insensitive
-                queryable = queryable.Where(u => EF.Functions.Like(u.FullName, $"%{pagination.Filter}%"));
-            }
             await _httpContextAccessor.HttpContext!.InsertParameterPagination(queryable, pagination.RecordsNumber);
-            var modelo = await queryable.OrderBy(x => x.FullName).Paginate(pagination).ToListAsync();
+            var modelo = await queryable.Paginate(pagination).ToListAsync();
 
-            return new ActionResponse<IEnumerable<Patient>>
+            return new ActionResponse<IEnumerable<Patient2>>
             {
                 WasSuccess = true,
                 Result = queryable
@@ -73,36 +68,36 @@ public class PatientService : IPatientService
         }
         catch (Exception ex)
         {
-            return await _httpErrorHandler.HandleErrorAsync<IEnumerable<Patient>>(ex); // ✅ Manejo de errores automático
+            return await _httpErrorHandler.HandleErrorAsync<IEnumerable<Patient2>>(ex); // ✅ Manejo de errores automático
         }
     }
 
-    public async Task<ActionResponse<Patient>> GetAsync(Guid id)
+    public async Task<ActionResponse<Patient2>> GetAsync(Guid id)
     {
         try
         {
             if (id == Guid.Empty)
             {
-                return new ActionResponse<Patient>
+                return new ActionResponse<Patient2>
                 {
                     WasSuccess = false,
                     Message = _localizer["Generic_InvalidId"]
                 };
             }
-            var modelo = await _context.Patients
+            var modelo = await _context.Patient2s
                 .AsNoTracking()
-                .Include(x=> x.Patient2s)
-                .FirstOrDefaultAsync(x => x.PatientId == id);
+                .Include(x => x.Patient)
+                .FirstOrDefaultAsync(x => x.Patient2Id == id);
             if (modelo == null)
             {
-                return new ActionResponse<Patient>
+                return new ActionResponse<Patient2>
                 {
                     WasSuccess = false,
                     Message = "Problemas para Enconstrar el Registro Indicado"
                 };
             }
 
-            return new ActionResponse<Patient>
+            return new ActionResponse<Patient2>
             {
                 WasSuccess = true,
                 Result = modelo
@@ -110,15 +105,15 @@ public class PatientService : IPatientService
         }
         catch (Exception ex)
         {
-            return await _httpErrorHandler.HandleErrorAsync<Patient>(ex); // ✅ Manejo de errores automático
+            return await _httpErrorHandler.HandleErrorAsync<Patient2>(ex); // ✅ Manejo de errores automático
         }
     }
 
-    public async Task<ActionResponse<Patient>> UpdateAsync(Patient modelo)
+    public async Task<ActionResponse<Patient2>> UpdateAsync(Patient2 modelo)
     {
-        if (modelo == null || modelo.PatientId == Guid.Empty)
+        if (modelo == null || modelo.Patient2Id == Guid.Empty)
         {
-            return new ActionResponse<Patient>
+            return new ActionResponse<Patient2>
             {
                 WasSuccess = false,
                 Message = _localizer["Generic_InvalidId"]
@@ -128,14 +123,12 @@ public class PatientService : IPatientService
         await _transactionManager.BeginTransactionAsync();
         try
         {
-            modelo.FullName = $"{modelo.FirstName} {modelo!.LastName}";
-            Patient NuevoModelo = _mapperService.Map<Patient, Patient>(modelo);
-            _context.Patients.Update(NuevoModelo);
+            _context.Patient2s.Update(modelo);
 
             await _transactionManager.SaveChangesAsync();
             await _transactionManager.CommitTransactionAsync();
 
-            return new ActionResponse<Patient>
+            return new ActionResponse<Patient2>
             {
                 WasSuccess = true,
                 Result = modelo,
@@ -145,16 +138,16 @@ public class PatientService : IPatientService
         catch (Exception ex)
         {
             await _transactionManager.RollbackTransactionAsync();
-            return await _httpErrorHandler.HandleErrorAsync<Patient>(ex); //Manejo de errores automático
+            return await _httpErrorHandler.HandleErrorAsync<Patient2>(ex); //Manejo de errores automático
         }
     }
 
-    public async Task<ActionResponse<Patient>> AddAsync(Patient modelo, string Email)
+    public async Task<ActionResponse<Patient2>> AddAsync(Patient2 modelo, string Email)
     {
         User user = await _userHelper.GetUserAsync(Email);
         if (user == null)
         {
-            return new ActionResponse<Patient>
+            return new ActionResponse<Patient2>
             {
                 WasSuccess = false,
                 Message = _localizer["Generic_AuthIdFail"]
@@ -162,15 +155,12 @@ public class PatientService : IPatientService
         }
 
         modelo.CorporationId = Convert.ToInt32(user.CorporationId);
-        modelo.FullName = $"{modelo.FirstName} {modelo!.LastName}";
-        Patient NuevoModelo = _mapperService.Map<Patient, Patient>(modelo);
 
         if (!ValidatorModel.IsValid(modelo, out var errores))
         {
-            return new ActionResponse<Patient>
+            return new ActionResponse<Patient2>
             {
                 WasSuccess = false,
-                Result = modelo,
                 Message = _localizer["Generic_InvalidModel"] //Clave multilenguaje para modelo nulo
             };
         }
@@ -178,22 +168,22 @@ public class PatientService : IPatientService
         await _transactionManager.BeginTransactionAsync();
         try
         {
-            _context.Patients.Add(NuevoModelo);
+            _context.Patient2s.Add(modelo);
 
             await _transactionManager.SaveChangesAsync();
             await _transactionManager.CommitTransactionAsync();
 
-            return new ActionResponse<Patient>
+            return new ActionResponse<Patient2>
             {
                 WasSuccess = true,
-                Result = NuevoModelo,
+                Result = modelo,
                 Message = _localizer["Generic_Success"]
             };
         }
         catch (Exception ex)
         {
             await _transactionManager.RollbackTransactionAsync();
-            return await _httpErrorHandler.HandleErrorAsync<Patient>(ex); // ✅ Manejo de errores automático
+            return await _httpErrorHandler.HandleErrorAsync<Patient2>(ex); // ✅ Manejo de errores automático
         }
     }
 
@@ -202,7 +192,7 @@ public class PatientService : IPatientService
         await _transactionManager.BeginTransactionAsync();
         try
         {
-            var DataRemove = await _context.Patients.FindAsync(id);
+            var DataRemove = await _context.Patient2s.FindAsync(id);
             if (DataRemove == null)
             {
                 return new ActionResponse<bool>
@@ -212,7 +202,7 @@ public class PatientService : IPatientService
                 };
             }
 
-            _context.Patients.Remove(DataRemove);
+            _context.Patient2s.Remove(DataRemove);
 
             await _transactionManager.SaveChangesAsync();
             await _transactionManager.CommitTransactionAsync();

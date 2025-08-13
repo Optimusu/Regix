@@ -18,5 +18,6 @@ public class PatientConfig : IEntityTypeConfiguration<Patient>
         builder.HasOne(e => e.DocumentType).WithMany(e => e.Patients).OnDelete(DeleteBehavior.Restrict);
         builder.HasOne(e => e.Idioma).WithMany(e => e.Patients).OnDelete(DeleteBehavior.Restrict);
         builder.HasOne(e => e.EstadoCivil).WithMany(e => e.Patients).OnDelete(DeleteBehavior.Restrict);
+        builder.HasOne(e => e.Pharmacy).WithMany(e => e.Patients).OnDelete(DeleteBehavior.Restrict);
     }
 }

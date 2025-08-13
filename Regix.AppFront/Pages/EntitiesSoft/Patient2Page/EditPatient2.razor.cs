@@ -5,9 +5,9 @@ using Regix.AppFront.Helpers;
 using Regix.Domain.EntitiesSoft;
 using Regix.HttpServices;
 
-namespace Regix.AppFront.Pages.EntitiesSoft.PatienPage;
+namespace Regix.AppFront.Pages.EntitiesSoft.Patient2Page;
 
-public partial class EditPatient
+public partial class EditPatient2
 {
     //Services
 
@@ -19,21 +19,27 @@ public partial class EditPatient
 
     //Parameters
 
-    [Parameter] public Guid Id { get; set; }
+    [Parameter] public Guid Id { get; set; } //PatientId
     [Parameter] public string? Title { get; set; }
 
     //Local State
 
     private Patient? Patient;
-    private const string BaseUrl = "/api/v1/regpatient";
-    private const string BaseView = "/regpatient";
+    private Patient2? Patient2;
+    private const string BaseUrlPatient = "/api/v1/regpatient";
+    private const string BaseUrl = "/api/v1/regpatient2s";
+    private const string BaseView = "/regpatient/edit";
 
     protected override async Task OnInitializedAsync()
     {
-        var responseHttp = await _repository.GetAsync<Patient>($"{BaseUrl}/{Id}");
+        var responseHttp = await _repository.GetAsync<Patient>($"{BaseUrlPatient}/{Id}");
         if (await _responseHandler.HandleErrorAsync(responseHttp)) return;
         Patient = responseHttp.Response;
-        Console.WriteLine(Patient!.TotalPatien2);
+
+        var responseHttp2 = await _repository.GetAsync<Patient2>($"{BaseUrl}/{Patient!.Patient2s!.FirstOrDefault()!.Patient2Id}");
+        if (await _responseHandler.HandleErrorAsync(responseHttp2)) return;
+        Patient2 = responseHttp2.Response;
+        Title = Patient.FullName;
     }
 
     private async Task Edit()
@@ -49,14 +55,11 @@ public partial class EditPatient
         }
         else
         {
-            _navigationManager.NavigateTo($"/regpatient2s/edit/{Patient.PatientId}");
         }
     }
 
     private void Return()
     {
-        _modalService.Close();
-        _navigationManager.NavigateTo("/");
-        _navigationManager.NavigateTo($"{BaseView}");
+        _navigationManager.NavigateTo($"{BaseView}/{Patient!.PatientId}");
     }
 }

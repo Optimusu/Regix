@@ -1,0 +1,379 @@
+﻿<EditForm Model="Patient2" OnValidSubmit="OnSubmit">
+    <DataAnnotationsValidator />
+
+    <h2>Current Medical Issue</h2>
+    <hr />
+
+    <div class="mb-2">
+        <div class="input-group">
+            <span class="input-group-text" style="width: 150px">
+                @GetDisplayName(() => Patient2.ConsultationReason)
+            </span>
+            <InputText class="form-control" placeholder="Prefer Name..." @bind-Value="Patient2.ConsultationReason" />
+        </div>
+        <ValidationMessage For="@(() => Patient2.ConsultationReason)" />
+    </div>
+
+    <div class="mb-2">
+        <div class="input-group">
+            <span class="input-group-text" style="width: 150px">Date</span>
+            <input type="date" class="form-control"
+                   @bind="Patient2.DateStart"
+                   min="@DateMin?.ToString("yyyy-MM-dd")" />
+        </div>
+    </div>
+
+    <div class="mb-2">
+        <div class="input-group">
+            <span class="input-group-text" style="width: 150px">
+                @GetDisplayName(() => Patient2.SymptomLocation)
+            </span>
+            <InputText class="form-control" placeholder="Prefer Name..." @bind-Value="Patient2.SymptomLocation" />
+        </div>
+        <ValidationMessage For="@(() => Patient2.SymptomLocation)" />
+    </div>
+
+    <div class="row mb-2">
+        <!-- First Name -->
+        <div class="col-md-6">
+            <div class="input-group">
+                <span class="input-group-text" style="width: 150px">
+                    @GetDisplayName(() => Patient2.PainQuality)
+                </span>
+                <InputText class="form-control" placeholder="Prefer Name..." @bind-Value="Patient2.PainQuality" />
+            </div>
+            <ValidationMessage For="@(() => Patient2.PainQuality)" />
+        </div>
+
+        <!-- Last Name -->
+        <div class="col-md-6">
+            <div class="input-group">
+                <span class="input-group-text" style="width: 150px">
+                    @GetDisplayName(() => Patient2.PainSeverity)
+                </span>
+                <InputNumber class="form-control" placeholder="Prefer Name..." @bind-Value="Patient2.PainSeverity" />
+            </div>
+            <ValidationMessage For="@(() => Patient2.PainSeverity)" />
+        </div>
+    </div>
+
+    <div class="mb-2">
+        <div class="input-group">
+            <span class="input-group-text" style="width: 150px">
+                @GetDisplayName(() => Patient2.DurationPattern)
+            </span>
+            <InputText class="form-control" placeholder="Prefer Name..." @bind-Value="Patient2.DurationPattern" />
+        </div>
+        <ValidationMessage For="@(() => Patient2.DurationPattern)" />
+    </div>
+
+    <div class="mb-2">
+        <div class="input-group">
+            <span class="input-group-text" style="width: 150px">
+                @GetDisplayName(() => Patient2.ModifyingFactors)
+            </span>
+            <InputText class="form-control" placeholder="Prefer Name..." @bind-Value="Patient2.ModifyingFactors" />
+        </div>
+        <ValidationMessage For="@(() => Patient2.ModifyingFactors)" />
+    </div>
+
+    <div class="mb-2">
+        <div class="input-group">
+            <span class="input-group-text" style="width: 150px">
+                @GetDisplayName(() => Patient2.RelatedSymptoms)
+            </span>
+            <InputText class="form-control" placeholder="Prefer Name..." @bind-Value="Patient2.RelatedSymptoms" />
+        </div>
+        <ValidationMessage For="@(() => Patient2.RelatedSymptoms)" />
+    </div>
+
+    <div class="mb-5">
+        <div class="input-group">
+            <span class="input-group-text" style="width: 150px">
+                @GetDisplayName(() => Patient2.PriorEpisodes)
+            </span>
+            <div class="d-flex align-items-center ps-3">
+                <InputCheckbox @bind-Value="Patient2.PriorEpisodes" class="form-check-input me-2" />
+            </div>
+        </div>
+    </div>
+
+
+    <h2>Medical History</h2>
+    <hr />
+
+
+    <div class="row mb-2">
+
+        <div class="col-md-4">
+            <div class="input-group">
+                <span class="input-group-text" style="width: 170px">
+                    @GetDisplayName(() => Patient2.Hypertension)
+                </span>
+                <div class="d-flex align-items-center ps-3">
+                    <InputCheckbox @bind-Value="Patient2.Hypertension" class="form-check-input me-2" />
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="input-group">
+                <span class="input-group-text" style="width: 170px">
+                    @GetDisplayName(() => Patient2.Diabetes)
+                </span>
+                <div class="d-flex align-items-center ps-3">
+                    <InputCheckbox @bind-Value="Patient2.Diabetes" class="form-check-input me-2" />
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="input-group">
+                <span class="input-group-text" style="width: 170px">
+                    @GetDisplayName(() => Patient2.Hyperlipidemia)
+                </span>
+                <div class="d-flex align-items-center ps-3">
+                    <InputCheckbox @bind-Value="Patient2.Hyperlipidemia" class="form-check-input me-2" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-2">
+
+        <div class="col-md-4">
+            <div class="input-group">
+                <span class="input-group-text" style="width: 170px">
+                    @GetDisplayName(() => Patient2.Asthma)
+                </span>
+                <div class="d-flex align-items-center ps-3">
+                    <InputCheckbox @bind-Value="Patient2.Asthma" class="form-check-input me-2" />
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="input-group">
+                <span class="input-group-text" style="width: 170px">
+                    @GetDisplayName(() => Patient2.Cancer)
+                </span>
+                <div class="d-flex align-items-center ps-3">
+                    <InputCheckbox @bind-Value="Patient2.Cancer" class="form-check-input me-2" />
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="input-group">
+                <span class="input-group-text" style="width: 170px">
+                    @GetDisplayName(() => Patient2.Heartdisease)
+                </span>
+                <div class="d-flex align-items-center ps-3">
+                    <InputCheckbox @bind-Value="Patient2.Heartdisease" class="form-check-input me-2" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-2">
+
+        <div class="col-md-4">
+            <div class="input-group">
+                <span class="input-group-text" style="width: 170px">
+                    @GetDisplayName(() => Patient2.Kidneydisease)
+                </span>
+                <div class="d-flex align-items-center ps-3">
+                    <InputCheckbox @bind-Value="Patient2.Kidneydisease" class="form-check-input me-2" />
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="input-group">
+                <span class="input-group-text" style="width: 170px">
+                    @GetDisplayName(() => Patient2.LiverDisease)
+                </span>
+                <div class="d-flex align-items-center ps-3">
+                    <InputCheckbox @bind-Value="Patient2.LiverDisease" class="form-check-input me-2" />
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="input-group">
+                <span class="input-group-text" style="width: 170px">
+                    @GetDisplayName(() => Patient2.ThyroidDisorder)
+                </span>
+                <div class="d-flex align-items-center ps-3">
+                    <InputCheckbox @bind-Value="Patient2.ThyroidDisorder" class="form-check-input me-2" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-2">
+
+        <div class="col-md-4">
+            <div class="input-group">
+                <span class="input-group-text" style="width: 170px">
+                    @GetDisplayName(() => Patient2.AutoimmuneDisease)
+                </span>
+                <div class="d-flex align-items-center ps-3">
+                    <InputCheckbox @bind-Value="Patient2.AutoimmuneDisease" class="form-check-input me-2" />
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="input-group">
+                <span class="input-group-text" style="width: 170px">
+                    @GetDisplayName(() => Patient2.CoagulationDisorder)
+                </span>
+                <div class="d-flex align-items-center ps-3">
+                    <InputCheckbox @bind-Value="Patient2.CoagulationDisorder" class="form-check-input me-2" />
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="input-group">
+                <span class="input-group-text" style="width: 170px">
+                    @GetDisplayName(() => Patient2.InfectiousDiseases)
+                </span>
+                <div class="d-flex align-items-center ps-3">
+                    <InputCheckbox @bind-Value="Patient2.InfectiousDiseases" class="form-check-input me-2" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mb-2">
+        <div class="input-group">
+            <span class="input-group-text" style="width: 150px">
+                @GetDisplayName(() => Patient2.TypeCancer)
+            </span>
+            <InputText class="form-control" placeholder="Detail Type Cancer..." @bind-Value="Patient2.TypeCancer" />
+        </div>
+        <ValidationMessage For="@(() => Patient2.TypeCancer)" />
+    </div>
+    <div class="mb-5">
+        <div class="input-group">
+            <span class="input-group-text" style="width: 150px">
+                @GetDisplayName(() => Patient2.OtherPersonalMedical)
+            </span>
+            <InputText class="form-control" placeholder="Other Personal Medical History..." @bind-Value="Patient2.OtherPersonalMedical" />
+        </div>
+        <ValidationMessage For="@(() => Patient2.OtherPersonalMedical)" />
+    </div>
+
+    <h2>Social History</h2>
+    <hr />
+
+
+    <div class="row mb-2">
+
+        <div class="col-md-4">
+            <div class="input-group">
+                <span class="input-group-text" style="width: 170px">
+                    @GetDisplayName(() => Patient2.Tobacco)
+                </span>
+                <div class="d-flex align-items-center ps-3">
+                    <InputCheckbox @bind-Value="Patient2.Tobacco" class="form-check-input me-2" />
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="input-group">
+                <span class="input-group-text" style="width: 170px">
+                    @GetDisplayName(() => Patient2.Alcohol)
+                </span>
+                <div class="d-flex align-items-center ps-3">
+                    <InputCheckbox @bind-Value="Patient2.Alcohol" class="form-check-input me-2" />
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="input-group">
+                <span class="input-group-text" style="width: 170px">
+                    @GetDisplayName(() => Patient2.RecreationalDrugs)
+                </span>
+                <div class="d-flex align-items-center ps-3">
+                    <InputCheckbox @bind-Value="Patient2.RecreationalDrugs" class="form-check-input me-2" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-2">
+
+        <div class="col-md-4">
+            <div class="input-group">
+                <span class="input-group-text" style="width: 170px">
+                    @GetDisplayName(() => Patient2.Caffeine)
+                </span>
+                <div class="d-flex align-items-center ps-3">
+                    <InputCheckbox @bind-Value="Patient2.Caffeine" class="form-check-input me-2" />
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="input-group">
+                <span class="input-group-text" style="width: 170px">
+                    @GetDisplayName(() => Patient2.PhysicalActivity)
+                </span>
+                <div class="d-flex align-items-center ps-3">
+                    <InputCheckbox @bind-Value="Patient2.PhysicalActivity" class="form-check-input me-2" />
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="input-group">
+                <span class="input-group-text" style="width: 170px">
+                    @GetDisplayName(() => Patient2.DietaryPattern)
+                </span>
+                <div class="d-flex align-items-center ps-3">
+                    <InputCheckbox @bind-Value="Patient2.DietaryPattern" class="form-check-input me-2" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-2">
+
+        <div class="col-md-4">
+            <div class="input-group">
+                <span class="input-group-text" style="width: 170px">
+                    @GetDisplayName(() => Patient2.Sleep)
+                </span>
+                <div class="d-flex align-items-center ps-3">
+                    <InputCheckbox @bind-Value="Patient2.Sleep" class="form-check-input me-2" />
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="input-group">
+                <span class="input-group-text" style="width: 170px">
+                    @GetDisplayName(() => Patient2.OccupationalHazards)
+                </span>
+                <div class="d-flex align-items-center ps-3">
+                    <InputCheckbox @bind-Value="Patient2.OccupationalHazards" class="form-check-input me-2" />
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="input-group">
+                <span class="input-group-text" style="width: 170px">
+                    @GetDisplayName(() => Patient2.HousingSituation)
+                </span>
+                <div class="d-flex align-items-center ps-3">
+                    <InputCheckbox @bind-Value="Patient2.HousingSituation" class="form-check-input me-2" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Botones -->
+    <div class="d-flex justify-content-center gap-3 mt-5">
+        <button class="btn btn-gradient-black" @onclick="ReturnAction" style="min-width: 160px;">
+            <i class="fa fa-arrow-left"></i> Back
+        </button>
+        <button type="submit" class="btn btn-gradient-primary" style="min-width: 160px;">
+            <i class="fa fa-arrow-right me-2"></i> Next
+        </button>
+    </div>
+</EditForm>

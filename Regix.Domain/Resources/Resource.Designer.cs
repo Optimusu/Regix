@@ -88,6 +88,15 @@ namespace Regix.Domain.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cell Phone.
+        /// </summary>
+        public static string CellPhone {
+            get {
+                return ResourceManager.GetString("CellPhone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cities.
         /// </summary>
         public static string Cities {
@@ -147,6 +156,15 @@ namespace Regix.Domain.Resources {
         public static string CompanyPerson {
             get {
                 return ResourceManager.GetString("CompanyPerson", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Consultation Reason.
+        /// </summary>
+        public static string ConsultationReason {
+            get {
+                return ResourceManager.GetString("ConsultationReason", resourceCulture);
             }
         }
         
@@ -273,6 +291,15 @@ namespace Regix.Domain.Resources {
         public static string Document {
             get {
                 return ResourceManager.GetString("Document", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Duration/Pattern.
+        /// </summary>
+        public static string DurationPattern {
+            get {
+                return ResourceManager.GetString("DurationPattern", resourceCulture);
             }
         }
         
@@ -637,6 +664,15 @@ namespace Regix.Domain.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Home Phone.
+        /// </summary>
+        public static string HomePhone {
+            get {
+                return ResourceManager.GetString("HomePhone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Backup server did not respond.
         /// </summary>
         public static string Http_Error_BadGateway {
@@ -970,6 +1006,15 @@ namespace Regix.Domain.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Modifying Factors.
+        /// </summary>
+        public static string ModifyingFactors {
+            get {
+                return ResourceManager.GetString("ModifyingFactors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Months.
         /// </summary>
         public static string Months {
@@ -1002,6 +1047,42 @@ namespace Regix.Domain.Resources {
         public static string Origin {
             get {
                 return ResourceManager.GetString("Origin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pain Quality.
+        /// </summary>
+        public static string PainQuality {
+            get {
+                return ResourceManager.GetString("PainQuality", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pain Severity.
+        /// </summary>
+        public static string PainSeverity {
+            get {
+                return ResourceManager.GetString("PainSeverity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Patient.
+        /// </summary>
+        public static string Patient {
+            get {
+                return ResourceManager.GetString("Patient", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pharmacy.
+        /// </summary>
+        public static string Pharmacy {
+            get {
+                return ResourceManager.GetString("Pharmacy", resourceCulture);
             }
         }
         
@@ -1051,6 +1132,15 @@ namespace Regix.Domain.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to PriorEpisodes.
+        /// </summary>
+        public static string PriorEpisodes {
+            get {
+                return ResourceManager.GetString("PriorEpisodes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Protocol.
         /// </summary>
         public static string Protocol {
@@ -1065,6 +1155,24 @@ namespace Regix.Domain.Resources {
         public static string ProtocolComplete {
             get {
                 return ResourceManager.GetString("ProtocolComplete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to RelatedSymptoms.
+        /// </summary>
+        public static string RelatedSymptoms {
+            get {
+                return ResourceManager.GetString("RelatedSymptoms", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Relation.
+        /// </summary>
+        public static string Relation {
+            get {
+                return ResourceManager.GetString("Relation", resourceCulture);
             }
         }
         
@@ -1141,6 +1249,15 @@ namespace Regix.Domain.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Symptom Location.
+        /// </summary>
+        public static string SymptomLocation {
+            get {
+                return ResourceManager.GetString("SymptomLocation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Therapeutic Area.
         /// </summary>
         public static string TherapeuticArea {
@@ -1209,6 +1326,15 @@ namespace Regix.Domain.Resources {
         public static string Validation_BetweenLength {
             get {
                 return ResourceManager.GetString("Validation_BetweenLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No item selected. Please choose one..
+        /// </summary>
+        public static string Validation_Combo {
+            get {
+                return ResourceManager.GetString("Validation_Combo", resourceCulture);
             }
         }
         

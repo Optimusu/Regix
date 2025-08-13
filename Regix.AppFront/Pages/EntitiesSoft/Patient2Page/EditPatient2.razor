@@ -1,8 +1,8 @@
-﻿@page "/regpatient/edit/{Id:guid}"
+﻿@page "/regpatient2s/edit/{Id:guid}"
 @attribute [Authorize(Roles = "Administrator")]
 
 
-@if (Patient is null)
+@if (Patient2 is null)
 {
     <Loading />
 }
@@ -11,10 +11,10 @@ else
     <div class="container pt-4">
         <div class="card shadow-lg p-4 mb-5" style="border-radius: 12px;">
             <div class="card-header">
-                <h2>Patient data</h2>
+                <h2>Patient data @Title</h2>
             </div>
             <div class="card-body">
-                <FormPatient Patient="Patient"
+                <FormPatient2 Patient2="Patient2"
                              OnSubmit="Edit"
                              ReturnAction="Return" />
             </div>

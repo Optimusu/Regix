@@ -1,15 +1,13 @@
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.FileSystemGlobbing.Internal.PatternContexts;
 using Regix.AppFront.GenericoModal;
 using Regix.AppFront.Helpers;
 using Regix.Domain.EntitiesGen;
-using Regix.Domain.EntitiesSoft;
 using Regix.HttpServices;
 
-namespace Regix.AppFront.Pages.EntitiesSoft.PatienPage;
+namespace Regix.AppFront.Pages.EntitiesGen.PharmacyPage;
 
-public partial class CreatePatient
+public partial class CreatePharmacy
 {
     //Services
 
@@ -25,20 +23,20 @@ public partial class CreatePatient
 
     //Local State
 
-    private Patient Patient = new() { Active = true, DOB = DateTime.Now };
-    private string BaseUrl = "/api/v1/regpatient";
-    private string BaseView = "/regpatient";
+    private Pharmacy Pharmacy = new() { Active = true };
+    private string BaseUrl = "/api/v1/pharmacies";
+    private string BaseView = "/pharmacies";
 
     private async Task Create()
     {
-        var responseHttp = await _repository.PostAsync<Patient, Patient>($"{BaseUrl}", Patient);
+        var responseHttp = await _repository.PostAsync($"{BaseUrl}", Pharmacy);
         bool errorHandled = await _responseHandler.HandleErrorAsync(responseHttp);
         if (errorHandled) return;
-        Patient = responseHttp.Response!;
 
         await _sweetAlert.FireAsync(Messages.CreateSuccessTitle, Messages.CreateSuccessMessage, SweetAlertIcon.Success);
         _modalService.Close();
-        _navigationManager.NavigateTo($"/regpatient2s/create/{Patient.PatientId}");
+        _navigationManager.NavigateTo("/");
+        _navigationManager.NavigateTo(BaseView);
     }
 
     private void Return()
