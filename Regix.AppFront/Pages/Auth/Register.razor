@@ -1,5 +1,72 @@
-﻿<h3>Register</h3>
+﻿    <!-- Logo -->
+<div class="d-flex justify-content-center mb-4">
+    <img src="images/LogoBicicletaRoja.png" alt="App Logo" width="300" />
+</div>
 
-@code {
+<!-- Título -->
+<div class="mb-3">
+    <p class="text-muted">Register New Patient</p>
+</div>
 
-}
+<EditForm Model="loginDTO" OnValidSubmit="LoginAsync">
+    <DataAnnotationsValidator />
+
+    <div class="mb-4">
+        <div class="input-group">
+            <span class="input-group-text" style="width: 120px">
+                <i class="fa fa-lock me-2"></i> @GetDisplayName(() => loginDTO.UserName)
+            </span>
+            <InputText class="form-control" placeholder="you@example.com" @bind-Value="loginDTO.UserName" />
+        </div>
+        <ValidationMessage For="@(() => loginDTO.UserName)" />
+    </div>
+
+    <div class="mb-4">
+        <div class="input-group">
+            <span class="input-group-text" style="width: 120px">
+                <i class="fa fa-envelope me-2"></i> @GetDisplayName(() => loginDTO.Password)
+            </span>
+            <InputText type="password" class="form-control" placeholder="••••••••" @bind-Value="loginDTO.Password" />
+        </div>
+        <ValidationMessage For="@(() => loginDTO.Password)" />
+    </div>
+
+    <div class="mb-4">
+        <div class="input-group">
+            <span class="input-group-text" style="width: 120px">
+                <i class="fa fa-envelope me-2"></i> @GetDisplayName(() => loginDTO.Password)
+            </span>
+            <InputText type="password" class="form-control" placeholder="••••••••" @bind-Value="loginDTO.Password" />
+        </div>
+        <ValidationMessage For="@(() => loginDTO.Password)" />
+    </div>
+
+    <div class="mb-4">
+        <div class="input-group">
+            <span class="input-group-text" style="width: 120px">
+                <i class="fa fa-envelope me-2"></i> @GetDisplayName(() => loginDTO.Password)
+            </span>
+            <InputText type="password" class="form-control" placeholder="••••••••" @bind-Value="loginDTO.Password" />
+        </div>
+        <ValidationMessage For="@(() => loginDTO.Password)" />
+    </div>
+
+    <div class="mb-4">
+        <div class="input-group">
+            <span class="input-group-text" style="width: 120px">
+                <i class="fa fa-envelope me-2"></i> @GetDisplayName(() => loginDTO.Password)
+            </span>
+            <InputText type="password" class="form-control" placeholder="••••••••" @bind-Value="loginDTO.Password" />
+        </div>
+        <ValidationMessage For="@(() => loginDTO.Password)" />
+    </div>
+    <div class="mb-4 d-flex justify-content-between align-items-center">
+        <a @onclick="OpenRecoverPasswordModal" class="small link-primary text-decoration-none">Forgot password?</a>
+    </div>
+
+    <button type="submit" class="btn btn-gradient-primary w-100">
+        <i class="fa fa-lock me-2"></i> Sing Up
+    </button>
+</EditForm>
+
+
