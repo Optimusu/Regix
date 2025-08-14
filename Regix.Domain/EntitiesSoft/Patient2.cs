@@ -36,7 +36,7 @@ public class Patient2
 
 
     [Range(0, 10, ErrorMessageResourceName = nameof(Resource.Validation_Combo), ErrorMessageResourceType = typeof(Resource))]
-    [Display(Name = "Pain Severity")]
+    [Display(Name = "Severity 0-10")]
     public int PainSeverity { get; set; }
 
     [MaxLength(100, ErrorMessageResourceName = "Validation_MaxLength", ErrorMessageResourceType = typeof(Resource))]

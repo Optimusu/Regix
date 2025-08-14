@@ -158,6 +158,7 @@ public class ManagerService : IManagerService
                 NroDocument = modelo.NroDocument,
                 PhoneNumber = modelo.PhoneNumber,
                 Address = modelo.Address,
+                Email = modelo.Email,
                 UserName = modelo.UserName,
                 CorporationId = modelo.CorporationId,
                 Job = modelo.Job,
@@ -188,13 +189,14 @@ public class ManagerService : IManagerService
             _context.Managers.Update(NewModelo);
             await _transactionManager.SaveChangesAsync();
 
-            User UserCurrent = await _userHelper.GetUserAsync(modelo.UserName);
+            User UserCurrent = await _userHelper.GetUserByUserNameAsync(modelo.UserName);
             if (UserCurrent != null)
             {
                 UserCurrent.FirstName = modelo.FirstName;
                 UserCurrent.LastName = modelo.LastName;
                 UserCurrent.FullName = $"{modelo.FirstName} {modelo.LastName}";
                 UserCurrent.PhoneNumber = modelo.PhoneNumber;
+                UserCurrent.Email = modelo.Email;
                 UserCurrent.PhotoUser = modelo.Imagen;
                 UserCurrent.JobPosition = modelo.Job;
                 UserCurrent.Active = modelo.Active;
@@ -249,6 +251,7 @@ public class ManagerService : IManagerService
                 NroDocument = Newmodelo.NroDocument,
                 PhoneNumber = Newmodelo.PhoneNumber,
                 Address = Newmodelo.Address,
+                Email = Newmodelo.Email,
                 UserName = Newmodelo.UserName,
                 CorporationId = Newmodelo.CorporationId,
                 Job = Newmodelo.Job,
@@ -261,7 +264,7 @@ public class ManagerService : IManagerService
                 modelo.ImgBase64 = Newmodelo.ImgBase64;
             }
 
-            User CheckEmail = await _userHelper.GetUserAsync(modelo.UserName);
+            User CheckEmail = await _userHelper.GetUserByUserNameAsync(modelo.UserName);
             if (CheckEmail != null)
             {
                 return new ActionResponse<Manager>
@@ -328,7 +331,7 @@ public class ManagerService : IManagerService
                     Message = _localizer["Generic_IdNotFound"]
                 };
             }
-            var user = await _userHelper.GetUserAsync(DataRemove.UserName);
+            var user = await _userHelper.GetUserByUserNameAsync(DataRemove.UserName);
             var RemoveRoleDetail = await _context.UserRoleDetails.Where(x => x.UserId == user.Id).ToListAsync();
             if (RemoveRoleDetail != null)
             {
@@ -369,7 +372,7 @@ public class ManagerService : IManagerService
 
     private async Task<Response> AcivateUser(Manager manager, string frontUrl)
     {
-        User user = await _userHelper.AddUserUsuarioAsync(manager.FirstName, manager.LastName, manager.UserName,
+        User user = await _userHelper.AddUserUsuarioAsync(manager.FirstName, manager.LastName, manager.UserName, manager.Email,
             manager.PhoneNumber, manager.Address, manager.Job, manager.CorporationId, manager.Imagen!, "Manager", manager.Active, manager.UserType);
 
         //Envio de Correo con Token de seguridad para Verificar el correo
@@ -387,7 +390,7 @@ public class ManagerService : IManagerService
             $"Para Activar su vuenta, " +
             $"Has Click en el siguiente Link:</br></br><strong><a href = \"{tokenLink}\">Confirmar Correo</a></strong>");
 
-        Response response = await _emailHelper.ConfirmarCuenta(user.UserName!, user.FullName!, subject, body);
+        Response response = await _emailHelper.ConfirmarCuenta(user.Email!, user.FullName!, subject, body);
         if (response.IsSuccess == false)
         {
             return response;

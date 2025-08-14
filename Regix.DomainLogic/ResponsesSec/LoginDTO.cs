@@ -5,13 +5,13 @@ namespace Regix.DomainLogic.ResponsesSec;
 
 public class LoginDTO
 {
-    [EmailAddress(ErrorMessageResourceName = nameof(Resource.Validation_InvalidEmail), ErrorMessageResourceType = typeof(Resource))]
-    [Required(ErrorMessageResourceName = nameof(Resource.Validation_Required), ErrorMessageResourceType = typeof(Resource))]
-    [Display(Name = nameof(Resource.Email), ResourceType = typeof(Resource))]
-    public string Email { get; set; } = null!;
+    [StringLength(24, MinimumLength = 6, ErrorMessageResourceName = "Validation_StringLength", ErrorMessageResourceType = typeof(Resource))]
+    [RegularExpression(@"^[a-zA-Z0-9]+$", ErrorMessageResourceName = "Validation_UserNameFormat", ErrorMessageResourceType = typeof(Resource))]
+    [Display(Name = "User ID")]
+    public string UserName { get; set; } = null!;
 
     [MinLength(6, ErrorMessageResourceName = nameof(Resource.Validation_MinLength), ErrorMessageResourceType = typeof(Resource))]
     [Required(ErrorMessageResourceName = nameof(Resource.Validation_Required), ErrorMessageResourceType = typeof(Resource))]
-    [Display(Name = nameof(Resource.User), ResourceType = typeof(Resource))]
+    [Display(Name = "Password")]
     public string Password { get; set; } = null!;
 }

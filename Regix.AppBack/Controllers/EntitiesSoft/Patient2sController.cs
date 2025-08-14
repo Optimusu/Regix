@@ -33,7 +33,7 @@ namespace Regix.AppBack.Controllers.EntitiesSoft
             try
             {
                 ClaimsDTOs userClaimsInfo = User.GetEmailOrThrow(_localizer);
-                var response = await _unitOfWork.GetAsync(pagination, userClaimsInfo.Email);
+                var response = await _unitOfWork.GetAsync(pagination, userClaimsInfo.UserName);
                 return ResponseHelper.Format(response);
             }
             catch (ApplicationException ex)
@@ -88,7 +88,7 @@ namespace Regix.AppBack.Controllers.EntitiesSoft
             try
             {
                 ClaimsDTOs userClaimsInfo = User.GetEmailOrThrow(_localizer);
-                var response = await _unitOfWork.AddAsync(modelo, userClaimsInfo.Email);
+                var response = await _unitOfWork.AddAsync(modelo, userClaimsInfo.UserName);
                 return ResponseHelper.Format(response);
             }
             catch (ApplicationException ex)

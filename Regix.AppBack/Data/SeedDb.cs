@@ -34,7 +34,38 @@ public class SeedDb
         await CheckLenguage();
         await CheckPharmacy();
         await CheckCountries();
-        await CheckUserAsync("Optimus U", "TrialPro", "optimusu.soft@gmail.com", "+1 786 503", UserType.Admin);
+        await CheckUserAsync("Optimus U", "TrialPro", "hebalmert", "optimusu.soft@gmail.com", "+1 786 503", UserType.Admin);
+    }
+
+    private async Task<User> CheckUserAsync(string firstName, string lastName, string username, string email,
+    string phone, UserType userType)
+    {
+        User user = await _userHelper.GetUserByUserNameAsync(username);
+        if (user == null)
+        {
+            user = new()
+            {
+                FirstName = firstName,
+                LastName = lastName,
+                FullName = $"{firstName} {lastName}",
+                Email = email,
+                UserName = username,
+                PhoneNumber = phone,
+                JobPosition = "Administrador",
+                UserFrom = "SeedDb",
+                UserRoleDetails = new List<UserRoleDetails> { new UserRoleDetails { UserType = userType } },
+                Active = true,
+            };
+
+            await _userHelper.AddUserAsync(user, "123456");
+            await _userHelper.AddUserToRoleAsync(user, userType.ToString());
+
+            //Para Confirmar automaticamente el Usuario y activar la cuenta
+            string token = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
+            await _userHelper.ConfirmEmailAsync(user, token);
+            await _userHelper.AddUserClaims(userType, username);
+        }
+        return user;
     }
 
     private async Task CheckRolesAsync()
@@ -42,9 +73,7 @@ public class SeedDb
         await _userHelper.CheckRoleAsync(UserType.Admin.ToString());
         await _userHelper.CheckRoleAsync(UserType.Administrator.ToString());
         await _userHelper.CheckRoleAsync(UserType.Coordinator.ToString());
-        await _userHelper.CheckRoleAsync(UserType.Investigator.ToString());
-        await _userHelper.CheckRoleAsync(UserType.Researcher.ToString());
-        await _userHelper.CheckRoleAsync(UserType.Monitor.ToString());
+        await _userHelper.CheckRoleAsync(UserType.Patient.ToString());
     }
 
     private async Task CheckPharmacy()
@@ -169,44 +198,13 @@ public class SeedDb
         }
     }
 
-    private async Task<User> CheckUserAsync(string firstName, string lastName, string email,
-        string phone, UserType userType)
-    {
-        User user = await _userHelper.GetUserAsync(email);
-        if (user == null)
-        {
-            user = new()
-            {
-                FirstName = firstName,
-                LastName = lastName,
-                FullName = $"{firstName} {lastName}",
-                Email = email,
-                UserName = email,
-                PhoneNumber = phone,
-                JobPosition = "Administrador",
-                UserFrom = "SeedDb",
-                UserRoleDetails = new List<UserRoleDetails> { new UserRoleDetails { UserType = userType } },
-                Active = true,
-            };
-
-            await _userHelper.AddUserAsync(user, "123456");
-            await _userHelper.AddUserToRoleAsync(user, userType.ToString());
-
-            //Para Confirmar automaticamente el Usuario y activar la cuenta
-            string token = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
-            await _userHelper.ConfirmEmailAsync(user, token);
-            await _userHelper.AddUserClaims(userType, email);
-        }
-        return user;
-    }
-
     private async Task CheckCountries()
     {
         Response responseCountries = await _apiService.GetListAsync<CountryResponse>("/v1", "/countries");
         if (responseCountries.IsSuccess)
         {
             List<CountryResponse> NlistCountry = (List<CountryResponse>)responseCountries.Result!;
-            List<CountryResponse> countries = NlistCountry.Where(x => x.Name == "Colombia" || x.Name == "United States").ToList();
+            List<CountryResponse> countries = NlistCountry.Where(x => x.Name == "United States").ToList();
 
             foreach (CountryResponse item in countries)
             {

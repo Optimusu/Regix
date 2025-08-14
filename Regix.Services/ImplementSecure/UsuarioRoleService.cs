@@ -111,9 +111,9 @@ public class UsuarioRoleService : IUsuarioRoleService
         }
     }
 
-    public async Task<ActionResponse<UsuarioRole>> AddAsync(UsuarioRole modelo, string Email)
+    public async Task<ActionResponse<UsuarioRole>> AddAsync(UsuarioRole modelo, string username)
     {
-        User userAsp = await _userHelper.GetUserAsync(Email);
+        User userAsp = await _userHelper.GetUserByUserNameAsync(username);
         if (userAsp == null)
         {
             return new ActionResponse<UsuarioRole>
@@ -127,7 +127,7 @@ public class UsuarioRoleService : IUsuarioRoleService
         try
         {
             var CurrentUser = await _context.Usuarios.FindAsync(modelo.UsuarioId);
-            var UserSystem = await _userHelper.GetUserAsync(CurrentUser!.UserName);
+            var UserSystem = await _userHelper.GetUserByUserNameAsync(CurrentUser!.UserName);
 
             modelo.CorporationId = Convert.ToInt32(userAsp.CorporationId);
             _context.UsuarioRoles.Add(modelo);
@@ -176,7 +176,7 @@ public class UsuarioRoleService : IUsuarioRoleService
             await _transactionManager.SaveChangesAsync();
 
             var usuario = await _context.Usuarios.FindAsync(DataRemove.UsuarioId);
-            var userAsp = await _userHelper.GetUserAsync(usuario!.UserName);
+            var userAsp = await _userHelper.GetUserByUserNameAsync(usuario!.UserName);
             var registro = await _context.UserRoleDetails.Where(c => c.UserId == userAsp.Id && c.UserType == DataRemove.UserType).FirstOrDefaultAsync();
             await _userHelper.RemoveUserToRoleAsync(userAsp, DataRemove.UserType.ToString());
             await _userHelper.RemoveUserClaims(DataRemove.UserType, userAsp.Email!);

@@ -1,20 +1,18 @@
 using Microsoft.AspNetCore.Components;
-using System.ComponentModel.DataAnnotations;
-using System.Linq.Expressions;
-using System.Reflection;
 using Regix.AppFront.AuthenticationProviders;
 using Regix.AppFront.GenericoModal;
 using Regix.AppFront.Helpers;
 using Regix.DomainLogic.ResponsesSec;
-using Regix.DomainLogic.TrialResponse;
 using Regix.HttpServices;
+using System.ComponentModel.DataAnnotations;
+using System.Linq.Expressions;
+using System.Reflection;
 
 namespace Regix.AppFront.Pages.Auth;
 
 public partial class Login
 {
     [Inject] private ISessionService _sessionService { get; set; } = null!;
-
     [Inject] private IRepository _repository { get; set; } = null!;
     [Inject] private NavigationManager _navigation { get; set; } = null!;
     [Inject] private ILoginService _loginService { get; set; } = null!;
@@ -33,7 +31,7 @@ public partial class Login
         _sessionService.LogoCorp = responseHttp.Response.LogoBase64;
         _sessionService.NameCorp = responseHttp.Response.NameCorp;
 
-        _navigation.NavigateTo("/");
+        _navigation.NavigateTo("/dashboard");
         _modalService.Close();
     }
 

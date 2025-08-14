@@ -561,4 +561,13 @@
   <data name="PriorEpisodes" xml:space="preserve">
     <value>PriorEpisodes</value>
   </data>
+  <data name="UserName" xml:space="preserve">
+    <value>User</value>
+  </data>
+  <data name="Validation_StringLength" xml:space="preserve">
+    <value>The field {0} must be between 6 and 24 characters long</value>
+  </data>
+  <data name="Validation_UserNameFormat" xml:space="preserve">
+    <value>The username can only contain letters, numbers, hyphens, and periods.</value>
+  </data>
 </root>

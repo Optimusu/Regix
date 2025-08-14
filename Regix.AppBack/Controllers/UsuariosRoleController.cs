@@ -87,7 +87,7 @@ public class UsuariosRoleController : ControllerBase
         try
         {
             ClaimsDTOs userClaimsInfo = User.GetEmailOrThrow(_localizer);
-            var response = await _usuarioRoleUnitOfWork.AddAsync(modelo, userClaimsInfo.Email);
+            var response = await _usuarioRoleUnitOfWork.AddAsync(modelo, userClaimsInfo.UserName);
             return ResponseHelper.Format(response);
         }
         catch (ApplicationException ex)

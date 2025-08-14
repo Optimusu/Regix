@@ -21,11 +21,11 @@ public class Patient
     public string LastName { get; set; } = null!;
 
     [MaxLength(101, ErrorMessageResourceName = "Validation_MaxLength", ErrorMessageResourceType = typeof(Resource))]
-    [Display(Name = "Name Prefer")]
+    [Display(Name = "Full Name")]
     public string? FullName { get; set; }
 
     [MaxLength(50, ErrorMessageResourceName = "Validation_MaxLength", ErrorMessageResourceType = typeof(Resource))]
-    [Display(Name = "Frist Name")]
+    [Display(Name = "Prefer Name")]
     public string? Preferido { get; set; }
 
     [Required]

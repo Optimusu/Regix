@@ -1312,6 +1312,15 @@ namespace Regix.Domain.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to User.
+        /// </summary>
+        public static string UserName {
+            get {
+                return ResourceManager.GetString("UserName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User Type.
         /// </summary>
         public static string UserType {
@@ -1389,6 +1398,24 @@ namespace Regix.Domain.Resources {
         public static string Validation_Required {
             get {
                 return ResourceManager.GetString("Validation_Required", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The field {0} must be between 6 and 24 characters long.
+        /// </summary>
+        public static string Validation_StringLength {
+            get {
+                return ResourceManager.GetString("Validation_StringLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The username can only contain letters, numbers, hyphens, and periods..
+        /// </summary>
+        public static string Validation_UserNameFormat {
+            get {
+                return ResourceManager.GetString("Validation_UserNameFormat", resourceCulture);
             }
         }
     }

@@ -22,5 +22,9 @@ public static class MapsterConfig
             .Ignore(dest => dest.Pharmacy!)
             .Ignore(dest => dest.Patient2s!)
             .Ignore(dest => dest.EstadoCivil!);
+
+        config.NewConfig<Patient2, Patient2>()
+            .Ignore(dest => dest.Patient!)
+            .Ignore(dest => dest.Corporation!);
     }
 }

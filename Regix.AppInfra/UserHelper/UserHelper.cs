@@ -27,30 +27,39 @@ public class UserHelper : IUserHelper
         _utilityTools = utilityTools;
     }
 
-    public async Task<User> GetUserAsync(string email)
+    public async Task<User> GetUserByUserNameAsync(string userName)
+    {
+        var user = await _userManager.FindByNameAsync(userName);
+        return user!;
+    }
+
+    public async Task<User> GetUserByEmailAsync(string email)
     {
         var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
         return user!;
     }
 
-    public async Task<User> GetUserAsync(Guid userId)
+    public async Task<User> GetUserByIdAsync(Guid userId)
     {
-        var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == userId.ToString());
+        string id = userId.ToString();
+        var user = await _context.Users.FindAsync(id);
         return user!;
     }
 
     public async Task<IdentityResult> AddUserAsync(User user, string password)
     {
-        return await _userManager.CreateAsync(user, password);
+        var result = await _userManager.CreateAsync(user, password);
+        return result;
     }
 
     public async Task<bool> DeleteUser(string username)
     {
-        User? userAsp = await _userManager.FindByEmailAsync(username);
-        if (userAsp == null)
-        {
+        if (string.IsNullOrWhiteSpace(username))
             return false;
-        }
+
+        User? userAsp = await _userManager.FindByNameAsync(username);
+        if (userAsp == null) return false;
+
         IdentityResult response = await _userManager.DeleteAsync(userAsp);
         return response.Succeeded;
     }
@@ -77,15 +86,15 @@ public class UserHelper : IUserHelper
         await _userManager.RemoveFromRoleAsync(user, roleName);
     }
 
-    public async Task AddUserClaims(UserType userType, string email)
+    public async Task AddUserClaims(UserType userType, string userName)
     {
-        var usuario = await _userManager.FindByEmailAsync(email);
+        var usuario = await _userManager.FindByNameAsync(userName);
         await _userManager.AddClaimAsync(usuario!, new Claim(userType.ToString(), "1"));
     }
 
-    public async Task RemoveUserClaims(UserType userType, string email)
+    public async Task RemoveUserClaims(UserType userType, string userName)
     {
-        var usuario = await _userManager.FindByEmailAsync(email);
+        var usuario = await _userManager.FindByNameAsync(userName);
         await _userManager.RemoveClaimAsync(usuario!, new Claim(userType.ToString(), "1"));
     }
 
@@ -97,7 +106,11 @@ public class UserHelper : IUserHelper
     //Sistema de Acceso de suarios
     public async Task<SignInResult> LoginAsync(LoginDTO model)
     {
-        return await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
+        var user = await _userManager.FindByNameAsync(model.UserName);
+        if (user == null || !user.Active)
+            return SignInResult.Failed;
+
+        return await _signInManager.PasswordSignInAsync(model.UserName, model.Password, false, false);
     }
 
     public async Task LogoutAsync()
@@ -146,7 +159,7 @@ public class UserHelper : IUserHelper
         return await _signInManager.CheckPasswordSignInAsync(user, password, false);
     }
 
-    public async Task<User> AddUserUsuarioAsync(string firstname, string lastname,
+    public async Task<User> AddUserUsuarioAsync(string firstname, string lastname, string username,
             string email, string phone, string address, string job,
             int Idcorporate, string ImagenFull, string Origin, bool UserActivo, UserType usertype)
     {
@@ -159,7 +172,7 @@ public class UserHelper : IUserHelper
             LastName = lastname,
             FullName = $"{firstname} {lastname}",
             Email = email,
-            UserName = email,
+            UserName = username,
             PhoneNumber = phone,
             JobPosition = job,
             CorporationId = Idcorporate,
@@ -182,13 +195,13 @@ public class UserHelper : IUserHelper
             return null!;
         }
 
-        User newUser = await GetUserAsync(email);
+        User newUser = await GetUserByUserNameAsync(username);
         await AddUserToRoleAsync(newUser, usertype.ToString());
-        await AddUserClaims(usertype, email);
+        await AddUserClaims(usertype, username);
         return newUser;
     }
 
-    public async Task<User> AddUserUsuarioSoftAsync(string firstname, string lastname,
+    public async Task<User> AddUserUsuarioSoftAsync(string firstname, string lastname, string username,
     string email, string phone, string address, string job,
     int Idcorporate, string ImagenFull, string Origin, bool UserActivo)
     {
@@ -201,7 +214,7 @@ public class UserHelper : IUserHelper
             LastName = lastname,
             FullName = $"{firstname} {lastname}",
             Email = email,
-            UserName = email,
+            UserName = username,
             PhoneNumber = phone,
             JobPosition = job,
             CorporationId = Idcorporate,
@@ -217,7 +230,7 @@ public class UserHelper : IUserHelper
             return null!;
         }
 
-        User newUser = await GetUserAsync(email);
+        User newUser = await GetUserByUserNameAsync(username);
         return newUser;
     }
 }

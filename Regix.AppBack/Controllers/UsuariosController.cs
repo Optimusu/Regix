@@ -36,7 +36,7 @@ namespace Regix.AppBack.Controllers
             try
             {
                 ClaimsDTOs userClaimsInfo = User.GetEmailOrThrow(_localizer);
-                var response = await _unitOfWork.ComboAsync(userClaimsInfo.Email);
+                var response = await _unitOfWork.ComboAsync(userClaimsInfo.UserName);
                 return ResponseHelper.Format(response);
             }
             catch (ApplicationException ex)
@@ -55,7 +55,7 @@ namespace Regix.AppBack.Controllers
             try
             {
                 ClaimsDTOs userClaimsInfo = User.GetEmailOrThrow(_localizer);
-                var response = await _unitOfWork.GetAsync(pagination, userClaimsInfo.Email);
+                var response = await _unitOfWork.GetAsync(pagination, userClaimsInfo.UserName);
                 return ResponseHelper.Format(response);
             }
             catch (ApplicationException ex)
@@ -110,7 +110,7 @@ namespace Regix.AppBack.Controllers
             try
             {
                 ClaimsDTOs userClaimsInfo = User.GetEmailOrThrow(_localizer);
-                var response = await _unitOfWork.AddAsync(modelo, _configuration["UrlFrontend"]!, userClaimsInfo.Email);
+                var response = await _unitOfWork.AddAsync(modelo, _configuration["UrlFrontend"]!, userClaimsInfo.UserName);
                 return ResponseHelper.Format(response);
             }
             catch (ApplicationException ex)

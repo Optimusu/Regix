@@ -54,6 +54,76 @@ namespace Regix.AppBack.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "EstadoCivils",
+                columns: table => new
+                {
+                    EstadoCivilId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false, collation: "Latin1_General_CI_AS"),
+                    Active = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EstadoCivils", x => x.EstadoCivilId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "IdentidadGeneros",
+                columns: table => new
+                {
+                    IdentidadGeneroId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false, collation: "Latin1_General_CI_AS"),
+                    Active = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_IdentidadGeneros", x => x.IdentidadGeneroId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Idiomas",
+                columns: table => new
+                {
+                    IdiomaId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false, collation: "Latin1_General_CI_AS"),
+                    Active = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Idiomas", x => x.IdiomaId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Pharmacies",
+                columns: table => new
+                {
+                    PharmacyId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false, collation: "Latin1_General_CI_AS"),
+                    Active = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Pharmacies", x => x.PharmacyId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SexoAsignados",
+                columns: table => new
+                {
+                    SexoAsignadoId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false, collation: "Latin1_General_CI_AS"),
+                    Active = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SexoAsignados", x => x.SexoAsignadoId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "SoftPlans",
                 columns: table => new
                 {
@@ -217,7 +287,8 @@ namespace Regix.AppBack.Migrations
                     NroDocument = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
                     PhoneNumber = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
                     Address = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
-                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    UserName = table.Column<string>(type: "nvarchar(24)", maxLength: 24, nullable: false),
                     CorporationId = table.Column<int>(type: "int", nullable: false),
                     Job = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     UserType = table.Column<int>(type: "int", nullable: false),
@@ -236,6 +307,85 @@ namespace Regix.AppBack.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Patients",
+                columns: table => new
+                {
+                    PatientId = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWSEQUENTIALID()"),
+                    FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    FullName = table.Column<string>(type: "nvarchar(101)", maxLength: 101, nullable: true),
+                    Preferido = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    SexoAsignadoId = table.Column<int>(type: "int", nullable: false),
+                    IdentidadGeneroId = table.Column<int>(type: "int", nullable: false),
+                    DOB = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DocumentTypeId = table.Column<int>(type: "int", nullable: false),
+                    Nro_Document = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    PhoneCell = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
+                    PhoneHome = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
+                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    IdiomaId = table.Column<int>(type: "int", nullable: false),
+                    Interpreter = table.Column<bool>(type: "bit", nullable: false),
+                    EstadoCivilId = table.Column<int>(type: "int", nullable: false),
+                    Ocupacion = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
+                    PharmacyId = table.Column<int>(type: "int", nullable: false),
+                    EmgName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    EmgRelation = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    EmgPhone = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
+                    EmgAddress = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    Active = table.Column<bool>(type: "bit", nullable: false),
+                    Confirmed = table.Column<bool>(type: "bit", nullable: false),
+                    Migrated = table.Column<bool>(type: "bit", nullable: false),
+                    CorporationId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Patients", x => x.PatientId);
+                    table.ForeignKey(
+                        name: "FK_Patients_Corporations_CorporationId",
+                        column: x => x.CorporationId,
+                        principalTable: "Corporations",
+                        principalColumn: "CorporationId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Patients_DocumentTypes_DocumentTypeId",
+                        column: x => x.DocumentTypeId,
+                        principalTable: "DocumentTypes",
+                        principalColumn: "DocumentTypeId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Patients_EstadoCivils_EstadoCivilId",
+                        column: x => x.EstadoCivilId,
+                        principalTable: "EstadoCivils",
+                        principalColumn: "EstadoCivilId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Patients_IdentidadGeneros_IdentidadGeneroId",
+                        column: x => x.IdentidadGeneroId,
+                        principalTable: "IdentidadGeneros",
+                        principalColumn: "IdentidadGeneroId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Patients_Idiomas_IdiomaId",
+                        column: x => x.IdiomaId,
+                        principalTable: "Idiomas",
+                        principalColumn: "IdiomaId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Patients_Pharmacies_PharmacyId",
+                        column: x => x.PharmacyId,
+                        principalTable: "Pharmacies",
+                        principalColumn: "PharmacyId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Patients_SexoAsignados_SexoAsignadoId",
+                        column: x => x.SexoAsignadoId,
+                        principalTable: "SexoAsignados",
+                        principalColumn: "SexoAsignadoId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Usuarios",
                 columns: table => new
                 {
@@ -248,7 +398,8 @@ namespace Regix.AppBack.Migrations
                     Nro_Document = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
                     PhoneNumber = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
                     Address = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
-                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    UserName = table.Column<string>(type: "nvarchar(24)", maxLength: 24, nullable: false),
                     Job = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Photo = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Active = table.Column<bool>(type: "bit", nullable: false),
@@ -371,6 +522,63 @@ namespace Regix.AppBack.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Patient2s",
+                columns: table => new
+                {
+                    Patient2Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWSEQUENTIALID()"),
+                    PatientId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ConsultationReason = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    DateStart = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    SymptomLocation = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    PainQuality = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    PainSeverity = table.Column<int>(type: "int", nullable: false),
+                    DurationPattern = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    ModifyingFactors = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    RelatedSymptoms = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    PriorEpisodes = table.Column<bool>(type: "bit", nullable: false),
+                    Hypertension = table.Column<bool>(type: "bit", nullable: false),
+                    Diabetes = table.Column<bool>(type: "bit", nullable: false),
+                    Hyperlipidemia = table.Column<bool>(type: "bit", nullable: false),
+                    Asthma = table.Column<bool>(type: "bit", nullable: false),
+                    Cancer = table.Column<bool>(type: "bit", nullable: false),
+                    Heartdisease = table.Column<bool>(type: "bit", nullable: false),
+                    Kidneydisease = table.Column<bool>(type: "bit", nullable: false),
+                    LiverDisease = table.Column<bool>(type: "bit", nullable: false),
+                    ThyroidDisorder = table.Column<bool>(type: "bit", nullable: false),
+                    AutoimmuneDisease = table.Column<bool>(type: "bit", nullable: false),
+                    CoagulationDisorder = table.Column<bool>(type: "bit", nullable: false),
+                    InfectiousDiseases = table.Column<bool>(type: "bit", nullable: false),
+                    TypeCancer = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    OtherPersonalMedical = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Tobacco = table.Column<bool>(type: "bit", nullable: false),
+                    Alcohol = table.Column<bool>(type: "bit", nullable: false),
+                    RecreationalDrugs = table.Column<bool>(type: "bit", nullable: false),
+                    Caffeine = table.Column<bool>(type: "bit", nullable: false),
+                    PhysicalActivity = table.Column<bool>(type: "bit", nullable: false),
+                    DietaryPattern = table.Column<bool>(type: "bit", nullable: false),
+                    Sleep = table.Column<bool>(type: "bit", nullable: false),
+                    OccupationalHazards = table.Column<bool>(type: "bit", nullable: false),
+                    HousingSituation = table.Column<bool>(type: "bit", nullable: false),
+                    CorporationId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Patient2s", x => x.Patient2Id);
+                    table.ForeignKey(
+                        name: "FK_Patient2s_Corporations_CorporationId",
+                        column: x => x.CorporationId,
+                        principalTable: "Corporations",
+                        principalColumn: "CorporationId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Patient2s_Patients_PatientId",
+                        column: x => x.PatientId,
+                        principalTable: "Patients",
+                        principalColumn: "PatientId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "UsuarioRoles",
                 columns: table => new
                 {
@@ -486,6 +694,24 @@ namespace Regix.AppBack.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_EstadoCivils_Name",
+                table: "EstadoCivils",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_IdentidadGeneros_Name",
+                table: "IdentidadGeneros",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Idiomas_Name",
+                table: "Idiomas",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Managers_CorporationId",
                 table: "Managers",
                 column: "CorporationId");
@@ -501,6 +727,86 @@ namespace Regix.AppBack.Migrations
                 name: "IX_Managers_UserName",
                 table: "Managers",
                 column: "UserName",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Patient2s_CorporationId",
+                table: "Patient2s",
+                column: "CorporationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Patient2s_Patient2Id",
+                table: "Patient2s",
+                column: "Patient2Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Patient2s_PatientId",
+                table: "Patient2s",
+                column: "PatientId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Patients_CorporationId",
+                table: "Patients",
+                column: "CorporationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Patients_DocumentTypeId",
+                table: "Patients",
+                column: "DocumentTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Patients_EstadoCivilId",
+                table: "Patients",
+                column: "EstadoCivilId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Patients_FullName_CorporationId",
+                table: "Patients",
+                columns: new[] { "FullName", "CorporationId" },
+                unique: true,
+                filter: "[FullName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Patients_IdentidadGeneroId",
+                table: "Patients",
+                column: "IdentidadGeneroId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Patients_IdiomaId",
+                table: "Patients",
+                column: "IdiomaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Patients_PatientId",
+                table: "Patients",
+                column: "PatientId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Patients_PharmacyId",
+                table: "Patients",
+                column: "PharmacyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Patients_SexoAsignadoId",
+                table: "Patients",
+                column: "SexoAsignadoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Patients_UserName",
+                table: "Patients",
+                column: "UserName",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Pharmacies_Name",
+                table: "Pharmacies",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SexoAsignados_Name",
+                table: "SexoAsignados",
+                column: "Name",
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -594,10 +900,10 @@ namespace Regix.AppBack.Migrations
                 name: "Cities");
 
             migrationBuilder.DropTable(
-                name: "DocumentTypes");
+                name: "Managers");
 
             migrationBuilder.DropTable(
-                name: "Managers");
+                name: "Patient2s");
 
             migrationBuilder.DropTable(
                 name: "UserRoleDetails");
@@ -612,10 +918,31 @@ namespace Regix.AppBack.Migrations
                 name: "States");
 
             migrationBuilder.DropTable(
+                name: "Patients");
+
+            migrationBuilder.DropTable(
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Usuarios");
+
+            migrationBuilder.DropTable(
+                name: "DocumentTypes");
+
+            migrationBuilder.DropTable(
+                name: "EstadoCivils");
+
+            migrationBuilder.DropTable(
+                name: "IdentidadGeneros");
+
+            migrationBuilder.DropTable(
+                name: "Idiomas");
+
+            migrationBuilder.DropTable(
+                name: "Pharmacies");
+
+            migrationBuilder.DropTable(
+                name: "SexoAsignados");
 
             migrationBuilder.DropTable(
                 name: "Corporations");

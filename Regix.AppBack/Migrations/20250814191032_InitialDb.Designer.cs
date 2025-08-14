@@ -12,8 +12,8 @@ using Regix.AppInfra;
 namespace Regix.AppBack.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250813161657_NewPatient2Db")]
-    partial class NewPatient2Db
+    [Migration("20250814191032_InitialDb")]
+    partial class InitialDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -177,6 +177,11 @@ namespace Regix.AppBack.Migrations
                     b.Property<int>("CorporationId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -216,8 +221,8 @@ namespace Regix.AppBack.Migrations
 
                     b.Property<string>("UserName")
                         .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasMaxLength(24)
+                        .HasColumnType("nvarchar(24)");
 
                     b.HasKey("UsuarioId");
 
@@ -398,6 +403,11 @@ namespace Regix.AppBack.Migrations
                     b.Property<int>("CorporationId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -438,8 +448,8 @@ namespace Regix.AppBack.Migrations
 
                     b.Property<string>("UserName")
                         .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasMaxLength(24)
+                        .HasColumnType("nvarchar(24)");
 
                     b.Property<int>("UserType")
                         .HasColumnType("int");
@@ -943,6 +953,24 @@ namespace Regix.AppBack.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasDefaultValueSql("NEWSEQUENTIALID()");
 
+                    b.Property<bool>("Alcohol")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Asthma")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("AutoimmuneDisease")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Caffeine")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Cancer")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("CoagulationDisorder")
+                        .HasColumnType("bit");
+
                     b.Property<string>("ConsultationReason")
                         .IsRequired()
                         .HasMaxLength(256)
@@ -954,12 +982,47 @@ namespace Regix.AppBack.Migrations
                     b.Property<DateTime>("DateStart")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("Diabetes")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("DietaryPattern")
+                        .HasColumnType("bit");
+
                     b.Property<string>("DurationPattern")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<bool>("Heartdisease")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("HousingSituation")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Hyperlipidemia")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Hypertension")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("InfectiousDiseases")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Kidneydisease")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("LiverDisease")
+                        .HasColumnType("bit");
+
                     b.Property<string>("ModifyingFactors")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<bool>("OccupationalHazards")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("OtherPersonalMedical")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
@@ -975,7 +1038,13 @@ namespace Regix.AppBack.Migrations
                     b.Property<Guid>("PatientId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<bool>("PhysicalActivity")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("PriorEpisodes")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("RecreationalDrugs")
                         .HasColumnType("bit");
 
                     b.Property<string>("RelatedSymptoms")
@@ -983,10 +1052,24 @@ namespace Regix.AppBack.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
+                    b.Property<bool>("Sleep")
+                        .HasColumnType("bit");
+
                     b.Property<string>("SymptomLocation")
                         .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
+
+                    b.Property<bool>("ThyroidDisorder")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Tobacco")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("TypeCancer")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Patient2Id");
 

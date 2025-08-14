@@ -20,6 +20,7 @@ public partial class FormPatient2
     [Parameter, EditorRequired] public Patient2 Patient2 { get; set; } = null!;
     [Parameter, EditorRequired] public EventCallback OnSubmit { get; set; }
     [Parameter, EditorRequired] public EventCallback ReturnAction { get; set; }
+    [Parameter, EditorRequired] public EventCallback ExitAction { get; set; }
 
     private DateTime? DateMin = new DateTime(1900, 1, 1);
 

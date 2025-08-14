@@ -2,9 +2,6 @@
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 using Regix.AppInfra;
 using Regix.AppInfra.EmailHelper;
 using Regix.AppInfra.FileHelper;
@@ -14,6 +11,9 @@ using Regix.Domain.Enum;
 using Regix.DomainLogic.ResponsesSec;
 using Regix.DomainLogic.TrialResponse;
 using Regix.Services.InterfacesSecure;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace Regix.Services.ImplementSecure;
 
@@ -50,7 +50,7 @@ public class AccountService : IAccountService
         if (result.Succeeded)
         {
             //Consulto User de IdentityUser
-            var user = await _userHelper.GetUserAsync(modelo.Email);
+            var user = await _userHelper.GetUserByUserNameAsync(modelo.UserName);
             if (!user.Active)
             {
                 return new ActionResponse<TokenDTO>
@@ -158,7 +158,7 @@ public class AccountService : IAccountService
 
     public async Task<ActionResponse<bool>> RecoverPasswordAsync(EmailDTO modelo, string frontUrl)
     {
-        var user = await _userHelper.GetUserAsync(modelo.Email);
+        var user = await _userHelper.GetUserByUserNameAsync(modelo.UserName);
         if (user == null)
         {
             return new ActionResponse<bool>
@@ -187,7 +187,7 @@ public class AccountService : IAccountService
 
     public async Task<ActionResponse<bool>> ResetPasswordAsync(ResetPasswordDTO modelo)
     {
-        var user = await _userHelper.GetUserAsync(modelo.Email);
+        var user = await _userHelper.GetUserByUserNameAsync(modelo.UserName);
         if (user == null)
         {
             return new ActionResponse<bool>
@@ -215,7 +215,7 @@ public class AccountService : IAccountService
 
     public async Task<ActionResponse<bool>> ChangePasswordAsync(ChangePasswordDTO modelo, string UserName)
     {
-        var user = await _userHelper.GetUserAsync(UserName);
+        var user = await _userHelper.GetUserByUserNameAsync(UserName);
         if (user == null)
         {
             return new ActionResponse<bool>
@@ -244,7 +244,7 @@ public class AccountService : IAccountService
 
     public async Task<ActionResponse<bool>> ConfirmEmailAsync(string userId, string token)
     {
-        var user = await _userHelper.GetUserAsync(new Guid(userId));
+        var user = await _userHelper.GetUserByIdAsync(new Guid(userId));
         if (user == null)
         {
             return new ActionResponse<bool>

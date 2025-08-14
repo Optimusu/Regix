@@ -35,7 +35,7 @@ public static class ClaimsPrincipalExtensions
 
         return new ClaimsDTOs
         {
-            Email = email,
+            UserName = email,
             Id = id,
             CorporationId = Idcorporate,
             Role = role

@@ -2,7 +2,7 @@
 @attribute [Authorize(Roles = "Administrator")]
 
 
-@if (Patient is null)
+@if (Patient is null || IsLoading)
 {
     <Loading />
 }
@@ -16,7 +16,8 @@ else
             <div class="card-body">
                 <FormPatient Patient="Patient"
                              OnSubmit="Edit"
-                             ReturnAction="Return" />
+                             ReturnAction="Return"
+                             ExitAction="ExitAction" />
             </div>
 
         </div>

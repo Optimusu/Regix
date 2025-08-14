@@ -7,9 +7,11 @@ namespace Regix.AppInfra.UserHelper;
 
 public interface IUserHelper
 {
-    Task<User> GetUserAsync(string email);
+    Task<User> GetUserByUserNameAsync(string userName);
 
-    Task<User> GetUserAsync(Guid userId);
+    Task<User> GetUserByEmailAsync(string email);
+
+    Task<User> GetUserByIdAsync(Guid userId);
 
     Task<IdentityResult> AddUserAsync(User user, string password);
 
@@ -21,9 +23,9 @@ public interface IUserHelper
 
     Task RemoveUserToRoleAsync(User user, string roleName);
 
-    Task AddUserClaims(UserType userType, string email);
+    Task AddUserClaims(UserType userType, string userName);
 
-    Task RemoveUserClaims(UserType userType, string email);
+    Task RemoveUserClaims(UserType userType, string userName);
 
     Task<bool> IsUserInRoleAsync(User user, string roleName);
 
@@ -53,11 +55,11 @@ public interface IUserHelper
     Task<SignInResult> ValidatePasswordAsync(User user, string password);
 
     //Para Registro de UserASP desde el modulo de Usuarios / Sistema de Corporacion
-    Task<User> AddUserUsuarioAsync(string firstname, string lastname,
+    Task<User> AddUserUsuarioAsync(string firstname, string lastname, string username,
                     string email, string phone, string address, string job,
                     int Idcorporate, string ImagenFile, string Origin, bool UserActivo, UserType usertype);
 
-    Task<User> AddUserUsuarioSoftAsync(string firstname, string lastname,
+    Task<User> AddUserUsuarioSoftAsync(string firstname, string lastname, string username,
                     string email, string phone, string address, string job,
                     int Idcorporate, string ImagenFile, string Origin, bool UserActivo);
 }

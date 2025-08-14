@@ -44,22 +44,28 @@ public partial class EditPatient2
 
     private async Task Edit()
     {
-        var responseHttp = await _repository.PutAsync($"{BaseUrl}", Patient);
+        var responseHttp = await _repository.PutAsync($"{BaseUrl}", Patient2);
         bool errorHandled = await _responseHandler.HandleErrorAsync(responseHttp);
         if (errorHandled) return;
 
         await _sweetAlert.FireAsync(Messages.UpdateSuccessTitle, Messages.UpdateSuccessMessage, SweetAlertIcon.Success);
         if (Patient!.TotalPatien2 == 0)
         {
-            _navigationManager.NavigateTo($"/regpatient2s/create/{Patient.PatientId}");
+            //_navigationManager.NavigateTo($"/regpatient");
         }
         else
         {
+            //_navigationManager.NavigateTo($"/regpatient");
         }
     }
 
     private void Return()
     {
         _navigationManager.NavigateTo($"{BaseView}/{Patient!.PatientId}");
+    }
+
+    private void ExitAction()
+    {
+        _navigationManager.NavigateTo($"/regpatient");
     }
 }

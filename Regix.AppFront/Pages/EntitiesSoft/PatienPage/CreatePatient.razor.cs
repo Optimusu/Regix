@@ -1,9 +1,7 @@
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.FileSystemGlobbing.Internal.PatternContexts;
 using Regix.AppFront.GenericoModal;
 using Regix.AppFront.Helpers;
-using Regix.Domain.EntitiesGen;
 using Regix.Domain.EntitiesSoft;
 using Regix.HttpServices;
 
@@ -36,7 +34,7 @@ public partial class CreatePatient
         if (errorHandled) return;
         Patient = responseHttp.Response!;
 
-        await _sweetAlert.FireAsync(Messages.CreateSuccessTitle, Messages.CreateSuccessMessage, SweetAlertIcon.Success);
+        //await _sweetAlert.FireAsync(Messages.CreateSuccessTitle, Messages.CreateSuccessMessage, SweetAlertIcon.Success);
         _modalService.Close();
         _navigationManager.NavigateTo($"/regpatient2s/create/{Patient.PatientId}");
     }
@@ -45,6 +43,11 @@ public partial class CreatePatient
     {
         _modalService.Close();
         _navigationManager.NavigateTo("/");
+        _navigationManager.NavigateTo($"{BaseView}");
+    }
+
+    private void ExitAction()
+    {
         _navigationManager.NavigateTo($"{BaseView}");
     }
 }

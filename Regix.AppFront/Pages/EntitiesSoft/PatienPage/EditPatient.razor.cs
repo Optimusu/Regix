@@ -25,6 +25,7 @@ public partial class EditPatient
     //Local State
 
     private Patient? Patient;
+    private bool IsLoading = false;
     private const string BaseUrl = "/api/v1/regpatient";
     private const string BaseView = "/regpatient";
 
@@ -38,11 +39,17 @@ public partial class EditPatient
 
     private async Task Edit()
     {
+        IsLoading = true;
+
         var responseHttp = await _repository.PutAsync($"{BaseUrl}", Patient);
         bool errorHandled = await _responseHandler.HandleErrorAsync(responseHttp);
-        if (errorHandled) return;
+        if (errorHandled)
+        {
+            IsLoading = false;
+            return; 
+        }
 
-        await _sweetAlert.FireAsync(Messages.UpdateSuccessTitle, Messages.UpdateSuccessMessage, SweetAlertIcon.Success);
+        //await _sweetAlert.FireAsync(Messages.UpdateSuccessTitle, Messages.UpdateSuccessMessage, SweetAlertIcon.Success);
         if (Patient!.TotalPatien2 == 0)
         {
             _navigationManager.NavigateTo($"/regpatient2s/create/{Patient.PatientId}");
@@ -51,12 +58,18 @@ public partial class EditPatient
         {
             _navigationManager.NavigateTo($"/regpatient2s/edit/{Patient.PatientId}");
         }
+        IsLoading = false;
     }
 
     private void Return()
     {
         _modalService.Close();
         _navigationManager.NavigateTo("/");
+        _navigationManager.NavigateTo($"{BaseView}");
+    }
+
+    private void ExitAction()
+    {
         _navigationManager.NavigateTo($"{BaseView}");
     }
 }

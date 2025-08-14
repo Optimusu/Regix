@@ -47,11 +47,16 @@ public partial class CreatePatient2
         if (errorHandled) return;
 
         await _sweetAlert.FireAsync(Messages.CreateSuccessTitle, Messages.CreateSuccessMessage, SweetAlertIcon.Success);
-        _navigationManager.NavigateTo($"{BaseView}/{Id}");
+        //_navigationManager.NavigateTo($"/regpatient");
     }
 
     private void Return()
     {
         _navigationManager.NavigateTo($"{BaseView}/{Id}");
+    }
+
+    private void ExitAction()
+    {
+        _navigationManager.NavigateTo($"/regpatient");
     }
 }

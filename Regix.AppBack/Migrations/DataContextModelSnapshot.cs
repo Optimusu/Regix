@@ -174,6 +174,11 @@ namespace Regix.AppBack.Migrations
                     b.Property<int>("CorporationId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -213,8 +218,8 @@ namespace Regix.AppBack.Migrations
 
                     b.Property<string>("UserName")
                         .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasMaxLength(24)
+                        .HasColumnType("nvarchar(24)");
 
                     b.HasKey("UsuarioId");
 
@@ -395,6 +400,11 @@ namespace Regix.AppBack.Migrations
                     b.Property<int>("CorporationId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -435,8 +445,8 @@ namespace Regix.AppBack.Migrations
 
                     b.Property<string>("UserName")
                         .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasMaxLength(24)
+                        .HasColumnType("nvarchar(24)");
 
                     b.Property<int>("UserType")
                         .HasColumnType("int");

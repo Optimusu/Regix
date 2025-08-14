@@ -47,11 +47,11 @@ public class UsuarioService : IUsuarioService
         _localizer = localizer;
     }
 
-    public async Task<ActionResponse<IEnumerable<EnumItemModel>>> ComboAsync(string email)
+    public async Task<ActionResponse<IEnumerable<EnumItemModel>>> ComboAsync(string username)
     {
         try
         {
-            User user = await _userHelper.GetUserAsync(email);
+            User user = await _userHelper.GetUserByUserNameAsync(username);
             if (user == null)
             {
                 return new ActionResponse<IEnumerable<EnumItemModel>>
@@ -92,11 +92,11 @@ public class UsuarioService : IUsuarioService
         }
     }
 
-    public async Task<ActionResponse<IEnumerable<Usuario>>> GetAsync(PaginationDTO pagination, string Email)
+    public async Task<ActionResponse<IEnumerable<Usuario>>> GetAsync(PaginationDTO pagination, string username)
     {
         try
         {
-            User user = await _userHelper.GetUserAsync(Email);
+            User user = await _userHelper.GetUserByUserNameAsync(username);
             if (user == null)
             {
                 return new ActionResponse<IEnumerable<Usuario>>
@@ -206,13 +206,14 @@ public class UsuarioService : IUsuarioService
             _context.Usuarios.Update(modelo);
             await _transactionManager.SaveChangesAsync();
 
-            User UserCurrent = await _userHelper.GetUserAsync(modelo.UserName);
+            User UserCurrent = await _userHelper.GetUserByUserNameAsync(modelo.UserName);
             if (UserCurrent != null)
             {
                 UserCurrent.FirstName = modelo.FirstName;
                 UserCurrent.LastName = modelo.LastName;
                 UserCurrent.FullName = $"{modelo.FirstName} {modelo.LastName}";
                 UserCurrent.PhoneNumber = modelo.PhoneNumber;
+                UserCurrent.Email = modelo.Email;
                 UserCurrent.PhotoUser = modelo.Photo;
                 UserCurrent.JobPosition = modelo.Job!;
                 UserCurrent.Active = modelo.Active;
@@ -252,9 +253,9 @@ public class UsuarioService : IUsuarioService
         }
     }
 
-    public async Task<ActionResponse<Usuario>> AddAsync(Usuario modelo, string urlFront, string Email)
+    public async Task<ActionResponse<Usuario>> AddAsync(Usuario modelo, string urlFront, string username)
     {
-        User user = await _userHelper.GetUserAsync(Email);
+        User user = await _userHelper.GetUserByUserNameAsync(username);
         if (user == null)
         {
             return new ActionResponse<Usuario>
@@ -263,7 +264,7 @@ public class UsuarioService : IUsuarioService
                 Message = _localizer["Generic_AuthIdFail"]
             };
         }
-        User userCheck = await _userHelper.GetUserAsync(modelo.UserName);
+        User userCheck = await _userHelper.GetUserByUserNameAsync(modelo.UserName);
         if (userCheck != null)
         {
             return new ActionResponse<Usuario>
@@ -369,7 +370,7 @@ public class UsuarioService : IUsuarioService
 
     private async Task<Response> AcivateUser(Usuario modelo, string urlFront)
     {
-        User user = await _userHelper.AddUserUsuarioSoftAsync(modelo.FirstName, modelo.LastName, modelo.UserName,
+        User user = await _userHelper.AddUserUsuarioSoftAsync(modelo.FirstName, modelo.LastName, modelo.UserName, modelo.Email,
             modelo.PhoneNumber!, modelo.Address!, modelo.Job!, modelo.CorporationId, modelo.Photo!, "UsuarioSoftware", modelo.Active);
         //Envio de Correo con Token de seguridad para Verificar el correo
         string myToken = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
@@ -385,7 +386,7 @@ public class UsuarioService : IUsuarioService
             $"Para Activar su vuenta, " +
             $"Has Click en el siguiente Link:</br></br><strong><a href = \"{tokenLink}\">Confirmar Correo</a></strong>");
 
-        Response response = await _emailHelper.ConfirmarCuenta(user.UserName!, user.FullName!, subject, body);
+        Response response = await _emailHelper.ConfirmarCuenta(user.Email!, user.FullName!, subject, body);
         if (response.IsSuccess == false)
         {
             return response;

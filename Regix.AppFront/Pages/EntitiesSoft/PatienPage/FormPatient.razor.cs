@@ -21,6 +21,7 @@ public partial class FormPatient
     [Parameter, EditorRequired] public Patient Patient { get; set; } = null!;
     [Parameter, EditorRequired] public EventCallback OnSubmit { get; set; }
     [Parameter, EditorRequired] public EventCallback ReturnAction { get; set; }
+    [Parameter, EditorRequired] public EventCallback ExitAction { get; set; }
 
     private List<DocumentType>? DocumentTypes;
     private List<SexoAsignado>? SexoAsignados;

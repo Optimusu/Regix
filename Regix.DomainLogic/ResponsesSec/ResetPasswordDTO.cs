@@ -8,7 +8,7 @@ public class ResetPasswordDTO
     [Required(ErrorMessageResourceName = nameof(Resource.Validation_Required), ErrorMessageResourceType = typeof(Resource))]
     [EmailAddress(ErrorMessageResourceName = nameof(Resource.Validation_InvalidEmail), ErrorMessageResourceType = typeof(Resource))]
     [Display(Name = nameof(Resource.Email), ResourceType = typeof(Resource))]
-    public string Email { get; set; } = null!;
+    public string UserName { get; set; } = null!;
 
     [DataType(DataType.Password)]
     [Required(ErrorMessageResourceName = nameof(Resource.Validation_Required), ErrorMessageResourceType = typeof(Resource))]

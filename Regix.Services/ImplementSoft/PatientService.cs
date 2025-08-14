@@ -39,11 +39,11 @@ public class PatientService : IPatientService
         _mapperService = mapperService;
     }
 
-    public async Task<ActionResponse<IEnumerable<Patient>>> GetAsync(PaginationDTO pagination, string Email)
+    public async Task<ActionResponse<IEnumerable<Patient>>> GetAsync(PaginationDTO pagination, string username)
     {
         try
         {
-            User user = await _userHelper.GetUserAsync(Email);
+            User user = await _userHelper.GetUserByUserNameAsync(username);
             if (user == null)
             {
                 return new ActionResponse<IEnumerable<Patient>>
@@ -91,7 +91,7 @@ public class PatientService : IPatientService
             }
             var modelo = await _context.Patients
                 .AsNoTracking()
-                .Include(x=> x.Patient2s)
+                .Include(x => x.Patient2s)
                 .FirstOrDefaultAsync(x => x.PatientId == id);
             if (modelo == null)
             {
@@ -149,9 +149,9 @@ public class PatientService : IPatientService
         }
     }
 
-    public async Task<ActionResponse<Patient>> AddAsync(Patient modelo, string Email)
+    public async Task<ActionResponse<Patient>> AddAsync(Patient modelo, string username)
     {
-        User user = await _userHelper.GetUserAsync(Email);
+        User user = await _userHelper.GetUserByUserNameAsync(username);
         if (user == null)
         {
             return new ActionResponse<Patient>

@@ -50,6 +50,13 @@ public class Usuario
     [Required(ErrorMessageResourceName = "Validation_Required", ErrorMessageResourceType = typeof(Resource))]
     [DataType(DataType.EmailAddress)]
     [Display(Name = nameof(Resource.Email), ResourceType = typeof(Resource))]
+    public string Email { get; set; } = null!;
+
+    [MaxLength(24)]
+    [StringLength(24, MinimumLength = 6, ErrorMessageResourceName = "Validation_StringLength", ErrorMessageResourceType = typeof(Resource))]
+    [RegularExpression(@"^[a-zA-Z0-9_.-]+$", ErrorMessageResourceName = "Validation_UserNameFormat", ErrorMessageResourceType = typeof(Resource))]
+    [Required(ErrorMessageResourceName = "Validation_Required", ErrorMessageResourceType = typeof(Resource))]
+    [Display(Name = nameof(Resource.UserName), ResourceType = typeof(Resource))]
     public string UserName { get; set; } = null!;
 
     [MaxLength(50, ErrorMessageResourceName = "Validation_MaxLength", ErrorMessageResourceType = typeof(Resource))]

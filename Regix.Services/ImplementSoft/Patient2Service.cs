@@ -39,11 +39,11 @@ public class Patient2Service : IPatient2Service
         _mapperService = mapperService;
     }
 
-    public async Task<ActionResponse<IEnumerable<Patient2>>> GetAsync(PaginationDTO pagination, string Email)
+    public async Task<ActionResponse<IEnumerable<Patient2>>> GetAsync(PaginationDTO pagination, string username)
     {
         try
         {
-            User user = await _userHelper.GetUserAsync(Email);
+            User user = await _userHelper.GetUserByUserNameAsync(username);
             if (user == null)
             {
                 return new ActionResponse<IEnumerable<Patient2>>
@@ -123,7 +123,8 @@ public class Patient2Service : IPatient2Service
         await _transactionManager.BeginTransactionAsync();
         try
         {
-            _context.Patient2s.Update(modelo);
+            Patient2 NuevoModelo = _mapperService.Map<Patient2, Patient2>(modelo);
+            _context.Patient2s.Update(NuevoModelo);
 
             await _transactionManager.SaveChangesAsync();
             await _transactionManager.CommitTransactionAsync();
@@ -142,9 +143,9 @@ public class Patient2Service : IPatient2Service
         }
     }
 
-    public async Task<ActionResponse<Patient2>> AddAsync(Patient2 modelo, string Email)
+    public async Task<ActionResponse<Patient2>> AddAsync(Patient2 modelo, string username)
     {
-        User user = await _userHelper.GetUserAsync(Email);
+        User user = await _userHelper.GetUserByUserNameAsync(username);
         if (user == null)
         {
             return new ActionResponse<Patient2>
