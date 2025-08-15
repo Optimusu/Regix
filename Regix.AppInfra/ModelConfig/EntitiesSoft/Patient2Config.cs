@@ -11,6 +11,6 @@ public class Patient2Config : IEntityTypeConfiguration<Patient2>
         builder.HasIndex(e => e.Patient2Id);
         builder.Property(x => x.Patient2Id).HasDefaultValueSql("NEWSEQUENTIALID()");
         //Proteccion de Borrado en Cascada
-        builder.HasOne(e => e.Patient).WithMany(e => e.Patient2s).OnDelete(DeleteBehavior.Restrict);
+        builder.HasOne(e => e.PatientControl).WithMany(e => e.Patient2s).OnDelete(DeleteBehavior.Restrict);
     }
 }

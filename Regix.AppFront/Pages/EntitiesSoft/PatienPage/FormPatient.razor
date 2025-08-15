@@ -163,17 +163,6 @@
         </div>
     </div>
 
-    <div class="mb-2">
-        <div class="input-group">
-            <span class="input-group-text" style="width: 150px">
-                @GetDisplayName(() => Patient.UserName)
-            </span>
-            <InputText class="form-control" placeholder="youmail@Domain.com..." @bind-Value="Patient.UserName" />
-        </div>
-        <ValidationMessage For="@(() => Patient.UserName)" />
-    </div>
-
-
     <div class="row mb-2">
         <!-- First Name -->
         <div class="col-md-6">

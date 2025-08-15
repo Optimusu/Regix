@@ -45,6 +45,7 @@ public class DataContext : IdentityDbContext<User>
 
     public DbSet<Patient> Patients => Set<Patient>();
     public DbSet<Patient2> Patient2s => Set<Patient2>();
+    public DbSet<PatientControl> PatientControls => Set<PatientControl>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -1,5 +1,6 @@
 ﻿@page "/regpatient/create"
-@attribute [Authorize(Roles = "Administrator")]
+@attribute [Authorize(Roles = "Patient")]
+@layout LoginLayout
 
 @if (Patient is null)
 {

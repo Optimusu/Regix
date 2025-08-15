@@ -54,8 +54,8 @@ public class PatientService : IPatientService
             }
 
             var queryable = _context.Patients
-                 .Include(x => x.Patient2s)
-                .Where(x => x.CorporationId == user.CorporationId).AsQueryable();
+                 .Include(x => x.PatientControl)
+                .Where(x => x.CorporationId == user.CorporationId && x.PatientControlId == pagination.GuidId).AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(pagination.Filter))
             {
@@ -91,7 +91,7 @@ public class PatientService : IPatientService
             }
             var modelo = await _context.Patients
                 .AsNoTracking()
-                .Include(x => x.Patient2s)
+                .Include(x => x.PatientControl)
                 .FirstOrDefaultAsync(x => x.PatientId == id);
             if (modelo == null)
             {

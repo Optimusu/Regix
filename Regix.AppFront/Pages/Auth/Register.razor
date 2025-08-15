@@ -8,61 +8,88 @@
     <p class="text-muted">Register New Patient</p>
 </div>
 
-<EditForm Model="loginDTO" OnValidSubmit="LoginAsync">
+<EditForm Model="RegisterDTO" OnValidSubmit="RegisterAsync">
     <DataAnnotationsValidator />
 
     <div class="mb-4">
         <div class="input-group">
-            <span class="input-group-text" style="width: 120px">
-                <i class="fa fa-lock me-2"></i> @GetDisplayName(() => loginDTO.UserName)
+            <span class="input-group-text" style="width: 130px">
+                <i class="fa fa-lock me-2"></i> @GetDisplayName(() => RegisterDTO.FirstName)
             </span>
-            <InputText class="form-control" placeholder="you@example.com" @bind-Value="loginDTO.UserName" />
+            <InputText class="form-control" @bind-Value="RegisterDTO.FirstName" />
         </div>
-        <ValidationMessage For="@(() => loginDTO.UserName)" />
+        <ValidationMessage For="@(() => RegisterDTO.FirstName)" />
     </div>
 
     <div class="mb-4">
         <div class="input-group">
-            <span class="input-group-text" style="width: 120px">
-                <i class="fa fa-envelope me-2"></i> @GetDisplayName(() => loginDTO.Password)
+            <span class="input-group-text" style="width: 130px">
+                <i class="fa fa-envelope me-2"></i> @GetDisplayName(() => RegisterDTO.LastName)
             </span>
-            <InputText type="password" class="form-control" placeholder="••••••••" @bind-Value="loginDTO.Password" />
+            <InputText class="form-control" @bind-Value="RegisterDTO.LastName" />
         </div>
-        <ValidationMessage For="@(() => loginDTO.Password)" />
+        <ValidationMessage For="@(() => RegisterDTO.LastName)" />
     </div>
 
     <div class="mb-4">
         <div class="input-group">
-            <span class="input-group-text" style="width: 120px">
-                <i class="fa fa-envelope me-2"></i> @GetDisplayName(() => loginDTO.Password)
-            </span>
-            <InputText type="password" class="form-control" placeholder="••••••••" @bind-Value="loginDTO.Password" />
+            <span class="input-group-text" style="width: 130px">Date Birth</span>
+            <input type="date" class="form-control"
+                   @bind="RegisterDTO.DOB"
+                   min="@DateMin?.ToString("yyyy-MM-dd")" />
         </div>
-        <ValidationMessage For="@(() => loginDTO.Password)" />
+    </div>
+    <hr />
+
+    <!-- Corporacion -->
+    <div class="mb-4">
+        @if (Corporations is null)
+        {
+            <Loading />
+        }
+        else
+        {
+            <div class="input-group">
+                <span class="input-group-text" style="width: 150px">Select Site</span>
+                <select class="form-select" value="@RegisterDTO.CorporationId" @onchange="CorporationChanged">
+                    @foreach (var item in Corporations)
+                    {
+                        <option value="@item.CorporationId">@item.Name</option>
+                    }
+                </select>
+            </div>
+        }
+    </div>
+    <div class="mb-4">
+        <div class="input-group">
+            <span class="input-group-text" style="width: 130px">
+                <i class="fa fa-envelope me-2"></i> @GetDisplayName(() => RegisterDTO.UserName)
+            </span>
+            <InputText class="form-control"  @bind-Value="RegisterDTO.UserName" />
+        </div>
+        <ValidationMessage For="@(() => RegisterDTO.UserName)" />
+    </div>
+    <div class="mb-4">
+        <div class="input-group">
+            <span class="input-group-text" style="width: 170px">
+                <i class="fa fa-envelope me-2"></i> @GetDisplayName(() => RegisterDTO.NewPassword)
+            </span>
+            <InputText class="form-control" @bind-Value="RegisterDTO.NewPassword" />
+        </div>
+        <ValidationMessage For="@(() => RegisterDTO.NewPassword)" />
     </div>
 
     <div class="mb-4">
         <div class="input-group">
-            <span class="input-group-text" style="width: 120px">
-                <i class="fa fa-envelope me-2"></i> @GetDisplayName(() => loginDTO.Password)
+            <span class="input-group-text" style="width: 170px">
+                <i class="fa fa-envelope me-2"></i> @GetDisplayName(() => RegisterDTO.Confirm)
             </span>
-            <InputText type="password" class="form-control" placeholder="••••••••" @bind-Value="loginDTO.Password" />
+            <InputText type="password" class="form-control" @bind-Value="RegisterDTO.Confirm" />
         </div>
-        <ValidationMessage For="@(() => loginDTO.Password)" />
+        <ValidationMessage For="@(() => RegisterDTO.Confirm)" />
     </div>
 
-    <div class="mb-4">
-        <div class="input-group">
-            <span class="input-group-text" style="width: 120px">
-                <i class="fa fa-envelope me-2"></i> @GetDisplayName(() => loginDTO.Password)
-            </span>
-            <InputText type="password" class="form-control" placeholder="••••••••" @bind-Value="loginDTO.Password" />
-        </div>
-        <ValidationMessage For="@(() => loginDTO.Password)" />
-    </div>
-    <div class="mb-4 d-flex justify-content-between align-items-center">
-        <a @onclick="OpenRecoverPasswordModal" class="small link-primary text-decoration-none">Forgot password?</a>
-    </div>
+    <hr />
 
     <button type="submit" class="btn btn-gradient-primary w-100">
         <i class="fa fa-lock me-2"></i> Sing Up

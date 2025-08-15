@@ -25,6 +25,7 @@ namespace Regix.AppBack.Controllers.EntitiesGen
             _localizer = localizer;
         }
 
+        [AllowAnonymous]
         [HttpGet("loadCombo")]
         public async Task<IActionResult> GetComboAsync()
         {

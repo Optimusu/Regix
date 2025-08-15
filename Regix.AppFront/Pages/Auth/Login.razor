@@ -16,7 +16,7 @@
             <span class="input-group-text" style="width: 120px">
                 <i class="fa fa-lock me-2"></i> @GetDisplayName(() => loginDTO.UserName)
             </span>
-            <InputText class="form-control" placeholder="you@example.com" @bind-Value="loginDTO.UserName" />
+            <InputText class="form-control" @bind-Value="loginDTO.UserName" />
         </div>
         <ValidationMessage For="@(() => loginDTO.UserName)" />
     </div>
@@ -26,7 +26,7 @@
             <span class="input-group-text" style="width: 120px">
                 <i class="fa fa-envelope me-2"></i> @GetDisplayName(() => loginDTO.Password)
             </span>
-            <InputText type="password" class="form-control" placeholder="••••••••" @bind-Value="loginDTO.Password" />
+            <InputText type="password" class="form-control" @bind-Value="loginDTO.Password" />
         </div>
         <ValidationMessage For="@(() => loginDTO.Password)" />
     </div>

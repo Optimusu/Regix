@@ -7,6 +7,8 @@ public interface IAccountService
 {
     Task<ActionResponse<TokenDTO>> LoginAsync(LoginDTO modelo);
 
+    Task<ActionResponse<TokenDTO>> RegisterAsync(RegisterDTO modelo);
+
     Task<ActionResponse<bool>> RecoverPasswordAsync(EmailDTO modelo, string frontUrl);
 
     Task<ActionResponse<bool>> ResetPasswordAsync(ResetPasswordDTO modelo);

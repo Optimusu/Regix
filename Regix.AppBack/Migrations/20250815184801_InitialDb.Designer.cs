@@ -12,7 +12,7 @@ using Regix.AppInfra;
 namespace Regix.AppBack.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250814191032_InitialDb")]
+    [Migration("20250815184801_InitialDb")]
     partial class InitialDb
     {
         /// <inheritdoc />
@@ -834,6 +834,10 @@ namespace Regix.AppBack.Migrations
                     b.Property<int>("DocumentTypeId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
                     b.Property<string>("EmgAddress")
                         .IsRequired()
                         .HasMaxLength(256)
@@ -893,6 +897,9 @@ namespace Regix.AppBack.Migrations
                         .HasMaxLength(25)
                         .HasColumnType("nvarchar(25)");
 
+                    b.Property<Guid>("PatientControlId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<int>("PharmacyId")
                         .HasColumnType("int");
 
@@ -913,11 +920,6 @@ namespace Regix.AppBack.Migrations
                     b.Property<int>("SexoAsignadoId")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
                     b.HasKey("PatientId");
 
                     b.HasIndex("CorporationId");
@@ -930,14 +932,13 @@ namespace Regix.AppBack.Migrations
 
                     b.HasIndex("IdiomaId");
 
+                    b.HasIndex("PatientControlId");
+
                     b.HasIndex("PatientId");
 
                     b.HasIndex("PharmacyId");
 
                     b.HasIndex("SexoAsignadoId");
-
-                    b.HasIndex("UserName")
-                        .IsUnique();
 
                     b.HasIndex("FullName", "CorporationId")
                         .IsUnique()
@@ -1035,7 +1036,7 @@ namespace Regix.AppBack.Migrations
                     b.Property<int>("PainSeverity")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("PatientId")
+                    b.Property<Guid>("PatientControlId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("PhysicalActivity")
@@ -1077,9 +1078,45 @@ namespace Regix.AppBack.Migrations
 
                     b.HasIndex("Patient2Id");
 
-                    b.HasIndex("PatientId");
+                    b.HasIndex("PatientControlId");
 
                     b.ToTable("Patient2s");
+                });
+
+            modelBuilder.Entity("Regix.Domain.EntitiesSoft.PatientControl", b =>
+                {
+                    b.Property<Guid>("PatientControlId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWSEQUENTIALID()");
+
+                    b.Property<int>("CorporationId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DOB")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("PatientControlId");
+
+                    b.HasIndex("CorporationId");
+
+                    b.HasIndex("PatientControlId");
+
+                    b.ToTable("PatientControls");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -1266,6 +1303,12 @@ namespace Regix.AppBack.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("Regix.Domain.EntitiesSoft.PatientControl", "PatientControl")
+                        .WithMany("Patients")
+                        .HasForeignKey("PatientControlId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("Regix.Domain.EntitiesGen.Pharmacy", "Pharmacy")
                         .WithMany("Patients")
                         .HasForeignKey("PharmacyId")
@@ -1288,6 +1331,8 @@ namespace Regix.AppBack.Migrations
 
                     b.Navigation("Idioma");
 
+                    b.Navigation("PatientControl");
+
                     b.Navigation("Pharmacy");
 
                     b.Navigation("SexoAsignado");
@@ -1301,15 +1346,26 @@ namespace Regix.AppBack.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Regix.Domain.EntitiesSoft.Patient", "Patient")
+                    b.HasOne("Regix.Domain.EntitiesSoft.PatientControl", "PatientControl")
                         .WithMany("Patient2s")
-                        .HasForeignKey("PatientId")
+                        .HasForeignKey("PatientControlId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Corporation");
 
-                    b.Navigation("Patient");
+                    b.Navigation("PatientControl");
+                });
+
+            modelBuilder.Entity("Regix.Domain.EntitiesSoft.PatientControl", b =>
+                {
+                    b.HasOne("Regix.Domain.Entities.Corporation", "Corporation")
+                        .WithMany()
+                        .HasForeignKey("CorporationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Corporation");
                 });
 
             modelBuilder.Entity("Regix.Domain.EntitesSoftSec.Usuario", b =>
@@ -1378,9 +1434,11 @@ namespace Regix.AppBack.Migrations
                     b.Navigation("Patients");
                 });
 
-            modelBuilder.Entity("Regix.Domain.EntitiesSoft.Patient", b =>
+            modelBuilder.Entity("Regix.Domain.EntitiesSoft.PatientControl", b =>
                 {
                     b.Navigation("Patient2s");
+
+                    b.Navigation("Patients");
                 });
 #pragma warning restore 612, 618
         }

@@ -27,14 +27,37 @@ public class SeedDb
         await _context.Database.EnsureCreatedAsync();
         await CheckRolesAsync();
         await CheckSoftPlan();
+        await CheckCountries();
+        await CheckCorporationAsync();
         await CheckDocumentType();
         await CheckEstadoCivil();
         await CheckIdentidadGenero();
         await CheckSexoAsignado();
-        await CheckLenguage();
         await CheckPharmacy();
-        await CheckCountries();
+        await CheckLenguage();
         await CheckUserAsync("Optimus U", "TrialPro", "hebalmert", "optimusu.soft@gmail.com", "+1 786 503", UserType.Admin);
+    }
+
+    private async Task CheckCorporationAsync()
+    {
+        if (!_context.Corporations.Any())
+        {
+            Corporation corporation = new()
+            {
+                Name = "Optimus U",
+                TypeDocument = "ITIN",
+                NroDocument = "3445645645",
+                Phone = "786",
+                Address = "Street 45",
+                CountryId = 1,
+                SoftPlanId = 3,
+                DateStart = DateTime.Now,
+                DateEnd = DateTime.Now.AddYears(10),
+                Active = true
+            };
+            _context.Corporations.Add(corporation);
+            await _context.SaveChangesAsync();
+        }
     }
 
     private async Task<User> CheckUserAsync(string firstName, string lastName, string username, string email,

@@ -655,6 +655,15 @@ namespace Regix.Domain.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to User Already Used, trye again..
+        /// </summary>
+        public static string Generic_UserNameAlreadyUsed {
+            get {
+                return ResourceManager.GetString("Generic_UserNameAlreadyUsed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This user is active but has no role assigned.
         /// </summary>
         public static string Generic_UserNoRoleAssigned {

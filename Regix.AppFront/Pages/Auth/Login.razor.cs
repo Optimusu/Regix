@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using Regix.AppFront.AuthenticationProviders;
 using Regix.AppFront.GenericoModal;
 using Regix.AppFront.Helpers;
@@ -7,6 +8,7 @@ using Regix.HttpServices;
 using System.ComponentModel.DataAnnotations;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Security.Claims;
 
 namespace Regix.AppFront.Pages.Auth;
 
@@ -18,6 +20,7 @@ public partial class Login
     [Inject] private ILoginService _loginService { get; set; } = null!;
     [Inject] private HttpResponseHandler _httpHandler { get; set; } = null!;
     [Inject] private ModalService _modalService { get; set; } = null!;
+    [CascadingParameter] private Task<AuthenticationState> authenticationState { get; set; } = null!;
 
     private LoginDTO loginDTO = new();
     private bool rememberMe;
@@ -27,12 +30,30 @@ public partial class Login
         var responseHttp = await _repository.PostAsync<LoginDTO, TokenDTO>("/api/v1/accounts/Login", loginDTO);
         if (await _httpHandler.HandleErrorAsync(responseHttp)) return;
         await _loginService.LoginAsync(responseHttp.Response!.Token);
+
+        var authState = await authenticationState;
+        var user = authState.User;
+        var role = user.FindFirst(ClaimTypes.Role)?.Value ?? user.FindFirst("role")?.Value;
         _sessionService.PhotoUser = responseHttp.Response.PhotoBase64;
         _sessionService.LogoCorp = responseHttp.Response.LogoBase64;
-        _sessionService.NameCorp = responseHttp.Response.NameCorp;
+        switch (role)
+        {
+            case "Admin":
+                _navigation.NavigateTo("/dashboard");
+                break;
 
-        _navigation.NavigateTo("/dashboard");
-        _modalService.Close();
+            case "Coordinator":
+                _navigation.NavigateTo("/dashboard");
+                break;
+
+            case "Patient":
+                _navigation.NavigateTo("/regpatient/create");
+                break;
+
+            default:
+                _navigation.NavigateTo("/");
+                break;
+        }
     }
 
     private async Task OpenRecoverPasswordModal()

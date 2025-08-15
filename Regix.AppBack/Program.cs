@@ -125,9 +125,9 @@ builder.Services.AddIdentity<AppUser, IdentityRole>(cfg =>
 {
     //Agregamos Validar Correo para dar de alta al Usuario
     cfg.Tokens.AuthenticatorTokenProvider = TokenOptions.DefaultAuthenticatorProvider;
-    cfg.SignIn.RequireConfirmedEmail = true;
+    cfg.SignIn.RequireConfirmedEmail = false;
 
-    cfg.User.RequireUniqueEmail = true;
+    cfg.User.RequireUniqueEmail = false;
     cfg.Password.RequireDigit = false;
     cfg.Password.RequiredUniqueChars = 0;
     cfg.Password.RequireLowercase = false;

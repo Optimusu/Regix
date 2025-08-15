@@ -570,4 +570,7 @@
   <data name="Validation_UserNameFormat" xml:space="preserve">
     <value>The username can only contain letters, numbers, hyphens, and periods.</value>
   </data>
+  <data name="Generic_UserNameAlreadyUsed" xml:space="preserve">
+    <value>User Already Used, trye again.</value>
+  </data>
 </root>

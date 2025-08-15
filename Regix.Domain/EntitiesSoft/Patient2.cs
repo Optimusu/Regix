@@ -11,7 +11,7 @@ public class Patient2
 
     [Required]
     [Display(Name = nameof(Resource.Patient), ResourceType = typeof(Resource))]
-    public Guid PatientId { get; set; }
+    public Guid PatientControlId { get; set; }
 
     [MaxLength(256, ErrorMessageResourceName = "Validation_MaxLength", ErrorMessageResourceType = typeof(Resource))]
     [Required(ErrorMessageResourceName = "Validation_Required", ErrorMessageResourceType = typeof(Resource))]
@@ -33,7 +33,6 @@ public class Patient2
     [Required(ErrorMessageResourceName = "Validation_Required", ErrorMessageResourceType = typeof(Resource))]
     [Display(Name = "Pain Quality")]
     public string PainQuality { get; set; } = null!;
-
 
     [Range(0, 10, ErrorMessageResourceName = nameof(Resource.Validation_Combo), ErrorMessageResourceType = typeof(Resource))]
     [Display(Name = "Severity 0-10")]
@@ -135,5 +134,5 @@ public class Patient2
     public int CorporationId { get; set; }
     public Corporation? Corporation { get; set; }
 
-    public Patient? Patient { get; set; }
+    public PatientControl? PatientControl { get; set; }
 }

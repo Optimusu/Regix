@@ -44,6 +44,24 @@ namespace Regix.AppBack.Controllers
             }
         }
 
+        [HttpPost("Register")]
+        public async Task<IActionResult> Register([FromBody] RegisterDTO modelo)
+        {
+            try
+            {
+                var response = await _unitOfWork.RegisterAsync(modelo);
+                return ResponseHelper.Format(response);
+            }
+            catch (ApplicationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, _localizer["Generic_UnexpectedError"] + ": " + ex.Message);
+            }
+        }
+
         [HttpPost("RecoverPassword")]
         public async Task<IActionResult> RecoverPasswordAsync([FromBody] EmailDTO modelo)
         {

@@ -41,7 +41,6 @@ public partial class CreatePatient2
 
     private async Task Create()
     {
-        Patient2.PatientId = Id;
         var responseHttp = await _repository.PostAsync($"{BaseUrl}", Patient2);
         bool errorHandled = await _responseHandler.HandleErrorAsync(responseHttp);
         if (errorHandled) return;

@@ -35,11 +35,6 @@ public partial class EditPatient2
         var responseHttp = await _repository.GetAsync<Patient>($"{BaseUrlPatient}/{Id}");
         if (await _responseHandler.HandleErrorAsync(responseHttp)) return;
         Patient = responseHttp.Response;
-
-        var responseHttp2 = await _repository.GetAsync<Patient2>($"{BaseUrl}/{Patient!.Patient2s!.FirstOrDefault()!.Patient2Id}");
-        if (await _responseHandler.HandleErrorAsync(responseHttp2)) return;
-        Patient2 = responseHttp2.Response;
-        Title = Patient.FullName;
     }
 
     private async Task Edit()
@@ -48,15 +43,15 @@ public partial class EditPatient2
         bool errorHandled = await _responseHandler.HandleErrorAsync(responseHttp);
         if (errorHandled) return;
 
-        await _sweetAlert.FireAsync(Messages.UpdateSuccessTitle, Messages.UpdateSuccessMessage, SweetAlertIcon.Success);
-        if (Patient!.TotalPatien2 == 0)
-        {
-            //_navigationManager.NavigateTo($"/regpatient");
-        }
-        else
-        {
-            //_navigationManager.NavigateTo($"/regpatient");
-        }
+        //await _sweetAlert.FireAsync(Messages.UpdateSuccessTitle, Messages.UpdateSuccessMessage, SweetAlertIcon.Success);
+        //if (Patient!.TotalPatien2 == 0)
+        //{
+        //    //_navigationManager.NavigateTo($"/regpatient");
+        //}
+        //else
+        //{
+        //    //_navigationManager.NavigateTo($"/regpatient");
+        //}
     }
 
     private void Return()

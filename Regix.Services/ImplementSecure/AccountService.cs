@@ -5,8 +5,10 @@ using Microsoft.IdentityModel.Tokens;
 using Regix.AppInfra;
 using Regix.AppInfra.EmailHelper;
 using Regix.AppInfra.FileHelper;
+using Regix.AppInfra.Transactions;
 using Regix.AppInfra.UserHelper;
 using Regix.Domain.Entities;
+using Regix.Domain.EntitiesSoft;
 using Regix.Domain.Enum;
 using Regix.DomainLogic.ResponsesSec;
 using Regix.DomainLogic.TrialResponse;
@@ -22,18 +24,20 @@ public class AccountService : IAccountService
     private readonly DataContext _context;
     private readonly IUserHelper _userHelper;
     private readonly IEmailHelper _emailHelper;
+    private readonly ITransactionManager _transactionManager;
     private readonly IStringLocalizer _localizer;
     private readonly IFileStorage _fileStorage;
     private readonly JwtKeySetting _jwtOption;
     private readonly ImgSetting _imgOption;
 
     public AccountService(DataContext context, IUserHelper userHelper,
-        IEmailHelper emailHelper, IOptions<ImgSetting> ImgOption,
+        IEmailHelper emailHelper, IOptions<ImgSetting> ImgOption, ITransactionManager transactionManager,
         IOptions<JwtKeySetting> jwtOption, IStringLocalizer localizer, IFileStorage fileStorage)
     {
         _context = context;
         _userHelper = userHelper;
         _emailHelper = emailHelper;
+        _transactionManager = transactionManager;
         _localizer = localizer;
         _fileStorage = fileStorage;
         _jwtOption = jwtOption.Value;
@@ -118,9 +122,10 @@ public class AccountService : IAccountService
                         {
                             imgUsuario = ImagenDefault;
                         }
-                        //imgUsuario = !string.IsNullOrWhiteSpace(user.PhotoUser)
-                        //    ? await _fileStorage.GetFileBase64Async(user.PhotoUser, _imgOption.ImgUsuario)
-                        //    : ImagenDefault;
+                        break;
+
+                    case "Patient":
+                        imgUsuario = ImagenDefault;
                         break;
                 }
             }
@@ -154,6 +159,64 @@ public class AccountService : IAccountService
             WasSuccess = false,
             Message = _localizer["Generic_InvalidCredentials"]
         };
+    }
+
+    public async Task<ActionResponse<TokenDTO>> RegisterAsync(RegisterDTO registerDTO)
+    {
+        UserType usertype = UserType.Patient;
+        //Verificamos si existe el UserName
+        User Newuser = await _userHelper.GetUserByUserNameAsync(registerDTO.UserName);
+        if (Newuser != null)
+        {
+            return new ActionResponse<TokenDTO>
+            {
+                WasSuccess = false,
+                Message = _localizer["Generic_UserNameAlreadyUsed"]
+            };
+        }
+        Newuser = new()
+        {
+            FirstName = registerDTO.FirstName,
+            LastName = registerDTO.LastName,
+            FullName = $"{registerDTO.FirstName} {registerDTO.LastName}",
+            UserName = registerDTO.UserName,
+            JobPosition = "Patient",
+            UserFrom = "Register",
+            CorporationId = registerDTO.CorporationId,
+            UserRoleDetails = new List<UserRoleDetails> { new UserRoleDetails { UserType = usertype } },
+            Active = true,
+        };
+
+        await _transactionManager.BeginTransactionAsync();
+
+        await _userHelper.AddUserAsync(Newuser, registerDTO.NewPassword);
+        await _userHelper.AddUserToRoleAsync(Newuser, usertype.ToString());
+        await _userHelper.AddUserClaims(usertype, registerDTO.UserName);
+
+        //Crear PatientControl
+        PatientControl patientControl = new()
+        {
+            FirstName = registerDTO.FirstName,
+            LastName = registerDTO.LastName,
+            DOB = registerDTO.DOB,
+            UserName = registerDTO.UserName,
+            CorporationId = registerDTO.CorporationId,
+        };
+        _context.PatientControls.Add(patientControl);
+
+        LoginDTO modelo = new() { UserName = registerDTO.UserName, Password = registerDTO.NewPassword };
+
+        var loginResult = await LoginAsync(modelo);
+        if (loginResult.WasSuccess)
+        {
+            await _transactionManager.SaveChangesAsync();
+            await _transactionManager.CommitTransactionAsync();
+        }
+        else
+        {
+            await _transactionManager.RollbackTransactionAsync();
+        }
+        return loginResult;
     }
 
     public async Task<ActionResponse<bool>> RecoverPasswordAsync(EmailDTO modelo, string frontUrl)
@@ -293,7 +356,7 @@ public class AccountService : IAccountService
         return response;
     }
 
-    private async Task<TokenDTO> BuildToken(User user, string imgUsuario)
+    private async Task<TokenDTO> BuildToken(User user, string? imgUsuario)
     {
         string NomCompa;
         string? LogoCompa;
@@ -326,9 +389,10 @@ public class AccountService : IAccountService
         var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Name, user.Email!),
+                new Claim(ClaimTypes.Name, user.UserName!),
                 new Claim("FirstName", user.FirstName),
-                new Claim("LastName", user.LastName)
+                new Claim("LastName", user.LastName),
+                new Claim("CorpName", NomCompa)
             };
         // Solo agregar el CorporateId si el usuario NO es Admin
         if (RolUsuario == null && user.CorporationId.HasValue)
@@ -356,8 +420,7 @@ public class AccountService : IAccountService
             Token = new JwtSecurityTokenHandler().WriteToken(token),
             Expiration = expiration,
             PhotoBase64 = imgUsuario,
-            LogoBase64 = LogoCompa,
-            NameCorp = NomCompa
+            LogoBase64 = LogoCompa
         };
     }
 }

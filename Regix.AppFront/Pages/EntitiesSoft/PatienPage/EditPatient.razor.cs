@@ -34,7 +34,6 @@ public partial class EditPatient
         var responseHttp = await _repository.GetAsync<Patient>($"{BaseUrl}/{Id}");
         if (await _responseHandler.HandleErrorAsync(responseHttp)) return;
         Patient = responseHttp.Response;
-        Console.WriteLine(Patient!.TotalPatien2);
     }
 
     private async Task Edit()
@@ -46,18 +45,18 @@ public partial class EditPatient
         if (errorHandled)
         {
             IsLoading = false;
-            return; 
+            return;
         }
 
         //await _sweetAlert.FireAsync(Messages.UpdateSuccessTitle, Messages.UpdateSuccessMessage, SweetAlertIcon.Success);
-        if (Patient!.TotalPatien2 == 0)
-        {
-            _navigationManager.NavigateTo($"/regpatient2s/create/{Patient.PatientId}");
-        }
-        else
-        {
-            _navigationManager.NavigateTo($"/regpatient2s/edit/{Patient.PatientId}");
-        }
+        //if (Patient!.TotalPatien2 == 0)
+        //{
+        //    _navigationManager.NavigateTo($"/regpatient2s/create/{Patient.PatientId}");
+        //}
+        //else
+        //{
+        //    _navigationManager.NavigateTo($"/regpatient2s/edit/{Patient.PatientId}");
+        //}
         IsLoading = false;
     }
 

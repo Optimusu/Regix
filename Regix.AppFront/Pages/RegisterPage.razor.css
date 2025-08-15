@@ -1,0 +1,52 @@
+﻿.panel-menu {
+    position: relative;
+    background-color: #ffffff;
+    border-radius: 12px;
+    max-width: 500px;
+    width: 100%;
+    padding: 40px 30px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+    /* Línea decorativa lateral */
+    .panel-menu::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 6px;
+        height: 100%;
+        background-color: #f44336;
+        border-top-left-radius: 12px;
+        border-bottom-left-radius: 12px;
+    }
+
+/* Título arriba centrado */
+.panel-title {
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+    background: linear-gradient(135deg, #1b6ec2, #5a2ea6);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+}
+
+/* Lista de botones */
+.panel-button-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Botones */
+.panel-button {
+    font-size: 1.2rem;
+    padding: 16px 24px;
+    border-radius: 8px;
+    text-align: left;
+    display: flex;
+    align-items: center;
+}

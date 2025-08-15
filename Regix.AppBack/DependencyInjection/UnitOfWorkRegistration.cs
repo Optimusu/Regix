@@ -62,6 +62,8 @@ namespace Trial.AppBack.DependencyInjection
             services.AddScoped<IPatientService, PatientService>();
             services.AddScoped<IPatient2UnitOfWork, Patient2UnitOfWork>();
             services.AddScoped<IPatient2Service, Patient2Service>();
+            services.AddScoped<IPatientControlUnitOfWork, PatientControlUnitOfWork>();
+            services.AddScoped<IPatientControlService, PatientControlService>();
         }
     }
 }

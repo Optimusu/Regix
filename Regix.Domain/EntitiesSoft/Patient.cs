@@ -10,6 +10,10 @@ public class Patient
     [Key]
     public Guid PatientId { get; set; }
 
+    [Required]
+    [Display(Name = nameof(Resource.Patient), ResourceType = typeof(Resource))]
+    public Guid PatientControlId { get; set; }
+
     [MaxLength(50, ErrorMessageResourceName = "Validation_MaxLength", ErrorMessageResourceType = typeof(Resource))]
     [Required(ErrorMessageResourceName = "Validation_Required", ErrorMessageResourceType = typeof(Resource))]
     [Display(Name = "Frist Name")]
@@ -49,7 +53,7 @@ public class Patient
     [MaxLength(20, ErrorMessageResourceName = "Validation_MaxLength", ErrorMessageResourceType = typeof(Resource))]
     [Required(ErrorMessageResourceName = "Validation_Required", ErrorMessageResourceType = typeof(Resource))]
     [Display(Name = "Document #")]
-    public string Nro_Document { get; set; } = null!;
+    public string? Nro_Document { get; set; }
 
     [MaxLength(256, ErrorMessageResourceName = "Validation_MaxLength", ErrorMessageResourceType = typeof(Resource))]
     [Required(ErrorMessageResourceName = "Validation_Required", ErrorMessageResourceType = typeof(Resource))]
@@ -70,7 +74,7 @@ public class Patient
     [MaxLength(256, ErrorMessageResourceName = "Validation_MaxLength", ErrorMessageResourceType = typeof(Resource))]
     [DataType(DataType.EmailAddress)]
     [Display(Name = "Email")]
-    public string UserName { get; set; } = null!;
+    public string? Email { get; set; }
 
     [Required]
     [Display(Name = "Lenguage")]
@@ -124,10 +128,6 @@ public class Patient
     [Display(Name = nameof(Resource.Active), ResourceType = typeof(Resource))]
     public bool Migrated { get; set; }
 
-    //Relaciones Virtuales
-
-    public int TotalPatien2 => Patient2s == null ? 0 : Patient2s.Count();
-
     //Relaciones
 
     public int CorporationId { get; set; }
@@ -138,6 +138,5 @@ public class Patient
     public Idioma? Idioma { get; set; }
     public EstadoCivil? EstadoCivil { get; set; }
     public Pharmacy? Pharmacy { get; set; }
-
-    public ICollection<Patient2>? Patient2s { get; set; }
+    public PatientControl? PatientControl { get; set; }
 }

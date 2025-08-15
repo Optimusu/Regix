@@ -3,35 +3,37 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
+using Regix.AppBack.Helper;
 using Regix.AppInfra.ErrorHandling;
-using Regix.Domain.Entities;
+using Regix.Domain.EntitiesSoft;
 using Regix.DomainLogic.Pagination;
-using Regix.UnitOfWork.InterfaceEntities;
+using Regix.DomainLogic.ResponsesSec;
+using Regix.UnitOfWork.InterfaceSoft;
 
-namespace Regix.AppBack.Controllers.Entities
+namespace Regix.AppBack.Controllers.EntitiesSoft
 {
     [ApiVersion("1.0")]
-    [Route("api/v{version:apiVersion}/corporations")]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+    [Route("api/v{version:apiVersion}/patientcontrols")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Patient, Administrator")]
     [ApiController]
-    public class CorporationsController : ControllerBase
+    public class PatientControlsController : ControllerBase
     {
-        private readonly ICorporationUnitOfWork _unitOfWork;
+        private readonly IPatientControlUnitOfWork _unitOfWork;
         private readonly IStringLocalizer _localizer;
 
-        public CorporationsController(ICorporationUnitOfWork unitOfWork, IStringLocalizer localizer)
+        public PatientControlsController(IPatientControlUnitOfWork unitOfWork, IStringLocalizer localizer)
         {
             _unitOfWork = unitOfWork;
             _localizer = localizer;
         }
 
-        [AllowAnonymous]
-        [HttpGet("loadCombo")]
-        public async Task<IActionResult> GetComboAsync()
+        [HttpPost("PatientControlData")]
+        public async Task<IActionResult> PostAsync(PatientControlDTO modelo)
         {
             try
             {
-                var response = await _unitOfWork.ComboAsync();
+                ClaimsDTOs userClaimsInfo = User.GetEmailOrThrow(_localizer);
+                var response = await _unitOfWork.ControlDataAsync(modelo, userClaimsInfo.UserName);
                 return ResponseHelper.Format(response);
             }
             catch (ApplicationException ex)
@@ -49,7 +51,8 @@ namespace Regix.AppBack.Controllers.Entities
         {
             try
             {
-                var response = await _unitOfWork.GetAsync(pagination);
+                ClaimsDTOs userClaimsInfo = User.GetEmailOrThrow(_localizer);
+                var response = await _unitOfWork.GetAsync(pagination, userClaimsInfo.UserName);
                 return ResponseHelper.Format(response);
             }
             catch (ApplicationException ex)
@@ -63,7 +66,7 @@ namespace Regix.AppBack.Controllers.Entities
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetAsync(int id)
+        public async Task<IActionResult> GetAsync(Guid id)
         {
             try
             {
@@ -81,7 +84,7 @@ namespace Regix.AppBack.Controllers.Entities
         }
 
         [HttpPut]
-        public async Task<IActionResult> PutAsync(Corporation modelo)
+        public async Task<IActionResult> PutAsync(PatientControl modelo)
         {
             try
             {
@@ -99,11 +102,12 @@ namespace Regix.AppBack.Controllers.Entities
         }
 
         [HttpPost]
-        public async Task<IActionResult> PostAsync(Corporation modelo)
+        public async Task<IActionResult> PostAsync(PatientControl modelo)
         {
             try
             {
-                var response = await _unitOfWork.AddAsync(modelo);
+                ClaimsDTOs userClaimsInfo = User.GetEmailOrThrow(_localizer);
+                var response = await _unitOfWork.AddAsync(modelo, userClaimsInfo.UserName);
                 return ResponseHelper.Format(response);
             }
             catch (ApplicationException ex)
@@ -117,7 +121,7 @@ namespace Regix.AppBack.Controllers.Entities
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAsync(int id)
+        public async Task<IActionResult> DeleteAsync(Guid id)
         {
             try
             {

@@ -16,6 +16,8 @@ public class AccountUnitOfWork : IAccountUnitOfWork
 
     public async Task<ActionResponse<TokenDTO>> LoginAsync(LoginDTO modelo) => await _accountService.LoginAsync(modelo);
 
+    public async Task<ActionResponse<TokenDTO>> RegisterAsync(RegisterDTO modelo) => await _accountService.RegisterAsync(modelo);
+
     public async Task<ActionResponse<bool>> RecoverPasswordAsync(EmailDTO modelo, string frontUrl) => await _accountService.RecoverPasswordAsync(modelo, frontUrl);
 
     public async Task<ActionResponse<bool>> ResetPasswordAsync(ResetPasswordDTO modelo) => await _accountService.ResetPasswordAsync(modelo);
