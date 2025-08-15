@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Regix.AppFront.GenericoModal;
 using Regix.AppFront.Helpers;
 using Regix.Domain.EntitiesSoft;
 using Regix.HttpServices;
@@ -37,6 +38,10 @@ public partial class RegisterPage
         bool errorHandled = await _responseHandler.HandleErrorAsync(responseHttp);
         if (errorHandled) return;
         PatientControl = responseHttp.Response!;
+    }
 
+    private void ClickPatient()
+    {
+        _navigation.NavigateTo("/regpatient/create");
     }
 }
