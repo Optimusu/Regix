@@ -12,7 +12,7 @@ using Regix.AppInfra;
 namespace Regix.AppBack.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250815184801_InitialDb")]
+    [Migration("20250816123312_InitialDb")]
     partial class InitialDb
     {
         /// <inheritdoc />

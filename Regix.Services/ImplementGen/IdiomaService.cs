@@ -78,7 +78,7 @@ public class IdiomaService : IIdiomaService
             return new ActionResponse<IEnumerable<Idioma>>
             {
                 WasSuccess = true,
-                Result = queryable
+                Result = modelo
             };
         }
         catch (Exception ex)

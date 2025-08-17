@@ -40,6 +40,7 @@ public class DataContext : IdentityDbContext<User>
     public DbSet<SexoAsignado> SexoAsignados => Set<SexoAsignado>();
     public DbSet<Idioma> Idiomas => Set<Idioma>();
     public DbSet<Pharmacy> Pharmacies => Set<Pharmacy>();
+    public DbSet<Anticonception> Anticonceptions => Set<Anticonception>();
 
     //EntitiesSoft
 

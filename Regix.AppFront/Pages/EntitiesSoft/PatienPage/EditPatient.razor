@@ -1,6 +1,6 @@
 ﻿@page "/regpatient/edit/{Id:guid}"
-@attribute [Authorize(Roles = "Administrator")]
-
+@attribute [Authorize(Roles = "Patient")]
+@layout LoginLayout
 
 @if (Patient is null || IsLoading)
 {
@@ -16,8 +16,7 @@ else
             <div class="card-body">
                 <FormPatient Patient="Patient"
                              OnSubmit="Edit"
-                             ReturnAction="Return"
-                             ExitAction="ExitAction" />
+                             ReturnAction="Return"/>
             </div>
 
         </div>

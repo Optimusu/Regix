@@ -33,6 +33,7 @@ public class Patient
     public string? Preferido { get; set; }
 
     [Required]
+    [Range(1, double.MaxValue, ErrorMessageResourceName = nameof(Resource.Validation_Combo), ErrorMessageResourceType = typeof(Resource))]
     [Display(Name = "Sex Birth")]
     public int SexoAsignadoId { get; set; }
 
@@ -77,6 +78,7 @@ public class Patient
     public string? Email { get; set; }
 
     [Required]
+    [Range(1, double.MaxValue, ErrorMessageResourceName = nameof(Resource.Validation_Combo), ErrorMessageResourceType = typeof(Resource))]
     [Display(Name = "Lenguage")]
     public int IdiomaId { get; set; }
 
@@ -84,6 +86,7 @@ public class Patient
     public bool Interpreter { get; set; }
 
     [Required]
+    [Range(1, double.MaxValue, ErrorMessageResourceName = nameof(Resource.Validation_Combo), ErrorMessageResourceType = typeof(Resource))]
     [Display(Name = "Marital Status")]
     public int EstadoCivilId { get; set; }
 
@@ -93,6 +96,7 @@ public class Patient
     public string? Ocupacion { get; set; }
 
     [Required]
+    [Range(1, double.MaxValue, ErrorMessageResourceName = nameof(Resource.Validation_Combo), ErrorMessageResourceType = typeof(Resource))]
     [Display(Name = "Pharmacy")]
     public int PharmacyId { get; set; }
 

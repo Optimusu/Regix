@@ -1,11 +1,9 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Regix.AppFront.GenericoModal;
 using Regix.AppFront.Helpers;
 using Regix.Domain.EntitiesSoft;
 using Regix.HttpServices;
-using System.Buffers.Text;
+using System.Net.NetworkInformation;
 using System.Security.Claims;
 
 namespace Regix.AppFront.Pages;
@@ -16,12 +14,17 @@ public partial class RegisterPage
     [Inject] private IRepository _repository { get; set; } = null!;
     [Inject] private NavigationManager _navigation { get; set; } = null!;
     [Inject] private HttpResponseHandler _responseHandler { get; set; } = null!;
+    [Inject] private PatientControlStateService _patientState { get; set; } = null!;
+
     [CascadingParameter] private Task<AuthenticationState> authenticationState { get; set; } = null!;
 
     private PatientControlDTO PatientControlDTO = new();
     private PatientControl PatientControl = new();
     private string BaseUrl = "/api/v1/patientcontrols";
-    private bool CompletePatient = true;
+    private bool ViewGinecologico = false;
+    private bool CompletePatient = false;
+    private bool CompletePatient2 = false;
+    private bool CompleteGinecologico3 = false;
 
     protected override async Task OnInitializedAsync()
     {
@@ -38,10 +41,35 @@ public partial class RegisterPage
         bool errorHandled = await _responseHandler.HandleErrorAsync(responseHttp);
         if (errorHandled) return;
         PatientControl = responseHttp.Response!;
+        _patientState.Set(PatientControl);
+        ViewGinecologico = PatientControl.Patients!.FirstOrDefault()!.SexoAsignado!.Name == "Female" ? true : false;
+        CompletePatient = PatientControl.TPatient == 0 ? false : true;
+        CompletePatient2 = PatientControl.TPatient2 == 0 ? false : true;
     }
 
     private void ClickPatient()
     {
-        _navigation.NavigateTo("/regpatient/create");
+        //Llamamos a Register y enviamos el PatientControlId
+        if (PatientControl.TPatient == 0)
+        {
+            _navigation.NavigateTo($"/regpatient/create");
+        }
+        else
+        {
+            _navigation.NavigateTo($"/regpatient/edit/{PatientControl.Patients!.FirstOrDefault()!.PatientId}");
+        }
+    }
+
+    private void ClickPatient2()
+    {
+        //Llamamos a Register y enviamos el PatientControlId
+        if (PatientControl.TPatient2 == 0)
+        {
+            _navigation.NavigateTo($"/regpatient2s/create");
+        }
+        else
+        {
+            _navigation.NavigateTo($"/regpatient2s/edit/{PatientControl.Patient2s!.FirstOrDefault()!.Patient2Id}");
+        }
     }
 }

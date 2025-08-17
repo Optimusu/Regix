@@ -56,6 +56,8 @@ namespace Trial.AppBack.DependencyInjection
             services.AddScoped<IIdiomaService, IdiomaService>();
             services.AddScoped<IPharmacyUnitOfWork, PharmacyUnitOfWork>();
             services.AddScoped<IPharmacyService, PharmacyService>();
+            services.AddScoped<IAnticonceptionUnitOfWork, AnticonceptionUnitOfWork>();
+            services.AddScoped<IAnticonceptionService, AnticonceptionService>();
 
             //EntitiesSoft
             services.AddScoped<IPatientUnitOfWork, PatientUnitOfWork>();

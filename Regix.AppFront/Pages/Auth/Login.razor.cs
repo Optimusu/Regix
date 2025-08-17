@@ -47,7 +47,7 @@ public partial class Login
                 break;
 
             case "Patient":
-                _navigation.NavigateTo("/regpatient/create");
+                _navigation.NavigateTo("/register");
                 break;
 
             default:

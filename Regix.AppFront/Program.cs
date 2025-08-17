@@ -25,6 +25,8 @@ builder.Services.AddSweetAlert2();
 builder.Services.AddScoped<HttpResponseHandler>();
 //Para manejar valor de session por la aplicacion
 builder.Services.AddSingleton<ISessionService, SessionService>();
+builder.Services.AddSingleton<PatientControlStateService>();
+
 
 // Reemplazar la configuración del IRepository
 builder.Services.AddScoped(sp =>

@@ -1,27 +1,16 @@
-using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
-using Regix.AppFront.Helpers;
-using Regix.Domain.EntitiesGen;
-using Regix.Domain.EntitiesSoft;
-using Regix.HttpServices;
 using System.ComponentModel.DataAnnotations;
 using System.Linq.Expressions;
 using System.Reflection;
+using Regix.Domain.EntitiesGen;
 
-namespace Regix.AppFront.Pages.EntitiesSoft.Patient2Page;
+namespace Regix.AppFront.Pages.EntitiesGen.AnticonceptionPage;
 
-public partial class FormPatient2
+public partial class FormAnticonception
 {
-    [Inject] private SweetAlertService _sweetAlert { get; set; } = null!;
-    [Inject] private IRepository _repository { get; set; } = null!;
-    [Inject] private NavigationManager _navigationManager { get; set; } = null!;
-    [Inject] private HttpResponseHandler _responseHandler { get; set; } = null!;
-
-    [Parameter, EditorRequired] public Patient2 Patient2 { get; set; } = null!;
+    [Parameter, EditorRequired] public Anticonception Anticonception { get; set; } = null!;
     [Parameter, EditorRequired] public EventCallback OnSubmit { get; set; }
     [Parameter, EditorRequired] public EventCallback ReturnAction { get; set; }
-
-    private DateTime? DateMin = new DateTime(1900, 1, 1);
 
     private string GetDisplayName<T>(Expression<Func<T>> expression)
     {

@@ -69,6 +69,8 @@ public class PatientControlService : IPatientControlService
         }
 
         PatientControl? patientControl = await _context.PatientControls
+            .Include(x => x.Patients!).ThenInclude(x => x.SexoAsignado)
+            .Include(x => x.Patient2s)
             .FirstOrDefaultAsync(x => x.CorporationId == user.CorporationId && x.UserName == user.UserName && x.FirstName == modelo.FirstName);
         return new ActionResponse<PatientControl>
         {

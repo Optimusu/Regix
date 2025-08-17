@@ -15,26 +15,28 @@ public partial class EditPatient2
     [Inject] private NavigationManager _navigationManager { get; set; } = null!;
     [Inject] private SweetAlertService _sweetAlert { get; set; } = null!;
     [Inject] private HttpResponseHandler _responseHandler { get; set; } = null!;
-    [Inject] private ModalService _modalService { get; set; } = null!;
+    [Inject] private PatientControlStateService _patientState { get; set; } = null!;
 
     //Parameters
 
-    [Parameter] public Guid Id { get; set; } //PatientId
+    [Parameter] public Guid Id { get; set; } //Patient2Id
     [Parameter] public string? Title { get; set; }
 
     //Local State
 
-    private Patient? Patient;
     private Patient2? Patient2;
+    private PatientControl model = new();
     private const string BaseUrlPatient = "/api/v1/regpatient";
     private const string BaseUrl = "/api/v1/regpatient2s";
-    private const string BaseView = "/regpatient/edit";
+    private const string BaseView = "/register";
 
     protected override async Task OnInitializedAsync()
     {
-        var responseHttp = await _repository.GetAsync<Patient>($"{BaseUrlPatient}/{Id}");
+        var responseHttp = await _repository.GetAsync<Patient2>($"{BaseUrl}/{Id}");
         if (await _responseHandler.HandleErrorAsync(responseHttp)) return;
-        Patient = responseHttp.Response;
+        Patient2 = responseHttp.Response;
+        model = _patientState.Get()!;
+        Title = $"{model.FirstName} {model.LastName}";
     }
 
     private async Task Edit()
@@ -43,24 +45,12 @@ public partial class EditPatient2
         bool errorHandled = await _responseHandler.HandleErrorAsync(responseHttp);
         if (errorHandled) return;
 
-        //await _sweetAlert.FireAsync(Messages.UpdateSuccessTitle, Messages.UpdateSuccessMessage, SweetAlertIcon.Success);
-        //if (Patient!.TotalPatien2 == 0)
-        //{
-        //    //_navigationManager.NavigateTo($"/regpatient");
-        //}
-        //else
-        //{
-        //    //_navigationManager.NavigateTo($"/regpatient");
-        //}
+        await _sweetAlert.FireAsync(Messages.UpdateSuccessTitle, Messages.UpdateSuccessMessage, SweetAlertIcon.Success);
+        _navigationManager.NavigateTo($"{BaseView}");
     }
 
     private void Return()
     {
-        _navigationManager.NavigateTo($"{BaseView}/{Patient!.PatientId}");
-    }
-
-    private void ExitAction()
-    {
-        _navigationManager.NavigateTo($"/regpatient");
+        _navigationManager.NavigateTo($"{BaseView}");
     }
 }

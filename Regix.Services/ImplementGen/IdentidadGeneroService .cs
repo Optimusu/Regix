@@ -78,7 +78,7 @@ public class IdentidadGeneroService : IIdentidadGeneroService
             return new ActionResponse<IEnumerable<IdentidadGenero>>
             {
                 WasSuccess = true,
-                Result = queryable
+                Result = modelo
             };
         }
         catch (Exception ex)

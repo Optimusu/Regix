@@ -15,7 +15,7 @@ public partial class CreatePatient2
     [Inject] private NavigationManager _navigationManager { get; set; } = null!;
     [Inject] private SweetAlertService _sweetAlert { get; set; } = null!;
     [Inject] private HttpResponseHandler _responseHandler { get; set; } = null!;
-    [Inject] private ModalService _modalService { get; set; } = null!;
+    [Inject] private PatientControlStateService _patientState { get; set; } = null!;
 
     //Parameters
 
@@ -26,17 +26,16 @@ public partial class CreatePatient2
 
     private Patient Patient = new();
     private Patient2 Patient2 = new() { DateStart = DateTime.Now };
+    private PatientControl model = new();
     private const string BaseUrlPatient = "/api/v1/regpatient";
     private string BaseUrl = "/api/v1/regpatient2s";
     private string BaseView = "/regpatient/edit";
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
-        var responseHttp = await _repository.GetAsync<Patient>($"{BaseUrlPatient}/{Id}");
-        if (await _responseHandler.HandleErrorAsync(responseHttp)) return;
-
-        Patient = responseHttp.Response!;
-        Title = Patient.FullName;
+        model = _patientState.Get()!;
+        Patient2.PatientControlId = model.PatientControlId;
+        Title = $"{model.FirstName} {model.LastName}";
     }
 
     private async Task Create()
@@ -46,16 +45,11 @@ public partial class CreatePatient2
         if (errorHandled) return;
 
         await _sweetAlert.FireAsync(Messages.CreateSuccessTitle, Messages.CreateSuccessMessage, SweetAlertIcon.Success);
-        //_navigationManager.NavigateTo($"/regpatient");
+        _navigationManager.NavigateTo($"/register");
     }
 
     private void Return()
     {
-        _navigationManager.NavigateTo($"{BaseView}/{Id}");
-    }
-
-    private void ExitAction()
-    {
-        _navigationManager.NavigateTo($"/regpatient");
+        _navigationManager.NavigateTo($"/register");
     }
 }

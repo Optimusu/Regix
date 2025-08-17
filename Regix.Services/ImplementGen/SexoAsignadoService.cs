@@ -78,7 +78,7 @@ public class SexoAsignadoService : ISexoAsignadoService
             return new ActionResponse<IEnumerable<SexoAsignado>>
             {
                 WasSuccess = true,
-                Result = queryable
+                Result = modelo
             };
         }
         catch (Exception ex)

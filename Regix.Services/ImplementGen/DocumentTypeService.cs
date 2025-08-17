@@ -78,7 +78,7 @@ public class DocumentTypeService : IDocumentTypeService
             return new ActionResponse<IEnumerable<DocumentType>>
             {
                 WasSuccess = true,
-                Result = queryable
+                Result = modelo
             };
         }
         catch (Exception ex)

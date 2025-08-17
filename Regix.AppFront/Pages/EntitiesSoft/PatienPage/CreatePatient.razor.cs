@@ -1,5 +1,6 @@
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Regix.AppFront.GenericoModal;
 using Regix.AppFront.Helpers;
 using Regix.Domain.EntitiesSoft;
@@ -15,17 +16,26 @@ public partial class CreatePatient
     [Inject] private NavigationManager _navigationManager { get; set; } = null!;
     [Inject] private SweetAlertService _sweetAlert { get; set; } = null!;
     [Inject] private HttpResponseHandler _responseHandler { get; set; } = null!;
-    [Inject] private ModalService _modalService { get; set; } = null!;
+    [Inject] private PatientControlStateService _patientState { get; set; } = null!;
 
     //Parameters
-
     [Parameter] public string? Title { get; set; }
 
     //Local State
 
     private Patient Patient = new() { Active = true, DOB = DateTime.Now };
+    private PatientControl model = new();
     private string BaseUrl = "/api/v1/regpatient";
     private string BaseView = "/regpatient";
+
+    protected override void OnInitialized()
+    {
+        model = _patientState.Get()!;
+        Patient.PatientControlId = model.PatientControlId;
+        Patient.FirstName = model.FirstName;
+        Patient.LastName = model.LastName;
+        Patient.DOB = Convert.ToDateTime(model.DOB);
+    }
 
     private async Task Create()
     {
@@ -34,20 +44,12 @@ public partial class CreatePatient
         if (errorHandled) return;
         Patient = responseHttp.Response!;
 
-        //await _sweetAlert.FireAsync(Messages.CreateSuccessTitle, Messages.CreateSuccessMessage, SweetAlertIcon.Success);
-        _modalService.Close();
-        _navigationManager.NavigateTo($"/regpatient2s/create/{Patient.PatientId}");
+        await _sweetAlert.FireAsync(Messages.CreateSuccessTitle, Messages.CreateSuccessMessage, SweetAlertIcon.Success);
+        _navigationManager.NavigateTo($"/register");
     }
 
     private void Return()
     {
-        _modalService.Close();
-        _navigationManager.NavigateTo("/");
-        _navigationManager.NavigateTo($"{BaseView}");
-    }
-
-    private void ExitAction()
-    {
-        _navigationManager.NavigateTo($"{BaseView}");
+        _navigationManager.NavigateTo($"/register");
     }
 }

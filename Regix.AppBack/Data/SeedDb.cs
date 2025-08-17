@@ -35,6 +35,7 @@ public class SeedDb
         await CheckSexoAsignado();
         await CheckPharmacy();
         await CheckLenguage();
+        await CheckAnticonception();
         await CheckUserAsync("Optimus U", "TrialPro", "hebalmert", "optimusu.soft@gmail.com", "+1 786 503", UserType.Admin);
     }
 
@@ -122,6 +123,34 @@ public class SeedDb
         {
             _context.Idiomas.Add(new Idioma { Name = "English", Active = true });
             _context.Idiomas.Add(new Idioma { Name = "Spanish", Active = true });
+            await _context.SaveChangesAsync();
+        }
+    }
+
+    private async Task CheckAnticonception()
+    {
+        if (!_context.Anticonceptions.Any())
+        {
+            _context.Anticonceptions.AddRange(new[]
+            {
+                new Anticonception { Name = "Oral contraceptive pills", Active = true },
+                new Anticonception { Name = "Contraceptive patch", Active = true },
+                new Anticonception { Name = "Vaginal ring", Active = true },
+                new Anticonception { Name = "Injectable contraceptive", Active = true },
+                new Anticonception { Name = "Implant", Active = true },
+                new Anticonception { Name = "Hormonal IUD", Active = true },
+                new Anticonception { Name = "Copper IUD", Active = true },
+                new Anticonception { Name = "Male condom", Active = true },
+                new Anticonception { Name = "Female condom", Active = true },
+                new Anticonception { Name = "Diaphragm", Active = true },
+                new Anticonception { Name = "Cervical cap", Active = true },
+                new Anticonception { Name = "Spermicide", Active = true },
+                new Anticonception { Name = "Male sterilization (Vasectomy)", Active = true },
+                new Anticonception { Name = "Female sterilization (Tubal ligation)", Active = true },
+                new Anticonception { Name = "Fertility awareness methods", Active = true },
+                new Anticonception { Name = "Withdrawal method", Active = true },
+                new Anticonception { Name = "No contraception", Active = true }
+            });
             await _context.SaveChangesAsync();
         }
     }

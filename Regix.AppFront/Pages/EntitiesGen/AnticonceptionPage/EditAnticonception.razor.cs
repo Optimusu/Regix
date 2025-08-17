@@ -2,12 +2,12 @@ using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
 using Regix.AppFront.GenericoModal;
 using Regix.AppFront.Helpers;
-using Regix.Domain.EntitiesSoft;
+using Regix.Domain.EntitiesGen;
 using Regix.HttpServices;
 
-namespace Regix.AppFront.Pages.EntitiesSoft.PatienPage;
+namespace Regix.AppFront.Pages.EntitiesGen.AnticonceptionPage;
 
-public partial class EditPatient
+public partial class EditAnticonception
 {
     //Services
 
@@ -19,42 +19,39 @@ public partial class EditPatient
 
     //Parameters
 
-    [Parameter] public Guid Id { get; set; } //PatientId
+    [Parameter] public int Id { get; set; }
     [Parameter] public string? Title { get; set; }
 
     //Local State
 
-    private Patient? Patient;
-    private bool IsLoading = false;
-    private const string BaseUrl = "/api/v1/regpatient";
-    private const string BaseView = "/register";
+    private Anticonception? Anticonception;
+    private const string BaseUrl = "/api/v1/anticonceptions";
+    private const string BaseView = "/anticonceptions";
 
     protected override async Task OnInitializedAsync()
     {
-        var responseHttp = await _repository.GetAsync<Patient>($"{BaseUrl}/{Id}");
+        var responseHttp = await _repository.GetAsync<Anticonception>($"{BaseUrl}/{Id}");
         if (await _responseHandler.HandleErrorAsync(responseHttp)) return;
-        Patient = responseHttp.Response;
+
+        Anticonception = responseHttp.Response;
     }
 
     private async Task Edit()
     {
-        IsLoading = true;
-
-        var responseHttp = await _repository.PutAsync($"{BaseUrl}", Patient);
+        var responseHttp = await _repository.PutAsync($"{BaseUrl}", Anticonception);
         bool errorHandled = await _responseHandler.HandleErrorAsync(responseHttp);
-        if (errorHandled)
-        {
-            IsLoading = false;
-            return;
-        }
+        if (errorHandled) return;
 
         await _sweetAlert.FireAsync(Messages.UpdateSuccessTitle, Messages.UpdateSuccessMessage, SweetAlertIcon.Success);
-        _navigationManager.NavigateTo($"{BaseView}");
-        IsLoading = false;
+        _modalService.Close();
+        _navigationManager.NavigateTo("/");
+        _navigationManager.NavigateTo(BaseView);
     }
 
     private void Return()
     {
+        _modalService.Close();
+        _navigationManager.NavigateTo("/");
         _navigationManager.NavigateTo($"{BaseView}");
     }
 }

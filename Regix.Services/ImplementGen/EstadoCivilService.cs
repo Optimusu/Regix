@@ -78,7 +78,7 @@ public class EstadoCivilService : IEstadoCivilService
             return new ActionResponse<IEnumerable<EstadoCivil>>
             {
                 WasSuccess = true,
-                Result = queryable
+                Result = modelo
             };
         }
         catch (Exception ex)

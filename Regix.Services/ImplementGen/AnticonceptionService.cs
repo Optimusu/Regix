@@ -14,7 +14,7 @@ using Regix.Services.InterfacesGen;
 
 namespace Regix.Services.ImplementGen;
 
-public class PharmacyService : IPharmacyService
+public class AnticonceptionService : IAnticonceptionService
 {
     private readonly DataContext _context;
     private readonly IHttpContextAccessor _httpContextAccessor;
@@ -23,7 +23,7 @@ public class PharmacyService : IPharmacyService
     private readonly IStringLocalizer _localizer;
     private readonly IUserHelper _userHelper;
 
-    public PharmacyService(DataContext context, IHttpContextAccessor httpContextAccessor,
+    public AnticonceptionService(DataContext context, IHttpContextAccessor httpContextAccessor,
         ITransactionManager transactionManager, HttpErrorHandler httpErrorHandler,
         IStringLocalizer localizer, IUserHelper userHelper)
     {
@@ -35,21 +35,21 @@ public class PharmacyService : IPharmacyService
         _userHelper = userHelper;
     }
 
-    public async Task<ActionResponse<IEnumerable<Pharmacy>>> ComboAsync()
+    public async Task<ActionResponse<IEnumerable<Anticonception>>> ComboAsync()
     {
         try
         {
-            List<Pharmacy> ListModel = await _context.Pharmacies.Where(x => x.Active).ToListAsync();
+            List<Anticonception> ListModel = await _context.Anticonceptions.Where(x => x.Active).ToListAsync();
             // Insertar el elemento neutro al inicio
-            var defaultItem = new Pharmacy
+            var defaultItem = new Anticonception
             {
-                PharmacyId = 0,
-                Name = "[Select Pharmacy]",
+                AnticonceptionId = 0,
+                Name = "[Select Anticonception]",
                 Active = true
             };
             ListModel.Insert(0, defaultItem);
 
-            return new ActionResponse<IEnumerable<Pharmacy>>
+            return new ActionResponse<IEnumerable<Anticonception>>
             {
                 WasSuccess = true,
                 Result = ListModel
@@ -57,15 +57,15 @@ public class PharmacyService : IPharmacyService
         }
         catch (Exception ex)
         {
-            return await _httpErrorHandler.HandleErrorAsync<IEnumerable<Pharmacy>>(ex); // ✅ Manejo de errores automático
+            return await _httpErrorHandler.HandleErrorAsync<IEnumerable<Anticonception>>(ex); // ✅ Manejo de errores automático
         }
     }
 
-    public async Task<ActionResponse<IEnumerable<Pharmacy>>> GetAsync(PaginationDTO pagination)
+    public async Task<ActionResponse<IEnumerable<Anticonception>>> GetAsync(PaginationDTO pagination)
     {
         try
         {
-            var queryable = _context.Pharmacies.AsQueryable();
+            var queryable = _context.Anticonceptions.AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(pagination.Filter))
             {
@@ -75,7 +75,7 @@ public class PharmacyService : IPharmacyService
             await _httpContextAccessor.HttpContext!.InsertParameterPagination(queryable, pagination.RecordsNumber);
             var modelo = await queryable.OrderBy(x => x.Name).Paginate(pagination).ToListAsync();
 
-            return new ActionResponse<IEnumerable<Pharmacy>>
+            return new ActionResponse<IEnumerable<Anticonception>>
             {
                 WasSuccess = true,
                 Result = modelo
@@ -83,35 +83,35 @@ public class PharmacyService : IPharmacyService
         }
         catch (Exception ex)
         {
-            return await _httpErrorHandler.HandleErrorAsync<IEnumerable<Pharmacy>>(ex); // ✅ Manejo de errores automático
+            return await _httpErrorHandler.HandleErrorAsync<IEnumerable<Anticonception>>(ex); // ✅ Manejo de errores automático
         }
     }
 
-    public async Task<ActionResponse<Pharmacy>> GetAsync(int id)
+    public async Task<ActionResponse<Anticonception>> GetAsync(int id)
     {
         try
         {
             if (id <= 0)
             {
-                return new ActionResponse<Pharmacy>
+                return new ActionResponse<Anticonception>
                 {
                     WasSuccess = false,
                     Message = _localizer["Generic_InvalidId"]
                 };
             }
-            var modelo = await _context.Pharmacies
+            var modelo = await _context.Anticonceptions
                 .AsNoTracking()
-                .FirstOrDefaultAsync(x => x.PharmacyId == id);
+                .FirstOrDefaultAsync(x => x.AnticonceptionId == id);
             if (modelo == null)
             {
-                return new ActionResponse<Pharmacy>
+                return new ActionResponse<Anticonception>
                 {
                     WasSuccess = false,
                     Message = "Problemas para Enconstrar el Registro Indicado"
                 };
             }
 
-            return new ActionResponse<Pharmacy>
+            return new ActionResponse<Anticonception>
             {
                 WasSuccess = true,
                 Result = modelo
@@ -119,15 +119,15 @@ public class PharmacyService : IPharmacyService
         }
         catch (Exception ex)
         {
-            return await _httpErrorHandler.HandleErrorAsync<Pharmacy>(ex); // ✅ Manejo de errores automático
+            return await _httpErrorHandler.HandleErrorAsync<Anticonception>(ex); // ✅ Manejo de errores automático
         }
     }
 
-    public async Task<ActionResponse<Pharmacy>> UpdateAsync(Pharmacy modelo)
+    public async Task<ActionResponse<Anticonception>> UpdateAsync(Anticonception modelo)
     {
-        if (modelo == null || modelo.PharmacyId <= 0)
+        if (modelo == null || modelo.AnticonceptionId <= 0)
         {
-            return new ActionResponse<Pharmacy>
+            return new ActionResponse<Anticonception>
             {
                 WasSuccess = false,
                 Message = _localizer["Generic_InvalidId"]
@@ -137,12 +137,12 @@ public class PharmacyService : IPharmacyService
         await _transactionManager.BeginTransactionAsync();
         try
         {
-            _context.Pharmacies.Update(modelo);
+            _context.Anticonceptions.Update(modelo);
 
             await _transactionManager.SaveChangesAsync();
             await _transactionManager.CommitTransactionAsync();
 
-            return new ActionResponse<Pharmacy>
+            return new ActionResponse<Anticonception>
             {
                 WasSuccess = true,
                 Result = modelo,
@@ -152,15 +152,15 @@ public class PharmacyService : IPharmacyService
         catch (Exception ex)
         {
             await _transactionManager.RollbackTransactionAsync();
-            return await _httpErrorHandler.HandleErrorAsync<Pharmacy>(ex); //Manejo de errores automático
+            return await _httpErrorHandler.HandleErrorAsync<Anticonception>(ex); //Manejo de errores automático
         }
     }
 
-    public async Task<ActionResponse<Pharmacy>> AddAsync(Pharmacy modelo)
+    public async Task<ActionResponse<Anticonception>> AddAsync(Anticonception modelo)
     {
         if (!ValidatorModel.IsValid(modelo, out var errores))
         {
-            return new ActionResponse<Pharmacy>
+            return new ActionResponse<Anticonception>
             {
                 WasSuccess = false,
                 Message = _localizer["Generic_InvalidModel"] //Clave multilenguaje para modelo nulo
@@ -170,11 +170,11 @@ public class PharmacyService : IPharmacyService
         await _transactionManager.BeginTransactionAsync();
         try
         {
-            _context.Pharmacies.Add(modelo);
+            _context.Anticonceptions.Add(modelo);
             await _transactionManager.SaveChangesAsync();
             await _transactionManager.CommitTransactionAsync();
 
-            return new ActionResponse<Pharmacy>
+            return new ActionResponse<Anticonception>
             {
                 WasSuccess = true,
                 Result = modelo,
@@ -184,7 +184,7 @@ public class PharmacyService : IPharmacyService
         catch (Exception ex)
         {
             await _transactionManager.RollbackTransactionAsync();
-            return await _httpErrorHandler.HandleErrorAsync<Pharmacy>(ex); // ✅ Manejo de errores automático
+            return await _httpErrorHandler.HandleErrorAsync<Anticonception>(ex); // ✅ Manejo de errores automático
         }
     }
 
@@ -193,7 +193,7 @@ public class PharmacyService : IPharmacyService
         await _transactionManager.BeginTransactionAsync();
         try
         {
-            var DataRemove = await _context.Pharmacies.FindAsync(id);
+            var DataRemove = await _context.Anticonceptions.FindAsync(id);
             if (DataRemove == null)
             {
                 return new ActionResponse<bool>
@@ -203,7 +203,7 @@ public class PharmacyService : IPharmacyService
                 };
             }
 
-            _context.Pharmacies.Remove(DataRemove);
+            _context.Anticonceptions.Remove(DataRemove);
 
             await _transactionManager.SaveChangesAsync();
             await _transactionManager.CommitTransactionAsync();
