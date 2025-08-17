@@ -42,6 +42,7 @@ public class DataContext : IdentityDbContext<User>
     public DbSet<Pharmacy> Pharmacies => Set<Pharmacy>();
     public DbSet<Anticonception> Anticonceptions => Set<Anticonception>();
     public DbSet<Regular> Regulars => Set<Regular>();
+    public DbSet<EtniaRaza> EtniaRazas => Set<EtniaRaza>();
 
     //EntitiesSoft
 
