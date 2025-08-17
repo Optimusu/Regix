@@ -8,130 +8,129 @@ using Regix.Domain.EntitiesGen;
 using Regix.DomainLogic.Pagination;
 using Regix.UnitOfWork.InterfacesGen;
 
-namespace Regix.AppBack.Controllers.EntitiesGen
+namespace Regix.AppBack.Controllers.EntitiesGen;
+
+[ApiVersion("1.0")]
+[Route("api/v{version:apiVersion}/identidadgeneros")]
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin, Administrator")]
+[ApiController]
+public class IdentidadGenerosController : ControllerBase
 {
-    [ApiVersion("1.0")]
-    [Route("api/v{version:apiVersion}/identidadgeneros")]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin, Administrator")]
-    [ApiController]
-    public class IdentidadGenerosController : ControllerBase
+    private readonly IIdentidadGeneroUnitOfWork _unitOfWork;
+    private readonly IStringLocalizer _localizer;
+
+    public IdentidadGenerosController(IIdentidadGeneroUnitOfWork unitOfWork, IStringLocalizer localizer)
     {
-        private readonly IIdentidadGeneroUnitOfWork _unitOfWork;
-        private readonly IStringLocalizer _localizer;
+        _unitOfWork = unitOfWork;
+        _localizer = localizer;
+    }
 
-        public IdentidadGenerosController(IIdentidadGeneroUnitOfWork unitOfWork, IStringLocalizer localizer)
+    [AllowAnonymous]
+    [HttpGet("loadCombo")]
+    public async Task<IActionResult> GetComboAsync()
+    {
+        try
         {
-            _unitOfWork = unitOfWork;
-            _localizer = localizer;
+            var response = await _unitOfWork.ComboAsync();
+            return ResponseHelper.Format(response);
         }
-
-        [AllowAnonymous]
-        [HttpGet("loadCombo")]
-        public async Task<IActionResult> GetComboAsync()
+        catch (ApplicationException ex)
         {
-            try
-            {
-                var response = await _unitOfWork.ComboAsync();
-                return ResponseHelper.Format(response);
-            }
-            catch (ApplicationException ex)
-            {
-                return BadRequest(ex.Message); // Ya está localizado
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, _localizer["Generic_UnexpectedError"] + ": " + ex.Message);
-            }
+            return BadRequest(ex.Message); // Ya está localizado
         }
-
-        [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery] PaginationDTO pagination)
+        catch (Exception ex)
         {
-            try
-            {
-                var response = await _unitOfWork.GetAsync(pagination);
-                return ResponseHelper.Format(response);
-            }
-            catch (ApplicationException ex)
-            {
-                return BadRequest(ex.Message); // Ya está localizado
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, _localizer["Generic_UnexpectedError"] + ": " + ex.Message);
-            }
+            return StatusCode(500, _localizer["Generic_UnexpectedError"] + ": " + ex.Message);
         }
+    }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetAsync(int id)
+    [HttpGet]
+    public async Task<IActionResult> GetAll([FromQuery] PaginationDTO pagination)
+    {
+        try
         {
-            try
-            {
-                var response = await _unitOfWork.GetAsync(id);
-                return ResponseHelper.Format(response);
-            }
-            catch (ApplicationException ex)
-            {
-                return BadRequest(ex.Message); // Ya está localizado
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, _localizer["Generic_UnexpectedError"] + ": " + ex.Message);
-            }
+            var response = await _unitOfWork.GetAsync(pagination);
+            return ResponseHelper.Format(response);
         }
-
-        [HttpPut]
-        public async Task<IActionResult> PutAsync(IdentidadGenero modelo)
+        catch (ApplicationException ex)
         {
-            try
-            {
-                var response = await _unitOfWork.UpdateAsync(modelo);
-                return ResponseHelper.Format(response);
-            }
-            catch (ApplicationException ex)
-            {
-                return BadRequest(ex.Message); // Ya está localizado
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, _localizer["Generic_UnexpectedError"] + ": " + ex.Message);
-            }
+            return BadRequest(ex.Message); // Ya está localizado
         }
-
-        [HttpPost]
-        public async Task<IActionResult> PostAsync(IdentidadGenero modelo)
+        catch (Exception ex)
         {
-            try
-            {
-                var response = await _unitOfWork.AddAsync(modelo);
-                return ResponseHelper.Format(response);
-            }
-            catch (ApplicationException ex)
-            {
-                return BadRequest(ex.Message); // Ya está localizado
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, _localizer["Generic_UnexpectedError"] + ": " + ex.Message);
-            }
+            return StatusCode(500, _localizer["Generic_UnexpectedError"] + ": " + ex.Message);
         }
+    }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAsync(int id)
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetAsync(int id)
+    {
+        try
         {
-            try
-            {
-                var response = await _unitOfWork.DeleteAsync(id);
-                return ResponseHelper.Format(response);
-            }
-            catch (ApplicationException ex)
-            {
-                return BadRequest(ex.Message); // Ya está localizado
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, _localizer["Generic_UnexpectedError"] + ": " + ex.Message);
-            }
+            var response = await _unitOfWork.GetAsync(id);
+            return ResponseHelper.Format(response);
+        }
+        catch (ApplicationException ex)
+        {
+            return BadRequest(ex.Message); // Ya está localizado
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, _localizer["Generic_UnexpectedError"] + ": " + ex.Message);
+        }
+    }
+
+    [HttpPut]
+    public async Task<IActionResult> PutAsync(IdentidadGenero modelo)
+    {
+        try
+        {
+            var response = await _unitOfWork.UpdateAsync(modelo);
+            return ResponseHelper.Format(response);
+        }
+        catch (ApplicationException ex)
+        {
+            return BadRequest(ex.Message); // Ya está localizado
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, _localizer["Generic_UnexpectedError"] + ": " + ex.Message);
+        }
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> PostAsync(IdentidadGenero modelo)
+    {
+        try
+        {
+            var response = await _unitOfWork.AddAsync(modelo);
+            return ResponseHelper.Format(response);
+        }
+        catch (ApplicationException ex)
+        {
+            return BadRequest(ex.Message); // Ya está localizado
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, _localizer["Generic_UnexpectedError"] + ": " + ex.Message);
+        }
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteAsync(int id)
+    {
+        try
+        {
+            var response = await _unitOfWork.DeleteAsync(id);
+            return ResponseHelper.Format(response);
+        }
+        catch (ApplicationException ex)
+        {
+            return BadRequest(ex.Message); // Ya está localizado
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, _localizer["Generic_UnexpectedError"] + ": " + ex.Message);
         }
     }
 }

@@ -13,7 +13,12 @@ public static class MapsterConfig
         config.NewConfig<Manager, Manager>()
              .Ignore(dest => dest.Corporation!);
 
+        config.NewConfig<PatientControl, PatientControl>()
+            .Ignore(dest => dest.Patients!)
+            .Ignore(dest => dest.Patient2s!);
+
         config.NewConfig<Patient, Patient>()
+            .Ignore(dest => dest.PatientControl!)
             .Ignore(dest => dest.Corporation!)
             .Ignore(dest => dest.SexoAsignado!)
             .Ignore(dest => dest.IdentidadGenero!)
@@ -23,10 +28,13 @@ public static class MapsterConfig
             .Ignore(dest => dest.EstadoCivil!);
 
         config.NewConfig<Patient2, Patient2>()
+            .Ignore(dest => dest.PatientControl!)
             .Ignore(dest => dest.Corporation!);
 
-        config.NewConfig<PatientControl, PatientControl>()
-            .Ignore(dest => dest.Patients!)
-            .Ignore(dest => dest.Patient2s!);
+        config.NewConfig<Ginecologico, Ginecologico>()
+            .Ignore(dest => dest.Regular!)
+            .Ignore(dest => dest.Anticonception!)
+            .Ignore(dest => dest.PatientControl!)
+            .Ignore(dest => dest.Corporation!);
     }
 }

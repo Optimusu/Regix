@@ -36,6 +36,7 @@ public class SeedDb
         await CheckPharmacy();
         await CheckLenguage();
         await CheckAnticonception();
+        await CheckRegularPeriod();
         await CheckUserAsync("Optimus U", "TrialPro", "hebalmert", "optimusu.soft@gmail.com", "+1 786 503", UserType.Admin);
     }
 
@@ -90,6 +91,17 @@ public class SeedDb
             await _userHelper.AddUserClaims(userType, username);
         }
         return user;
+    }
+
+    private async Task CheckRegularPeriod()
+    {
+        if (!_context.Regulars.Any())
+        {
+            _context.Regulars.Add(new Regular { Name = "Regular Cycle", Active = true });
+            _context.Regulars.Add(new Regular { Name = "Irregular Cycle", Active = true });
+
+            await _context.SaveChangesAsync();
+        }
     }
 
     private async Task CheckRolesAsync()

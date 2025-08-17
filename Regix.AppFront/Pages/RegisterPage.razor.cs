@@ -45,6 +45,7 @@ public partial class RegisterPage
         ViewGinecologico = PatientControl.Patients!.FirstOrDefault()!.SexoAsignado!.Name == "Female" ? true : false;
         CompletePatient = PatientControl.TPatient == 0 ? false : true;
         CompletePatient2 = PatientControl.TPatient2 == 0 ? false : true;
+        CompleteGinecologico3 = PatientControl.TGinecologico == 0 ? false : true;
     }
 
     private void ClickPatient()
@@ -70,6 +71,19 @@ public partial class RegisterPage
         else
         {
             _navigation.NavigateTo($"/regpatient2s/edit/{PatientControl.Patient2s!.FirstOrDefault()!.Patient2Id}");
+        }
+    }
+
+    private void ClickGinecologico()
+    {
+        //Llamamos a Register y enviamos el PatientControlId
+        if (PatientControl.TGinecologico == 0)
+        {
+            _navigation.NavigateTo($"/ginecologicos/create");
+        }
+        else
+        {
+            _navigation.NavigateTo($"/ginecologicos/edit/{PatientControl.Ginecologicos!.FirstOrDefault()!.GinecologicoId}");
         }
     }
 }

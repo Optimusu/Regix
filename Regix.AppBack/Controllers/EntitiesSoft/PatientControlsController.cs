@@ -10,132 +10,131 @@ using Regix.DomainLogic.Pagination;
 using Regix.DomainLogic.ResponsesSec;
 using Regix.UnitOfWork.InterfaceSoft;
 
-namespace Regix.AppBack.Controllers.EntitiesSoft
+namespace Regix.AppBack.Controllers.EntitiesSoft;
+
+[ApiVersion("1.0")]
+[Route("api/v{version:apiVersion}/patientcontrols")]
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Patient, Administrator")]
+[ApiController]
+public class PatientControlsController : ControllerBase
 {
-    [ApiVersion("1.0")]
-    [Route("api/v{version:apiVersion}/patientcontrols")]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Patient, Administrator")]
-    [ApiController]
-    public class PatientControlsController : ControllerBase
+    private readonly IPatientControlUnitOfWork _unitOfWork;
+    private readonly IStringLocalizer _localizer;
+
+    public PatientControlsController(IPatientControlUnitOfWork unitOfWork, IStringLocalizer localizer)
     {
-        private readonly IPatientControlUnitOfWork _unitOfWork;
-        private readonly IStringLocalizer _localizer;
+        _unitOfWork = unitOfWork;
+        _localizer = localizer;
+    }
 
-        public PatientControlsController(IPatientControlUnitOfWork unitOfWork, IStringLocalizer localizer)
+    [HttpPost("PatientControlData")]
+    public async Task<IActionResult> PostAsync(PatientControlDTO modelo)
+    {
+        try
         {
-            _unitOfWork = unitOfWork;
-            _localizer = localizer;
+            ClaimsDTOs userClaimsInfo = User.GetEmailOrThrow(_localizer);
+            var response = await _unitOfWork.ControlDataAsync(modelo, userClaimsInfo.UserName);
+            return ResponseHelper.Format(response);
         }
-
-        [HttpPost("PatientControlData")]
-        public async Task<IActionResult> PostAsync(PatientControlDTO modelo)
+        catch (ApplicationException ex)
         {
-            try
-            {
-                ClaimsDTOs userClaimsInfo = User.GetEmailOrThrow(_localizer);
-                var response = await _unitOfWork.ControlDataAsync(modelo, userClaimsInfo.UserName);
-                return ResponseHelper.Format(response);
-            }
-            catch (ApplicationException ex)
-            {
-                return BadRequest(ex.Message); // Ya está localizado
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, _localizer["Generic_UnexpectedError"] + ": " + ex.Message);
-            }
+            return BadRequest(ex.Message); // Ya está localizado
         }
-
-        [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery] PaginationDTO pagination)
+        catch (Exception ex)
         {
-            try
-            {
-                ClaimsDTOs userClaimsInfo = User.GetEmailOrThrow(_localizer);
-                var response = await _unitOfWork.GetAsync(pagination, userClaimsInfo.UserName);
-                return ResponseHelper.Format(response);
-            }
-            catch (ApplicationException ex)
-            {
-                return BadRequest(ex.Message); // Ya está localizado
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, _localizer["Generic_UnexpectedError"] + ": " + ex.Message);
-            }
+            return StatusCode(500, _localizer["Generic_UnexpectedError"] + ": " + ex.Message);
         }
+    }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetAsync(Guid id)
+    [HttpGet]
+    public async Task<IActionResult> GetAll([FromQuery] PaginationDTO pagination)
+    {
+        try
         {
-            try
-            {
-                var response = await _unitOfWork.GetAsync(id);
-                return ResponseHelper.Format(response);
-            }
-            catch (ApplicationException ex)
-            {
-                return BadRequest(ex.Message); // Ya está localizado
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, _localizer["Generic_UnexpectedError"] + ": " + ex.Message);
-            }
+            ClaimsDTOs userClaimsInfo = User.GetEmailOrThrow(_localizer);
+            var response = await _unitOfWork.GetAsync(pagination, userClaimsInfo.UserName);
+            return ResponseHelper.Format(response);
         }
-
-        [HttpPut]
-        public async Task<IActionResult> PutAsync(PatientControl modelo)
+        catch (ApplicationException ex)
         {
-            try
-            {
-                var response = await _unitOfWork.UpdateAsync(modelo);
-                return ResponseHelper.Format(response);
-            }
-            catch (ApplicationException ex)
-            {
-                return BadRequest(ex.Message); // Ya está localizado
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, _localizer["Generic_UnexpectedError"] + ": " + ex.Message);
-            }
+            return BadRequest(ex.Message); // Ya está localizado
         }
-
-        [HttpPost]
-        public async Task<IActionResult> PostAsync(PatientControl modelo)
+        catch (Exception ex)
         {
-            try
-            {
-                ClaimsDTOs userClaimsInfo = User.GetEmailOrThrow(_localizer);
-                var response = await _unitOfWork.AddAsync(modelo, userClaimsInfo.UserName);
-                return ResponseHelper.Format(response);
-            }
-            catch (ApplicationException ex)
-            {
-                return BadRequest(ex.Message); // Ya está localizado
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, _localizer["Generic_UnexpectedError"] + ": " + ex.Message);
-            }
+            return StatusCode(500, _localizer["Generic_UnexpectedError"] + ": " + ex.Message);
         }
+    }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAsync(Guid id)
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetAsync(Guid id)
+    {
+        try
         {
-            try
-            {
-                var response = await _unitOfWork.DeleteAsync(id);
-                return ResponseHelper.Format(response);
-            }
-            catch (ApplicationException ex)
-            {
-                return BadRequest(ex.Message); // Ya está localizado
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, _localizer["Generic_UnexpectedError"] + ": " + ex.Message);
-            }
+            var response = await _unitOfWork.GetAsync(id);
+            return ResponseHelper.Format(response);
+        }
+        catch (ApplicationException ex)
+        {
+            return BadRequest(ex.Message); // Ya está localizado
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, _localizer["Generic_UnexpectedError"] + ": " + ex.Message);
+        }
+    }
+
+    [HttpPut]
+    public async Task<IActionResult> PutAsync(PatientControl modelo)
+    {
+        try
+        {
+            var response = await _unitOfWork.UpdateAsync(modelo);
+            return ResponseHelper.Format(response);
+        }
+        catch (ApplicationException ex)
+        {
+            return BadRequest(ex.Message); // Ya está localizado
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, _localizer["Generic_UnexpectedError"] + ": " + ex.Message);
+        }
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> PostAsync(PatientControl modelo)
+    {
+        try
+        {
+            ClaimsDTOs userClaimsInfo = User.GetEmailOrThrow(_localizer);
+            var response = await _unitOfWork.AddAsync(modelo, userClaimsInfo.UserName);
+            return ResponseHelper.Format(response);
+        }
+        catch (ApplicationException ex)
+        {
+            return BadRequest(ex.Message); // Ya está localizado
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, _localizer["Generic_UnexpectedError"] + ": " + ex.Message);
+        }
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteAsync(Guid id)
+    {
+        try
+        {
+            var response = await _unitOfWork.DeleteAsync(id);
+            return ResponseHelper.Format(response);
+        }
+        catch (ApplicationException ex)
+        {
+            return BadRequest(ex.Message); // Ya está localizado
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, _localizer["Generic_UnexpectedError"] + ": " + ex.Message);
         }
     }
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Regix.AppInfra;
 
@@ -11,9 +12,11 @@ using Regix.AppInfra;
 namespace Regix.AppBack.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20250817120639_NewCycleRegularityDB")]
+    partial class NewCycleRegularityDB
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -854,65 +857,6 @@ namespace Regix.AppBack.Migrations
                     b.ToTable("SexoAsignados");
                 });
 
-            modelBuilder.Entity("Regix.Domain.EntitiesSoft.Ginecologico", b =>
-                {
-                    b.Property<Guid>("GinecologicoId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasDefaultValueSql("NEWSEQUENTIALID()");
-
-                    b.Property<int>("AnticonceptionId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CorporationId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Gravida")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("LaborComplications")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("LastCytologyPap")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("LastMenstruation")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Menarquia")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<bool>("Menopause")
-                        .HasColumnType("bit");
-
-                    b.Property<Guid>("PatientControlId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("RegularId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("WhyComplication")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("GinecologicoId");
-
-                    b.HasIndex("AnticonceptionId");
-
-                    b.HasIndex("CorporationId");
-
-                    b.HasIndex("GinecologicoId");
-
-                    b.HasIndex("PatientControlId");
-
-                    b.HasIndex("RegularId");
-
-                    b.ToTable("Ginecologicos");
-                });
-
             modelBuilder.Entity("Regix.Domain.EntitiesSoft.Patient", b =>
                 {
                     b.Property<Guid>("PatientId")
@@ -1377,41 +1321,6 @@ namespace Regix.AppBack.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Regix.Domain.EntitiesSoft.Ginecologico", b =>
-                {
-                    b.HasOne("Regix.Domain.EntitiesGen.Anticonception", "Anticonception")
-                        .WithMany("Ginecologicos")
-                        .HasForeignKey("AnticonceptionId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Regix.Domain.Entities.Corporation", "Corporation")
-                        .WithMany()
-                        .HasForeignKey("CorporationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Regix.Domain.EntitiesSoft.PatientControl", "PatientControl")
-                        .WithMany("Ginecologicos")
-                        .HasForeignKey("PatientControlId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Regix.Domain.EntitiesGen.Regular", "Regular")
-                        .WithMany("Ginecologicos")
-                        .HasForeignKey("RegularId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Anticonception");
-
-                    b.Navigation("Corporation");
-
-                    b.Navigation("PatientControl");
-
-                    b.Navigation("Regular");
-                });
-
             modelBuilder.Entity("Regix.Domain.EntitiesSoft.Patient", b =>
                 {
                     b.HasOne("Regix.Domain.Entities.Corporation", "Corporation")
@@ -1545,11 +1454,6 @@ namespace Regix.AppBack.Migrations
                     b.Navigation("UserRoleDetails");
                 });
 
-            modelBuilder.Entity("Regix.Domain.EntitiesGen.Anticonception", b =>
-                {
-                    b.Navigation("Ginecologicos");
-                });
-
             modelBuilder.Entity("Regix.Domain.EntitiesGen.DocumentType", b =>
                 {
                     b.Navigation("Patients");
@@ -1575,11 +1479,6 @@ namespace Regix.AppBack.Migrations
                     b.Navigation("Patients");
                 });
 
-            modelBuilder.Entity("Regix.Domain.EntitiesGen.Regular", b =>
-                {
-                    b.Navigation("Ginecologicos");
-                });
-
             modelBuilder.Entity("Regix.Domain.EntitiesGen.SexoAsignado", b =>
                 {
                     b.Navigation("Patients");
@@ -1587,8 +1486,6 @@ namespace Regix.AppBack.Migrations
 
             modelBuilder.Entity("Regix.Domain.EntitiesSoft.PatientControl", b =>
                 {
-                    b.Navigation("Ginecologicos");
-
                     b.Navigation("Patient2s");
 
                     b.Navigation("Patients");

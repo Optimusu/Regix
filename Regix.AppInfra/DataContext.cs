@@ -41,12 +41,14 @@ public class DataContext : IdentityDbContext<User>
     public DbSet<Idioma> Idiomas => Set<Idioma>();
     public DbSet<Pharmacy> Pharmacies => Set<Pharmacy>();
     public DbSet<Anticonception> Anticonceptions => Set<Anticonception>();
+    public DbSet<Regular> Regulars => Set<Regular>();
 
     //EntitiesSoft
 
     public DbSet<Patient> Patients => Set<Patient>();
     public DbSet<Patient2> Patient2s => Set<Patient2>();
     public DbSet<PatientControl> PatientControls => Set<PatientControl>();
+    public DbSet<Ginecologico> Ginecologicos => Set<Ginecologico>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

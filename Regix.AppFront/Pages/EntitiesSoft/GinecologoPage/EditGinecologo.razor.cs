@@ -1,13 +1,12 @@
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
-using Regix.AppFront.GenericoModal;
 using Regix.AppFront.Helpers;
 using Regix.Domain.EntitiesSoft;
 using Regix.HttpServices;
 
-namespace Regix.AppFront.Pages.EntitiesSoft.Patient2Page;
+namespace Regix.AppFront.Pages.EntitiesSoft.GinecologoPage;
 
-public partial class CreatePatient2
+public partial class EditGinecologo
 {
     //Services
 
@@ -18,29 +17,33 @@ public partial class CreatePatient2
     [Inject] private PatientControlStateService _patientState { get; set; } = null!;
 
     //Parameters
+
+    [Parameter] public Guid Id { get; set; } //GinecologicoId
     [Parameter] public string? Title { get; set; }
 
     //Local State
 
-    private Patient2 Patient2 = new() { DateStart = DateTime.Now };
+    private Ginecologico? Ginecologico;
     private PatientControl model = new();
-    private string BaseUrl = "/api/v1/regpatient2s";
-    private string BaseView = "/register";
+    private const string BaseUrl = "/api/v1/ginecologicos";
+    private const string BaseView = "/register";
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
+        var responseHttp = await _repository.GetAsync<Ginecologico>($"{BaseUrl}/{Id}");
+        if (await _responseHandler.HandleErrorAsync(responseHttp)) return;
+        Ginecologico = responseHttp.Response;
         model = _patientState.Get()!;
-        Patient2.PatientControlId = model.PatientControlId;
         Title = $"{model.FirstName} {model.LastName}";
     }
 
-    private async Task Create()
+    private async Task Edit()
     {
-        var responseHttp = await _repository.PostAsync($"{BaseUrl}", Patient2);
+        var responseHttp = await _repository.PutAsync($"{BaseUrl}", Ginecologico);
         bool errorHandled = await _responseHandler.HandleErrorAsync(responseHttp);
         if (errorHandled) return;
 
-        await _sweetAlert.FireAsync(Messages.CreateSuccessTitle, Messages.CreateSuccessMessage, SweetAlertIcon.Success);
+        await _sweetAlert.FireAsync(Messages.UpdateSuccessTitle, Messages.UpdateSuccessMessage, SweetAlertIcon.Success);
         _navigationManager.NavigateTo($"{BaseView}");
     }
 

@@ -26,7 +26,7 @@ public partial class CreatePatient
     private Patient Patient = new() { Active = true, DOB = DateTime.Now };
     private PatientControl model = new();
     private string BaseUrl = "/api/v1/regpatient";
-    private string BaseView = "/regpatient";
+    private string BaseView = "/register";
 
     protected override void OnInitialized()
     {
@@ -45,11 +45,11 @@ public partial class CreatePatient
         Patient = responseHttp.Response!;
 
         await _sweetAlert.FireAsync(Messages.CreateSuccessTitle, Messages.CreateSuccessMessage, SweetAlertIcon.Success);
-        _navigationManager.NavigateTo($"/register");
+        _navigationManager.NavigateTo($"{BaseView}");
     }
 
     private void Return()
     {
-        _navigationManager.NavigateTo($"/register");
+        _navigationManager.NavigateTo($"{BaseView}");
     }
 }

@@ -3,45 +3,28 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
+using Regix.AppBack.Helper;
 using Regix.AppInfra.ErrorHandling;
-using Regix.Domain.EntitiesGen;
+using Regix.Domain.EntitiesSoft;
 using Regix.DomainLogic.Pagination;
-using Regix.UnitOfWork.InterfacesGen;
+using Regix.DomainLogic.ResponsesSec;
+using Regix.UnitOfWork.InterfaceSoft;
 
-namespace Regix.AppBack.Controllers.EntitiesGen;
+namespace Regix.AppBack.Controllers.EntitiesSoft;
 
 [ApiVersion("1.0")]
-[Route("api/v{version:apiVersion}/sexoasignados")]
-[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin, Administrator")]
+[Route("api/v{version:apiVersion}/ginecologicos")]
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Patient, Administrator")]
 [ApiController]
-public class SexoAsignadosController : ControllerBase
+public class GinecologicosController : ControllerBase
 {
-    private readonly ISexoAsignadoUnitOfWork _unitOfWork;
+    private readonly IGinecologoUnitOfWork _unitOfWork;
     private readonly IStringLocalizer _localizer;
 
-    public SexoAsignadosController(ISexoAsignadoUnitOfWork unitOfWork, IStringLocalizer localizer)
+    public GinecologicosController(IGinecologoUnitOfWork unitOfWork, IStringLocalizer localizer)
     {
         _unitOfWork = unitOfWork;
         _localizer = localizer;
-    }
-
-    [AllowAnonymous]
-    [HttpGet("loadCombo")]
-    public async Task<IActionResult> GetComboAsync()
-    {
-        try
-        {
-            var response = await _unitOfWork.ComboAsync();
-            return ResponseHelper.Format(response);
-        }
-        catch (ApplicationException ex)
-        {
-            return BadRequest(ex.Message); // Ya está localizado
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, _localizer["Generic_UnexpectedError"] + ": " + ex.Message);
-        }
     }
 
     [HttpGet]
@@ -49,7 +32,8 @@ public class SexoAsignadosController : ControllerBase
     {
         try
         {
-            var response = await _unitOfWork.GetAsync(pagination);
+            ClaimsDTOs userClaimsInfo = User.GetEmailOrThrow(_localizer);
+            var response = await _unitOfWork.GetAsync(pagination, userClaimsInfo.UserName);
             return ResponseHelper.Format(response);
         }
         catch (ApplicationException ex)
@@ -63,7 +47,7 @@ public class SexoAsignadosController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetAsync(int id)
+    public async Task<IActionResult> GetAsync(Guid id)
     {
         try
         {
@@ -81,7 +65,7 @@ public class SexoAsignadosController : ControllerBase
     }
 
     [HttpPut]
-    public async Task<IActionResult> PutAsync(SexoAsignado modelo)
+    public async Task<IActionResult> PutAsync(Ginecologico modelo)
     {
         try
         {
@@ -99,11 +83,12 @@ public class SexoAsignadosController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> PostAsync(SexoAsignado modelo)
+    public async Task<IActionResult> PostAsync(Ginecologico modelo)
     {
         try
         {
-            var response = await _unitOfWork.AddAsync(modelo);
+            ClaimsDTOs userClaimsInfo = User.GetEmailOrThrow(_localizer);
+            var response = await _unitOfWork.AddAsync(modelo, userClaimsInfo.UserName);
             return ResponseHelper.Format(response);
         }
         catch (ApplicationException ex)
@@ -117,7 +102,7 @@ public class SexoAsignadosController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteAsync(int id)
+    public async Task<IActionResult> DeleteAsync(Guid id)
     {
         try
         {

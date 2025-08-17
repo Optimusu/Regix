@@ -11,15 +11,15 @@ using Regix.UnitOfWork.InterfacesGen;
 namespace Regix.AppBack.Controllers.EntitiesGen;
 
 [ApiVersion("1.0")]
-[Route("api/v{version:apiVersion}/sexoasignados")]
+[Route("api/v{version:apiVersion}/regulars")]
 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin, Administrator")]
 [ApiController]
-public class SexoAsignadosController : ControllerBase
+public class RegularsController : ControllerBase
 {
-    private readonly ISexoAsignadoUnitOfWork _unitOfWork;
+    private readonly IRegularUnitOfWork _unitOfWork;
     private readonly IStringLocalizer _localizer;
 
-    public SexoAsignadosController(ISexoAsignadoUnitOfWork unitOfWork, IStringLocalizer localizer)
+    public RegularsController(IRegularUnitOfWork unitOfWork, IStringLocalizer localizer)
     {
         _unitOfWork = unitOfWork;
         _localizer = localizer;
@@ -81,7 +81,7 @@ public class SexoAsignadosController : ControllerBase
     }
 
     [HttpPut]
-    public async Task<IActionResult> PutAsync(SexoAsignado modelo)
+    public async Task<IActionResult> PutAsync(Regular modelo)
     {
         try
         {
@@ -99,7 +99,7 @@ public class SexoAsignadosController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> PostAsync(SexoAsignado modelo)
+    public async Task<IActionResult> PostAsync(Regular modelo)
     {
         try
         {

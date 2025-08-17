@@ -1,13 +1,12 @@
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
-using Regix.AppFront.GenericoModal;
 using Regix.AppFront.Helpers;
 using Regix.Domain.EntitiesSoft;
 using Regix.HttpServices;
 
-namespace Regix.AppFront.Pages.EntitiesSoft.Patient2Page;
+namespace Regix.AppFront.Pages.EntitiesSoft.GinecologoPage;
 
-public partial class CreatePatient2
+public partial class CreateGinecologo
 {
     //Services
 
@@ -18,25 +17,26 @@ public partial class CreatePatient2
     [Inject] private PatientControlStateService _patientState { get; set; } = null!;
 
     //Parameters
+
     [Parameter] public string? Title { get; set; }
 
     //Local State
 
-    private Patient2 Patient2 = new() { DateStart = DateTime.Now };
+    private Ginecologico Ginecologico = new() { LastMenstruation = DateTime.Now, LastCytologyPap = DateTime.Now };
     private PatientControl model = new();
-    private string BaseUrl = "/api/v1/regpatient2s";
+    private string BaseUrl = "/api/v1/ginecologicos";
     private string BaseView = "/register";
 
     protected override void OnInitialized()
     {
         model = _patientState.Get()!;
-        Patient2.PatientControlId = model.PatientControlId;
+        Ginecologico.PatientControlId = model.PatientControlId;
         Title = $"{model.FirstName} {model.LastName}";
     }
 
     private async Task Create()
     {
-        var responseHttp = await _repository.PostAsync($"{BaseUrl}", Patient2);
+        var responseHttp = await _repository.PostAsync($"{BaseUrl}", Ginecologico);
         bool errorHandled = await _responseHandler.HandleErrorAsync(responseHttp);
         if (errorHandled) return;
 

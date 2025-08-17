@@ -58,6 +58,8 @@ namespace Trial.AppBack.DependencyInjection
             services.AddScoped<IPharmacyService, PharmacyService>();
             services.AddScoped<IAnticonceptionUnitOfWork, AnticonceptionUnitOfWork>();
             services.AddScoped<IAnticonceptionService, AnticonceptionService>();
+            services.AddScoped<IRegularUnitOfWork, RegularUnitOfWork>();
+            services.AddScoped<IRegularService, RegularService>();
 
             //EntitiesSoft
             services.AddScoped<IPatientUnitOfWork, PatientUnitOfWork>();
@@ -66,6 +68,8 @@ namespace Trial.AppBack.DependencyInjection
             services.AddScoped<IPatient2Service, Patient2Service>();
             services.AddScoped<IPatientControlUnitOfWork, PatientControlUnitOfWork>();
             services.AddScoped<IPatientControlService, PatientControlService>();
+            services.AddScoped<IGinecologoUnitOfWork, GinecologoUnitOfWork>();
+            services.AddScoped<IGinecologoService, GinecologoService>();
         }
     }
 }

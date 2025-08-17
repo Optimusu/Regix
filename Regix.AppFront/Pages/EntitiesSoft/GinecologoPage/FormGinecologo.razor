@@ -1,0 +1,132 @@
+﻿<EditForm Model="Ginecologico" OnValidSubmit="OnSubmit">
+    <DataAnnotationsValidator />
+
+    <h2>Gynecologic-Obstetric</h2>
+    <hr />
+
+    <div class="mb-2">
+        <div class="input-group">
+            <span class="input-group-text" style="width: 170px">
+                @GetDisplayName(() => Ginecologico.Menarquia)
+            </span>
+            <InputText class="form-control" placeholder="Menarquia..." @bind-Value="Ginecologico.Menarquia" />
+        </div>
+        <ValidationMessage For="@(() => Ginecologico.Menarquia)" />
+    </div>
+
+    <div class="row mb-2">
+        <!-- Regularidad -->
+        <div class="col-md-6">
+            @if (Regulars is null)
+            {
+                <Loading />
+            }
+            else
+            {
+                <div class="input-group">
+                    <span class="input-group-text" style="width: 170px"> @GetDisplayName(() => Ginecologico.RegularId)</span>
+                    <select class="form-select" value="@Ginecologico.RegularId" @onchange="RegularChanged">
+                        @foreach (var item in Regulars)
+                        {
+                            <option value="@item.RegularId">@item.Name</option>
+                        }
+                    </select>
+                </div>
+                <ValidationMessage For="@(() => Ginecologico.RegularId)" />
+            }
+        </div>
+
+        <!-- Anticonceptivos -->
+        <div class="col-md-6">
+            @if (Anticonceptions is null)
+            {
+                <Loading />
+            }
+            else
+            {
+                <div class="input-group">
+                    <span class="input-group-text" style="width: 170px">@GetDisplayName(() => Ginecologico.AnticonceptionId)</span>
+                    <select class="form-select" value="@Ginecologico.AnticonceptionId" @onchange="AnticonceptivoChanged">
+                        @foreach (var item in Anticonceptions)
+                        {
+                            <option value="@item.AnticonceptionId">@item.Name</option>
+                        }
+                    </select>
+                </div>
+                <ValidationMessage For="@(() => Ginecologico.AnticonceptionId)" />
+            }
+        </div>
+    </div>
+
+    <div class="row mb-2">
+
+        <div class="col-md-6">
+            <div class="input-group">
+                <span class="input-group-text" style="width: 170px">Last Menstruation</span>
+                <input type="date" class="form-control"
+                       @bind="Ginecologico.LastMenstruation"
+                       min="@DateMin?.ToString("yyyy-MM-dd")" />
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="input-group">
+                <span class="input-group-text" style="width: 170px">Last Cytology/Pap</span>
+                <input type="date" class="form-control"
+                       @bind="Ginecologico.LastCytologyPap"
+                       min="@DateMin?.ToString("yyyy-MM-dd")" />
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-2">
+        <div class="input-group">
+            <span class="input-group-text" style="width: 170px">
+                @GetDisplayName(() => Ginecologico.Gravida)
+            </span>
+            <InputNumber class="form-control" placeholder="Gravida..." @bind-Value="Ginecologico.Gravida" />
+        </div>
+        <ValidationMessage For="@(() => Ginecologico.Gravida)" />
+    </div>
+
+    <div class="mb-2">
+        <div class="input-group">
+            <span class="input-group-text" style="width: 170px">
+                @GetDisplayName(() => Ginecologico.LaborComplications)
+            </span>
+            <div class="d-flex align-items-center ps-3">
+                <InputCheckbox @bind-Value="Ginecologico.LaborComplications" class="form-check-input me-2" />
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-2">
+        <div class="input-group">
+            <span class="input-group-text" style="width: 170px">
+                @GetDisplayName(() => Ginecologico.WhyComplication)
+            </span>
+            <InputText class="form-control" placeholder="Why Complication..." @bind-Value="Ginecologico.WhyComplication" />
+        </div>
+        <ValidationMessage For="@(() => Ginecologico.WhyComplication)" />
+    </div>
+
+    <div class="md-5">
+        <div class="input-group">
+            <span class="input-group-text" style="width: 170px">
+                @GetDisplayName(() => Ginecologico.Menopause)
+            </span>
+            <div class="d-flex align-items-center ps-3">
+                <InputCheckbox @bind-Value="Ginecologico.Menopause" class="form-check-input me-2" />
+            </div>
+        </div>
+    </div>
+
+    <!-- Botones -->
+    <div class="d-flex justify-content-center gap-3 mt-5">
+        <button class="btn btn-gradient-black" @onclick="ReturnAction" style="min-width: 160px;">
+            <i class="fa fa-arrow-left"></i> Back
+        </button>
+        <button type="submit" class="btn btn-gradient-primary" style="min-width: 160px;">
+            <i class="fa fa-floppy-disk me-2"></i> Save
+        </button>
+    </div>
+</EditForm>
