@@ -43,6 +43,7 @@ public class DataContext : IdentityDbContext<User>
     public DbSet<Anticonception> Anticonceptions => Set<Anticonception>();
     public DbSet<Regular> Regulars => Set<Regular>();
     public DbSet<EtniaRaza> EtniaRazas => Set<EtniaRaza>();
+    public DbSet<Discapacidad> Discapacidads => Set<Discapacidad>();
 
     //EntitiesSoft
 

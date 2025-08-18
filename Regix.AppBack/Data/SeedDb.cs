@@ -37,6 +37,7 @@ public class SeedDb
         await CheckLenguage();
         await CheckAnticonception();
         await CheckRegularPeriod();
+        await CheckEtniaRazor();
         await CheckUserAsync("Optimus U", "TrialPro", "hebalmert", "optimusu.soft@gmail.com", "+1 786 503", UserType.Admin);
     }
 
@@ -91,6 +92,22 @@ public class SeedDb
             await _userHelper.AddUserClaims(userType, username);
         }
         return user;
+    }
+
+    private async Task CheckEtniaRazor()
+    {
+        if (!_context.EtniaRazas.Any())
+        {
+            _context.EtniaRazas.Add(new EtniaRaza { Name = "White", Active = true });
+            _context.EtniaRazas.Add(new EtniaRaza { Name = "Black or African American", Active = true });
+            _context.EtniaRazas.Add(new EtniaRaza { Name = "Hispanic or Latino", Active = true });
+            _context.EtniaRazas.Add(new EtniaRaza { Name = "Asian", Active = true });
+            _context.EtniaRazas.Add(new EtniaRaza { Name = "American Indian or Alaska Native", Active = true });
+            _context.EtniaRazas.Add(new EtniaRaza { Name = "Native Hawaiian or Other Pacific Islander", Active = true });
+            _context.EtniaRazas.Add(new EtniaRaza { Name = "Other", Active = true });
+            _context.EtniaRazas.Add(new EtniaRaza { Name = "Prefer not to answer", Active = true });
+            await _context.SaveChangesAsync();
+        }
     }
 
     private async Task CheckRegularPeriod()
