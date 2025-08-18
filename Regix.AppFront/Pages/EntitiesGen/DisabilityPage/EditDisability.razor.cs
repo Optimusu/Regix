@@ -5,7 +5,7 @@ using Regix.AppFront.Helpers;
 using Regix.Domain.EntitiesGen;
 using Regix.HttpServices;
 
-namespace Regix.AppFront.Pages.EntitiesGen.IdiomasPage;
+namespace Regix.AppFront.Pages.EntitiesGen.DisabilityPage;
 
 public partial class EditDisability
 {
@@ -24,21 +24,21 @@ public partial class EditDisability
 
     //Local State
 
-    private Idioma? Idioma;
-    private const string BaseUrl = "/api/v1/idiomas";
-    private const string BaseView = "/idiomas";
+    private Discapacidad? Discapacidad;
+    private const string BaseUrl = "/api/v1/discapacidades";
+    private const string BaseView = "/discapacidades";
 
     protected override async Task OnInitializedAsync()
     {
-        var responseHttp = await _repository.GetAsync<Idioma>($"{BaseUrl}/{Id}");
+        var responseHttp = await _repository.GetAsync<Discapacidad>($"{BaseUrl}/{Id}");
         if (await _responseHandler.HandleErrorAsync(responseHttp)) return;
 
-        Idioma = responseHttp.Response;
+        Discapacidad = responseHttp.Response;
     }
 
     private async Task Edit()
     {
-        var responseHttp = await _repository.PutAsync($"{BaseUrl}", Idioma);
+        var responseHttp = await _repository.PutAsync($"{BaseUrl}", Discapacidad);
         bool errorHandled = await _responseHandler.HandleErrorAsync(responseHttp);
         if (errorHandled) return;
 

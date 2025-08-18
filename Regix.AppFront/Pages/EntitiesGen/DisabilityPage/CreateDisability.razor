@@ -1,7 +1,7 @@
-﻿@page "/idiomas/create"
+﻿@page "/discapacidades/create"
 @attribute [Authorize(Roles = "Admin")]
 
-@if (Idioma is null)
+@if (Discapacidad is null)
 {
     <Loading />
 }
@@ -20,7 +20,7 @@ else
                 </div>
 
 
-            <FormIdioma Idioma ="Idioma"
+            <FormDisability Discapacidad ="Discapacidad"
                           OnSubmit="Create"
                           ReturnAction="Return" />
         </div>

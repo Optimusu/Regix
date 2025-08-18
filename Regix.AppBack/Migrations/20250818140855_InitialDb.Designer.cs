@@ -12,8 +12,8 @@ using Regix.AppInfra;
 namespace Regix.AppBack.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250817161938_NewGinecologicoDB")]
-    partial class NewGinecologicoDB
+    [Migration("20250818140855_InitialDb")]
+    partial class InitialDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -682,6 +682,31 @@ namespace Regix.AppBack.Migrations
                     b.ToTable("Anticonceptions");
                 });
 
+            modelBuilder.Entity("Regix.Domain.EntitiesGen.Discapacidad", b =>
+                {
+                    b.Property<int>("DiscapacidadId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DiscapacidadId"));
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .UseCollation("Latin1_General_CI_AS");
+
+                    b.HasKey("DiscapacidadId");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("Discapacidads");
+                });
+
             modelBuilder.Entity("Regix.Domain.EntitiesGen.DocumentType", b =>
                 {
                     b.Property<int>("DocumentTypeId")
@@ -730,6 +755,31 @@ namespace Regix.AppBack.Migrations
                         .IsUnique();
 
                     b.ToTable("EstadoCivils");
+                });
+
+            modelBuilder.Entity("Regix.Domain.EntitiesGen.EtniaRaza", b =>
+                {
+                    b.Property<int>("EtniaRazaId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EtniaRazaId"));
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .UseCollation("Latin1_General_CI_AS");
+
+                    b.HasKey("EtniaRazaId");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("EtniaRazas");
                 });
 
             modelBuilder.Entity("Regix.Domain.EntitiesGen.IdentidadGenero", b =>
@@ -940,6 +990,9 @@ namespace Regix.AppBack.Migrations
                     b.Property<DateTime>("DOB")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("DiscapacidadId")
+                        .HasColumnType("int");
+
                     b.Property<int>("DocumentTypeId")
                         .HasColumnType("int");
 
@@ -1032,6 +1085,8 @@ namespace Regix.AppBack.Migrations
                     b.HasKey("PatientId");
 
                     b.HasIndex("CorporationId");
+
+                    b.HasIndex("DiscapacidadId");
 
                     b.HasIndex("DocumentTypeId");
 
@@ -1423,6 +1478,10 @@ namespace Regix.AppBack.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Regix.Domain.EntitiesGen.Discapacidad", null)
+                        .WithMany("Patients")
+                        .HasForeignKey("DiscapacidadId");
+
                     b.HasOne("Regix.Domain.EntitiesGen.DocumentType", "DocumentType")
                         .WithMany("Patients")
                         .HasForeignKey("DocumentTypeId")
@@ -1551,6 +1610,11 @@ namespace Regix.AppBack.Migrations
             modelBuilder.Entity("Regix.Domain.EntitiesGen.Anticonception", b =>
                 {
                     b.Navigation("Ginecologicos");
+                });
+
+            modelBuilder.Entity("Regix.Domain.EntitiesGen.Discapacidad", b =>
+                {
+                    b.Navigation("Patients");
                 });
 
             modelBuilder.Entity("Regix.Domain.EntitiesGen.DocumentType", b =>

@@ -4,11 +4,11 @@ using System.Linq.Expressions;
 using System.Reflection;
 using Regix.Domain.EntitiesGen;
 
-namespace Regix.AppFront.Pages.EntitiesGen.IdiomasPage;
+namespace Regix.AppFront.Pages.EntitiesGen.DisabilityPage;
 
 public partial class FormDisability
 {
-    [Parameter, EditorRequired] public Idioma Idioma { get; set; } = null!;
+    [Parameter, EditorRequired] public Discapacidad Discapacidad { get; set; } = null!;
     [Parameter, EditorRequired] public EventCallback OnSubmit { get; set; }
     [Parameter, EditorRequired] public EventCallback ReturnAction { get; set; }
 

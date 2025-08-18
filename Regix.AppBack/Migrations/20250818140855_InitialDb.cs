@@ -12,6 +12,20 @@ namespace Regix.AppBack.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Anticonceptions",
+                columns: table => new
+                {
+                    AnticonceptionId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false, collation: "Latin1_General_CI_AS"),
+                    Active = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Anticonceptions", x => x.AnticonceptionId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
                 {
@@ -40,6 +54,20 @@ namespace Regix.AppBack.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Discapacidads",
+                columns: table => new
+                {
+                    DiscapacidadId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false, collation: "Latin1_General_CI_AS"),
+                    Active = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Discapacidads", x => x.DiscapacidadId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "DocumentTypes",
                 columns: table => new
                 {
@@ -65,6 +93,20 @@ namespace Regix.AppBack.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_EstadoCivils", x => x.EstadoCivilId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EtniaRazas",
+                columns: table => new
+                {
+                    EtniaRazaId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false, collation: "Latin1_General_CI_AS"),
+                    Active = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EtniaRazas", x => x.EtniaRazaId);
                 });
 
             migrationBuilder.CreateTable(
@@ -107,6 +149,20 @@ namespace Regix.AppBack.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Pharmacies", x => x.PharmacyId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Regulars",
+                columns: table => new
+                {
+                    RegularId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false, collation: "Latin1_General_CI_AS"),
+                    Active = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Regulars", x => x.RegularId);
                 });
 
             migrationBuilder.CreateTable(
@@ -465,6 +521,52 @@ namespace Regix.AppBack.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Ginecologicos",
+                columns: table => new
+                {
+                    GinecologicoId = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWSEQUENTIALID()"),
+                    PatientControlId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Menarquia = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    LastMenstruation = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    RegularId = table.Column<int>(type: "int", nullable: false),
+                    AnticonceptionId = table.Column<int>(type: "int", nullable: false),
+                    Gravida = table.Column<int>(type: "int", nullable: false),
+                    LaborComplications = table.Column<bool>(type: "bit", nullable: false),
+                    WhyComplication = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    LastCytologyPap = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Menopause = table.Column<bool>(type: "bit", nullable: false),
+                    CorporationId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Ginecologicos", x => x.GinecologicoId);
+                    table.ForeignKey(
+                        name: "FK_Ginecologicos_Anticonceptions_AnticonceptionId",
+                        column: x => x.AnticonceptionId,
+                        principalTable: "Anticonceptions",
+                        principalColumn: "AnticonceptionId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Ginecologicos_Corporations_CorporationId",
+                        column: x => x.CorporationId,
+                        principalTable: "Corporations",
+                        principalColumn: "CorporationId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Ginecologicos_PatientControls_PatientControlId",
+                        column: x => x.PatientControlId,
+                        principalTable: "PatientControls",
+                        principalColumn: "PatientControlId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Ginecologicos_Regulars_RegularId",
+                        column: x => x.RegularId,
+                        principalTable: "Regulars",
+                        principalColumn: "RegularId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Patient2s",
                 columns: table => new
                 {
@@ -552,7 +654,8 @@ namespace Regix.AppBack.Migrations
                     Active = table.Column<bool>(type: "bit", nullable: false),
                     Confirmed = table.Column<bool>(type: "bit", nullable: false),
                     Migrated = table.Column<bool>(type: "bit", nullable: false),
-                    CorporationId = table.Column<int>(type: "int", nullable: false)
+                    CorporationId = table.Column<int>(type: "int", nullable: false),
+                    DiscapacidadId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -563,6 +666,11 @@ namespace Regix.AppBack.Migrations
                         principalTable: "Corporations",
                         principalColumn: "CorporationId",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Patients_Discapacidads_DiscapacidadId",
+                        column: x => x.DiscapacidadId,
+                        principalTable: "Discapacidads",
+                        principalColumn: "DiscapacidadId");
                     table.ForeignKey(
                         name: "FK_Patients_DocumentTypes_DocumentTypeId",
                         column: x => x.DocumentTypeId,
@@ -633,6 +741,12 @@ namespace Regix.AppBack.Migrations
                         principalColumn: "UsuarioId",
                         onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Anticonceptions_Name",
+                table: "Anticonceptions",
+                column: "Name",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -717,6 +831,12 @@ namespace Regix.AppBack.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Discapacidads_Name",
+                table: "Discapacidads",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_DocumentTypes_DocumentName",
                 table: "DocumentTypes",
                 column: "DocumentName",
@@ -727,6 +847,37 @@ namespace Regix.AppBack.Migrations
                 table: "EstadoCivils",
                 column: "Name",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EtniaRazas_Name",
+                table: "EtniaRazas",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Ginecologicos_AnticonceptionId",
+                table: "Ginecologicos",
+                column: "AnticonceptionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Ginecologicos_CorporationId",
+                table: "Ginecologicos",
+                column: "CorporationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Ginecologicos_GinecologicoId",
+                table: "Ginecologicos",
+                column: "GinecologicoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Ginecologicos_PatientControlId",
+                table: "Ginecologicos",
+                column: "PatientControlId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Ginecologicos_RegularId",
+                table: "Ginecologicos",
+                column: "RegularId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_IdentidadGeneros_Name",
@@ -789,6 +940,11 @@ namespace Regix.AppBack.Migrations
                 column: "CorporationId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Patients_DiscapacidadId",
+                table: "Patients",
+                column: "DiscapacidadId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Patients_DocumentTypeId",
                 table: "Patients",
                 column: "DocumentTypeId");
@@ -838,6 +994,12 @@ namespace Regix.AppBack.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Pharmacies_Name",
                 table: "Pharmacies",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Regulars_Name",
+                table: "Regulars",
                 column: "Name",
                 unique: true);
 
@@ -938,6 +1100,12 @@ namespace Regix.AppBack.Migrations
                 name: "Cities");
 
             migrationBuilder.DropTable(
+                name: "EtniaRazas");
+
+            migrationBuilder.DropTable(
+                name: "Ginecologicos");
+
+            migrationBuilder.DropTable(
                 name: "Managers");
 
             migrationBuilder.DropTable(
@@ -957,6 +1125,15 @@ namespace Regix.AppBack.Migrations
 
             migrationBuilder.DropTable(
                 name: "States");
+
+            migrationBuilder.DropTable(
+                name: "Anticonceptions");
+
+            migrationBuilder.DropTable(
+                name: "Regulars");
+
+            migrationBuilder.DropTable(
+                name: "Discapacidads");
 
             migrationBuilder.DropTable(
                 name: "DocumentTypes");

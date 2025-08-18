@@ -1,9 +1,9 @@
-﻿@page "/idiomas"
+﻿@page "/discapacidades"
 @attribute [Authorize(Roles = "Admin")]
 
 <div class="container pt-4">
     <div class="card shadow-lg p-4 mb-5" style="border-radius: 12px;">
-        <h3 class="mb-4">Lenguage</h3>
+        <h3 class="mb-4">Disability</h3>
 
         <!-- Botón + Filtro -->
         <div class="row align-items-center mb-3">
@@ -18,7 +18,7 @@
         </div>
 
         <hr />
-        <GenericList MyList="Idiomas">
+        <GenericList MyList="Discapacidads">
             <Body>
                 <div class="table-responsive">
                     <table class="table table-hover table-striped align-middle">
@@ -31,7 +31,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var item in Idiomas!)
+                            @foreach (var item in Discapacidads!)
                             {
                                 <tr>
                                     <td>@item.Name</td>
@@ -39,12 +39,12 @@
                                         <input type="checkbox" class="form-check-input" checked="@item.Active" disabled />
                                     </td>
                                     <td style="width:1px;">
-                                        <button class="btn-shadow-black" @onclick="() => ShowModalAsync(item.IdiomaId, true)">
+                                        <button class="btn-shadow-black" @onclick="() => ShowModalAsync(item.DiscapacidadId, true)">
                                             <i class="fa fa-edit"></i>
                                         </button>
                                     </td>
                                     <td style="width:1px;">
-                                        <button class="btn-shadow-danger" @onclick="() => DeleteAsync(item.IdiomaId)">
+                                        <button class="btn-shadow-danger" @onclick="() => DeleteAsync(item.DiscapacidadId)">
                                             <i class="fa fa-trash"></i>
                                         </button>
                                     </td>
@@ -57,7 +57,7 @@
         </GenericList>
         <!-- Tabla -->
         <hr />
-        @if (Idiomas is not null)
+        @if (Discapacidads is not null)
         {
             <!-- Paginación -->
             <Pagination CurrentPage="CurrentPage"

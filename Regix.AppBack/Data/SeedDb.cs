@@ -38,6 +38,7 @@ public class SeedDb
         await CheckAnticonception();
         await CheckRegularPeriod();
         await CheckEtniaRazor();
+        await CheckDiscapacidad();
         await CheckUserAsync("Optimus U", "TrialPro", "hebalmert", "optimusu.soft@gmail.com", "+1 786 503", UserType.Admin);
     }
 
@@ -92,6 +93,18 @@ public class SeedDb
             await _userHelper.AddUserClaims(userType, username);
         }
         return user;
+    }
+
+    private async Task CheckDiscapacidad()
+    {
+        if (!_context.Discapacidads.Any())
+        {
+            _context.Discapacidads.Add(new Discapacidad { Name = "Yes", Active = true });
+            _context.Discapacidads.Add(new Discapacidad { Name = "No", Active = true });
+            _context.Discapacidads.Add(new Discapacidad { Name = "Prefer not to answer", Active = true });
+
+            await _context.SaveChangesAsync();
+        }
     }
 
     private async Task CheckEtniaRazor()

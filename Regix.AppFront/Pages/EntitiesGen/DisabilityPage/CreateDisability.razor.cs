@@ -23,13 +23,13 @@ public partial class CreateDisability
 
     //Local State
 
-    private Idioma Idioma = new() { Active = true };
-    private string BaseUrl = "/api/v1/idiomas";
-    private string BaseView = "/idiomas";
+    private Discapacidad Discapacidad = new() { Active = true };
+    private string BaseUrl = "/api/v1/discapacidades";
+    private string BaseView = "/discapacidades";
 
     private async Task Create()
     {
-        var responseHttp = await _repository.PostAsync($"{BaseUrl}", Idioma);
+        var responseHttp = await _repository.PostAsync($"{BaseUrl}", Discapacidad);
         bool errorHandled = await _responseHandler.HandleErrorAsync(responseHttp);
         if (errorHandled) return;
 

@@ -60,6 +60,10 @@ namespace Trial.AppBack.DependencyInjection
             services.AddScoped<IAnticonceptionService, AnticonceptionService>();
             services.AddScoped<IRegularUnitOfWork, RegularUnitOfWork>();
             services.AddScoped<IRegularService, RegularService>();
+            services.AddScoped<IEtniaRazaUnitOfWork, EtniaRazaUnitOfWork>();
+            services.AddScoped<IEtniaRazaService, EtniaRazaService>();
+            services.AddScoped<IDiscapacidadUnitOfWork, DiscapacidadUnitOfWork>();
+            services.AddScoped<IDiscapacidadService, DiscapacidadService>();
 
             //EntitiesSoft
             services.AddScoped<IPatientUnitOfWork, PatientUnitOfWork>();

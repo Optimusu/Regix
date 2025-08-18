@@ -5,7 +5,7 @@ using Regix.AppFront.Helpers;
 using Regix.Domain.EntitiesGen;
 using Regix.HttpServices;
 
-namespace Regix.AppFront.Pages.EntitiesGen.IdiomasPage;
+namespace Regix.AppFront.Pages.EntitiesGen.DisabilityPage;
 
 public partial class IndexDisability
 {
@@ -21,8 +21,8 @@ public partial class IndexDisability
     private int TotalPages;      //Cantidad total de paginas
     private int PageSize = 15;  //Cantidad de registros por pagina
 
-    private const string baseUrl = "api/v1/idiomas";
-    public List<Idioma>? Idiomas { get; set; }
+    private const string baseUrl = "api/v1/discapacidades";
+    public List<Discapacidad>? Discapacidads { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -48,7 +48,7 @@ public partial class IndexDisability
         {
             url += $"&filter={Filter}";
         }
-        var responseHttp = await _repository.GetAsync<List<Idioma>>(url);
+        var responseHttp = await _repository.GetAsync<List<Discapacidad>>(url);
         // Centralizamos el manejo de errores
         bool errorHandled = await _responseHandler.HandleErrorAsync(responseHttp);
         if (errorHandled)
@@ -57,7 +57,7 @@ public partial class IndexDisability
             return;
         }
 
-        Idiomas = responseHttp.Response;
+        Discapacidads = responseHttp.Response;
         TotalPages = int.Parse(responseHttp.HttpResponseMessage.Headers.GetValues("Totalpages").FirstOrDefault()!);
     }
 
@@ -70,7 +70,7 @@ public partial class IndexDisability
                 { "Id", id },
                 { "Title", "Edit Lenguage"  }
             };
-            await _modalService.ShowAsync<EditIdioma>(parameters);
+            await _modalService.ShowAsync<EditDisability>(parameters);
         }
         else
         {
@@ -78,7 +78,7 @@ public partial class IndexDisability
             {
                 { "Title", "Create Lenguage"  }
             };
-            await _modalService.ShowAsync<CreateIdioma>(parameters);
+            await _modalService.ShowAsync<CreateDisability>(parameters);
         }
     }
 

@@ -1,23 +1,23 @@
-﻿<EditForm Model="Regular" OnValidSubmit="OnSubmit">
+﻿<EditForm Model="EtniaRaza" OnValidSubmit="OnSubmit">
     <DataAnnotationsValidator />
 
     <div class="mb-0">
         <div class="input-group">
             <span class="input-group-text" style="width: 150px">
-                @GetDisplayName(() => Regular.Name)
+                @GetDisplayName(() => EtniaRaza.Name)
             </span>
-            <InputText class="form-control" placeholder="Cycle..." @bind-Value="Regular.Name" />
+            <InputText class="form-control" placeholder="Etnia/Raza..." @bind-Value="EtniaRaza.Name" />
         </div>
-        <ValidationMessage For="@(() => Regular.Name)" />
+        <ValidationMessage For="@(() => EtniaRaza.Name)" />
     </div>
 
     <div class="mb-3">
         <div class="input-group">
             <span class="input-group-text" style="width: 150px">
-                @GetDisplayName(() => Regular.Active)
+                @GetDisplayName(() => EtniaRaza.Active)
             </span>
             <div class="d-flex align-items-center ps-3">
-                <InputCheckbox @bind-Value="Regular.Active" class="form-check-input me-2" />
+                <InputCheckbox @bind-Value="EtniaRaza.Active" class="form-check-input me-2" />
             </div>
         </div>
     </div>
