@@ -31,6 +31,13 @@ public static class MapsterConfig
             .Ignore(dest => dest.PatientControl!)
             .Ignore(dest => dest.Corporation!);
 
+        config.NewConfig<Patient3, Patient3>()
+            .Ignore(dest => dest.PatientControl!)
+            .Ignore(dest => dest.EtniaRaza!)
+            .Ignore(dest => dest.Discapacidad!)
+            .Ignore(dest => dest.Veteran!)
+            .Ignore(dest => dest.Corporation!);
+
         config.NewConfig<Ginecologico, Ginecologico>()
             .Ignore(dest => dest.Regular!)
             .Ignore(dest => dest.Anticonception!)

@@ -14,6 +14,12 @@ public static class Messages
     public const string LoginSuccessTitle = "Welcome";
     public const string LoginSuccessMessage = "Login successful.";
 
+    public const string LogoutConfirmationTitle = "Are you sure you want to log out?";
+    public const string LogoutConfirmationText = "You will need to log in again to continue.";
+    public const string LogoutConfirmButton = "Log Out";
+    public const string LogoutCancelButton = "Cancel";
+
+
     public const string DeleteConfirmationTitle = "Delete Confirmation";
     public const string DeleteConfirmationText = "Are you sure you want to delete this record?";
     public const string DeleteConfirmButton = "Yes, delete it";

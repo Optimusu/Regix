@@ -28,6 +28,7 @@ public class PatientControl
 
     public int TPatient => Patients == null ? 0 : Patients.Count();
     public int TPatient2 => Patient2s == null ? 0 : Patient2s.Count();
+    public int TPatient3 => Patient3s == null ? 0 : Patient3s.Count();
     public int TGinecologico => Ginecologicos == null ? 0 : Ginecologicos.Count();
 
     //Relaciones
@@ -39,5 +40,6 @@ public class PatientControl
 
     public ICollection<Patient>? Patients { get; set; }
     public ICollection<Patient2>? Patient2s { get; set; }
+    public ICollection<Patient3>? Patient3s { get; set; }
     public ICollection<Ginecologico>? Ginecologicos { get; set; }
 }

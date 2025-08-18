@@ -64,12 +64,16 @@ namespace Trial.AppBack.DependencyInjection
             services.AddScoped<IEtniaRazaService, EtniaRazaService>();
             services.AddScoped<IDiscapacidadUnitOfWork, DiscapacidadUnitOfWork>();
             services.AddScoped<IDiscapacidadService, DiscapacidadService>();
+            services.AddScoped<IVeteranUnitOfWork, VeteranUnitOfWork>();
+            services.AddScoped<IVeteranService, VeteranService>();
 
             //EntitiesSoft
             services.AddScoped<IPatientUnitOfWork, PatientUnitOfWork>();
             services.AddScoped<IPatientService, PatientService>();
             services.AddScoped<IPatient2UnitOfWork, Patient2UnitOfWork>();
             services.AddScoped<IPatient2Service, Patient2Service>();
+            services.AddScoped<IPatient3UnitOfWork, Patient3UnitOfWork>();
+            services.AddScoped<IPatient3Service, Patient3Service>();
             services.AddScoped<IPatientControlUnitOfWork, PatientControlUnitOfWork>();
             services.AddScoped<IPatientControlService, PatientControlService>();
             services.AddScoped<IGinecologoUnitOfWork, GinecologoUnitOfWork>();

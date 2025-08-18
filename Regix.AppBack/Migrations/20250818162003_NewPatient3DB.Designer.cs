@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Regix.AppInfra;
 
@@ -11,9 +12,11 @@ using Regix.AppInfra;
 namespace Regix.AppBack.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20250818162003_NewPatient3DB")]
+    partial class NewPatient3DB
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -955,6 +958,7 @@ namespace Regix.AppBack.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Menarquia")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
@@ -968,6 +972,7 @@ namespace Regix.AppBack.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("WhyComplication")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
@@ -1169,6 +1174,7 @@ namespace Regix.AppBack.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("DurationPattern")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
@@ -1194,6 +1200,7 @@ namespace Regix.AppBack.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("ModifyingFactors")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
@@ -1201,10 +1208,12 @@ namespace Regix.AppBack.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("OtherPersonalMedical")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("PainQuality")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
@@ -1224,6 +1233,7 @@ namespace Regix.AppBack.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("RelatedSymptoms")
+                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
@@ -1231,6 +1241,7 @@ namespace Regix.AppBack.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("SymptomLocation")
+                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
@@ -1241,6 +1252,7 @@ namespace Regix.AppBack.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("TypeCancer")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 

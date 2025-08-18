@@ -1,0 +1,237 @@
+﻿<EditForm Model="Patient3" OnValidSubmit="OnSubmit">
+    <DataAnnotationsValidator />
+
+    <h2>Mental Health</h2>
+    <hr />
+
+    <div class="mb-2">
+        <div class="input-group">
+            <span class="input-group-text" style="width: 170px">
+                @GetDisplayName(() => Patient3.MentalHealth)
+            </span>
+            <div class="d-flex align-items-center ps-3">
+                <InputCheckbox @bind-Value="Patient3.MentalHealth" class="form-check-input me-2" />
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-2">
+        <div class="input-group">
+            <span class="input-group-text" style="width: 170px">
+                @GetDisplayName(() => Patient3.MentalDetail)
+            </span>
+            <InputText class="form-control" placeholder="..." @bind-Value="Patient3.MentalDetail" />
+        </div>
+        <ValidationMessage For="@(() => Patient3.MentalDetail)" />
+    </div>
+    <div class="mb-2">
+        <div class="input-group">
+            <span class="input-group-text" style="width: 170px">
+                @GetDisplayName(() => Patient3.CurrentTherapy)
+            </span>
+            <InputText class="form-control" placeholder="..." @bind-Value="Patient3.CurrentTherapy" />
+        </div>
+        <ValidationMessage For="@(() => Patient3.CurrentTherapy)" />
+    </div>
+
+    <div class="mb-2">
+        <div class="input-group">
+            <span class="input-group-text" style="width: 170px">
+                @GetDisplayName(() => Patient3.SuicidalIdeation)
+            </span>
+            <div class="d-flex align-items-center ps-3">
+                <InputCheckbox @bind-Value="Patient3.SuicidalIdeation" class="form-check-input me-2" />
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-2">
+        <div class="input-group">
+            <span class="input-group-text" style="width: 170px">
+                @GetDisplayName(() => Patient3.IdeationDetails)
+            </span>
+            <InputText class="form-control" placeholder="..." @bind-Value="Patient3.IdeationDetails" />
+        </div>
+        <ValidationMessage For="@(() => Patient3.IdeationDetails)" />
+    </div>
+
+
+    <div class="row mb-4">
+
+        <div class="col-md-4">
+            <div class="input-group">
+                <span class="input-group-text" style="width: 170px">
+                    @GetDisplayName(() => Patient3.Phq9)
+                </span>
+                <div class="d-flex align-items-center ps-3">
+                    <InputCheckbox @bind-Value="Patient3.Phq9" class="form-check-input me-2" />
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="input-group">
+                <span class="input-group-text" style="width: 170px">
+                    @GetDisplayName(() => Patient3.Gad7)
+                </span>
+                <div class="d-flex align-items-center ps-3">
+                    <InputCheckbox @bind-Value="Patient3.Gad7" class="form-check-input me-2" />
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="input-group">
+                <span class="input-group-text" style="width: 170px">
+                    @GetDisplayName(() => Patient3.Cssrs)
+                </span>
+                <div class="d-flex align-items-center ps-3">
+                    <InputCheckbox @bind-Value="Patient3.Cssrs" class="form-check-input me-2" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h2>Functional Status and Quality of Life</h2>
+    <hr />
+
+    <div class="row mb-2">
+
+        <div class="col-md-6">
+            <div class="input-group">
+                <span class="input-group-text" style="width: 170px">
+                    @GetDisplayName(() => Patient3.MobilityAid)
+                </span>
+                <div class="d-flex align-items-center ps-3">
+                    <InputCheckbox @bind-Value="Patient3.MobilityAid" class="form-check-input me-2" />
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="input-group">
+                <span class="input-group-text" style="width: 170px">
+                    @GetDisplayName(() => Patient3.DailyAid)
+                </span>
+                <div class="d-flex align-items-center ps-3">
+                    <InputCheckbox @bind-Value="Patient3.DailyAid" class="form-check-input me-2" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-2">
+        <div class="input-group">
+            <span class="input-group-text" style="width: 170px">
+                @GetDisplayName(() => Patient3.MobilityDetails)
+            </span>
+            <InputText class="form-control" placeholder="Mobility Details..." @bind-Value="Patient3.MobilityDetails" />
+        </div>
+        <ValidationMessage For="@(() => Patient3.MobilityDetails)" />
+    </div>
+
+    <div class="mb-4">
+        <div class="input-group">
+            <span class="input-group-text" style="width: 170px">
+                @GetDisplayName(() => Patient3.Pain)
+            </span>
+            <InputNumber class="form-control" placeholder="0 - 10..." @bind-Value="Patient3.Pain" />
+        </div>
+        <ValidationMessage For="@(() => Patient3.Pain)" />
+    </div>
+
+    <h2>Ethnic / Race</h2>
+    <hr />
+
+    <div class="mb-2">
+        @if (EtniaRazas is null)
+        {
+            <Loading />
+        }
+        else
+        {
+            <div class="input-group">
+                <span class="input-group-text" style="width: 170px">Ethnic/Race</span>
+                <select class="form-select" value="@Patient3.EtniaRazaId" @onchange="EtniaChanged">
+                    @foreach (var item in EtniaRazas)
+                    {
+                        <option value="@item.EtniaRazaId">@item.Name</option>
+                    }
+                </select>
+            </div>
+            <ValidationMessage For="@(() => Patient3.EtniaRazaId)" />
+        }
+    </div>
+
+
+    <div class="row mb-2">
+
+        <div class="col-md-6">
+            @if (Discapacidads is null)
+            {
+                <Loading />
+            }
+            else
+            {
+                <div class="input-group">
+                    <span class="input-group-text" style="width: 170px">Disability </span>
+                    <select class="form-select" value="@Patient3.DiscapacidadId" @onchange="DiscapacidadChanged">
+                        @foreach (var item in Discapacidads)
+                        {
+                            <option value="@item.DiscapacidadId">@item.Name</option>
+                        }
+                    </select>
+                </div>
+                <ValidationMessage For="@(() => Patient3.DiscapacidadId)" />
+            }
+        </div>
+
+        <div class="col-md-6">
+            @if (Veterans is null)
+            {
+                <Loading />
+            }
+            else
+            {
+                <div class="input-group">
+                    <span class="input-group-text" style="width: 170px">Veteran </span>
+                    <select class="form-select" value="@Patient3.VeteranId" @onchange="VeteranChanged">
+                        @foreach (var item in Veterans)
+                        {
+                            <option value="@item.VeteranId">@item.Name</option>
+                        }
+                    </select>
+                </div>
+                <ValidationMessage For="@(() => Patient3.VeteranId)" />
+            }
+        </div>
+    </div>
+
+    <div class="mb-2">
+        <div class="input-group">
+            <span class="input-group-text" style="width: 170px">
+                @GetDisplayName(() => Patient3.RecentTravel)
+            </span>
+            <InputText class="form-control" placeholder="Recent Travel..." @bind-Value="Patient3.RecentTravel" />
+        </div>
+        <ValidationMessage For="@(() => Patient3.RecentTravel)" />
+    </div>
+    <div class="mb-5">
+        <div class="input-group">
+            <span class="input-group-text" style="width: 170px">
+                @GetDisplayName(() => Patient3.ExposureContagious)
+            </span>
+            <InputText class="form-control" placeholder="Exposure Contagious Trips..." @bind-Value="Patient3.ExposureContagious" />
+        </div>
+        <ValidationMessage For="@(() => Patient3.ExposureContagious)" />
+    </div>
+
+    <!-- Botones -->
+    <div class="d-flex justify-content-center gap-3 mt-5">
+        <button class="btn btn-gradient-black" @onclick="ReturnAction" style="min-width: 160px;">
+            <i class="fa fa-arrow-left"></i> Back
+        </button>
+        <button type="submit" class="btn btn-gradient-primary" style="min-width: 160px;">
+            <i class="fa fa-floppy-disk me-2"></i> Save
+        </button>
+    </div>
+</EditForm>

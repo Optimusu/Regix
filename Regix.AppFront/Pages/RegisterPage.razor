@@ -46,74 +46,31 @@
             </button>
             }
             <button class="btn btn-lg panel-button btn-outline-primary d-flex justify-content-between align-items-center w-100"
-                    onclick="@ClickPatient2">
+                    onclick="@ClickPatient3">
                 <span>
-                    <i class="fas fa-user-plus me-2"></i> Antecedentes Quirirgicos
+                    <i class="fas fa-user-plus me-2"></i> Psychosocial and Functional Conditions
                 </span>
                 <span class="fw-semibold px-2 rounded"
-                      style="background-color: white; color:@(CompletePatient2 ? "green" : "red")">
-                    @(CompletePatient2 ? "Complete" : "Incomplete")
-                </span>
-            </button>
-            <button class="btn btn-lg panel-button btn-outline-primary d-flex justify-content-between align-items-center w-100"
-                    onclick="@ClickPatient2">
-                <span>
-                    <i class="fas fa-user-plus me-2"></i> Hopitalizacion
-                </span>
-                <span class="fw-semibold px-2 rounded"
-                      style="background-color: white; color:@(CompletePatient2 ? "green" : "red")">
-                    @(CompletePatient2 ? "Complete" : "Incomplete")
-                </span>
-            </button>
-            <button class="btn btn-lg panel-button btn-outline-primary d-flex justify-content-between align-items-center w-100"
-                    onclick="@ClickPatient2">
-                <span>
-                    <i class="fas fa-user-plus me-2"></i> Medicamentos
-                </span>
-                <span class="fw-semibold px-2 rounded"
-                      style="background-color: white; color:@(CompletePatient2 ? "green" : "red")">
-                    @(CompletePatient2 ? "Complete" : "Incomplete")
-                </span>
-            </button>
-            <button class="btn btn-lg panel-button btn-outline-primary d-flex justify-content-between align-items-center w-100"
-                    onclick="@ClickPatient2">
-                <span>
-                    <i class="fas fa-user-plus me-2"></i> Alergias
-                </span>
-                <span class="fw-semibold px-2 rounded"
-                      style="background-color: white; color:@(CompletePatient2 ? "green" : "red")">
-                    @(CompletePatient2 ? "Complete" : "Incomplete")
-                </span>
-            </button>
-            <button class="btn btn-lg panel-button btn-outline-primary d-flex justify-content-between align-items-center w-100"
-                    onclick="@ClickPatient2">
-                <span>
-                    <i class="fas fa-user-plus me-2"></i> Inmunizaciones
-                </span>
-                <span class="fw-semibold px-2 rounded"
-                      style="background-color: white; color:@(CompletePatient2 ? "green" : "red")">
-                    @(CompletePatient2 ? "Complete" : "Incomplete")
-                </span>
-            </button>
-            <button class="btn btn-lg panel-button btn-outline-primary d-flex justify-content-between align-items-center w-100"
-                    onclick="@ClickPatient2">
-                <span>
-                    <i class="fas fa-user-plus me-2"></i> Antecedentes Familiares
-                </span>
-                <span class="fw-semibold px-2 rounded"
-                      style="background-color: white; color:@(CompletePatient2 ? "green" : "red")">
-                    @(CompletePatient2 ? "Complete" : "Incomplete")
+                      style="background-color: white; color:@(CompletePatient3 ? "green" : "red")">
+                    @(CompletePatient3 ? "Complete" : "Incomplete")
                 </span>
             </button>
 
             <hr />
 
-            <button class="btn btn-lg panel-button btn-outline-success">
-                <i class="fas fa-sign-in-alt me-2"></i> Iniciar sesión
+            <button class="btn btn-lg panel-button btn-outline-success d-flex justify-content-between align-items-center w-100"
+                    onclick="@CloseSessionAsync">
+                <span>
+                    <i class="fas fa-sign-in-alt me-2"></i> Close Session
+                </span>
             </button>
-            <button class="btn btn-lg panel-button btn-outline-dark">
-                <i class="fas fa-user-secret me-2"></i> Acceso invitado
-            </button>
+
+@*                 <button class="btn btn-lg panel-button btn-outline-success">
+                    <i class="fas fa-sign-in-alt me-2"></i> Iniciar sesión
+                </button>
+                <button class="btn btn-lg panel-button btn-outline-dark">
+                    <i class="fas fa-user-secret me-2"></i> Acceso invitado
+                </button> *@
         </div>
     </div>
 </div>

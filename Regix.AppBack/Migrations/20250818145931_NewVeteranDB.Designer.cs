@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Regix.AppInfra;
 
@@ -11,9 +12,11 @@ using Regix.AppInfra;
 namespace Regix.AppBack.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20250818145931_NewVeteranDB")]
+    partial class NewVeteranDB
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -955,6 +958,7 @@ namespace Regix.AppBack.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Menarquia")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
@@ -968,6 +972,7 @@ namespace Regix.AppBack.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("WhyComplication")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
@@ -1009,6 +1014,9 @@ namespace Regix.AppBack.Migrations
 
                     b.Property<DateTime>("DOB")
                         .HasColumnType("datetime2");
+
+                    b.Property<int?>("DiscapacidadId")
+                        .HasColumnType("int");
 
                     b.Property<int>("DocumentTypeId")
                         .HasColumnType("int");
@@ -1103,6 +1111,8 @@ namespace Regix.AppBack.Migrations
 
                     b.HasIndex("CorporationId");
 
+                    b.HasIndex("DiscapacidadId");
+
                     b.HasIndex("DocumentTypeId");
 
                     b.HasIndex("EstadoCivilId");
@@ -1169,6 +1179,7 @@ namespace Regix.AppBack.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("DurationPattern")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
@@ -1194,6 +1205,7 @@ namespace Regix.AppBack.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("ModifyingFactors")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
@@ -1201,10 +1213,12 @@ namespace Regix.AppBack.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("OtherPersonalMedical")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("PainQuality")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
@@ -1224,6 +1238,7 @@ namespace Regix.AppBack.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("RelatedSymptoms")
+                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
@@ -1231,6 +1246,7 @@ namespace Regix.AppBack.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("SymptomLocation")
+                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
@@ -1241,6 +1257,7 @@ namespace Regix.AppBack.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("TypeCancer")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
@@ -1253,97 +1270,6 @@ namespace Regix.AppBack.Migrations
                     b.HasIndex("PatientControlId");
 
                     b.ToTable("Patient2s");
-                });
-
-            modelBuilder.Entity("Regix.Domain.EntitiesSoft.Patient3", b =>
-                {
-                    b.Property<Guid>("Patient3Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasDefaultValueSql("NEWSEQUENTIALID()");
-
-                    b.Property<int>("CorporationId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("Cssrs")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("CurrentTherapy")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<bool>("DailyAid")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("DiscapacidadId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("EtniaRazaId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ExposureContagious")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<bool>("Gad7")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("IdeationDetails")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("MentalDetail")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<bool>("MentalHealth")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("MobilityAid")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("MobilityDetails")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<int>("Pain")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("PatientControlId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("Phq9")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("RecentTravel")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<bool>("SuicidalIdeation")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("TestDetails")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<int>("VeteranId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Patient3Id");
-
-                    b.HasIndex("CorporationId");
-
-                    b.HasIndex("DiscapacidadId");
-
-                    b.HasIndex("EtniaRazaId");
-
-                    b.HasIndex("Patient3Id");
-
-                    b.HasIndex("PatientControlId");
-
-                    b.HasIndex("VeteranId");
-
-                    b.ToTable("Patient3s");
                 });
 
             modelBuilder.Entity("Regix.Domain.EntitiesSoft.PatientControl", b =>
@@ -1577,6 +1503,10 @@ namespace Regix.AppBack.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Regix.Domain.EntitiesGen.Discapacidad", null)
+                        .WithMany("Patients")
+                        .HasForeignKey("DiscapacidadId");
+
                     b.HasOne("Regix.Domain.EntitiesGen.DocumentType", "DocumentType")
                         .WithMany("Patients")
                         .HasForeignKey("DocumentTypeId")
@@ -1655,49 +1585,6 @@ namespace Regix.AppBack.Migrations
                     b.Navigation("PatientControl");
                 });
 
-            modelBuilder.Entity("Regix.Domain.EntitiesSoft.Patient3", b =>
-                {
-                    b.HasOne("Regix.Domain.Entities.Corporation", "Corporation")
-                        .WithMany()
-                        .HasForeignKey("CorporationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Regix.Domain.EntitiesGen.Discapacidad", "Discapacidad")
-                        .WithMany("Patient3s")
-                        .HasForeignKey("DiscapacidadId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Regix.Domain.EntitiesGen.EtniaRaza", "EtniaRaza")
-                        .WithMany("Patient3s")
-                        .HasForeignKey("EtniaRazaId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Regix.Domain.EntitiesSoft.PatientControl", "PatientControl")
-                        .WithMany("Patient3s")
-                        .HasForeignKey("PatientControlId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Regix.Domain.EntitiesGen.Veteran", "Veteran")
-                        .WithMany("Patient3s")
-                        .HasForeignKey("VeteranId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Corporation");
-
-                    b.Navigation("Discapacidad");
-
-                    b.Navigation("EtniaRaza");
-
-                    b.Navigation("PatientControl");
-
-                    b.Navigation("Veteran");
-                });
-
             modelBuilder.Entity("Regix.Domain.EntitiesSoft.PatientControl", b =>
                 {
                     b.HasOne("Regix.Domain.Entities.Corporation", "Corporation")
@@ -1752,7 +1639,7 @@ namespace Regix.AppBack.Migrations
 
             modelBuilder.Entity("Regix.Domain.EntitiesGen.Discapacidad", b =>
                 {
-                    b.Navigation("Patient3s");
+                    b.Navigation("Patients");
                 });
 
             modelBuilder.Entity("Regix.Domain.EntitiesGen.DocumentType", b =>
@@ -1763,11 +1650,6 @@ namespace Regix.AppBack.Migrations
             modelBuilder.Entity("Regix.Domain.EntitiesGen.EstadoCivil", b =>
                 {
                     b.Navigation("Patients");
-                });
-
-            modelBuilder.Entity("Regix.Domain.EntitiesGen.EtniaRaza", b =>
-                {
-                    b.Navigation("Patient3s");
                 });
 
             modelBuilder.Entity("Regix.Domain.EntitiesGen.IdentidadGenero", b =>
@@ -1795,18 +1677,11 @@ namespace Regix.AppBack.Migrations
                     b.Navigation("Patients");
                 });
 
-            modelBuilder.Entity("Regix.Domain.EntitiesGen.Veteran", b =>
-                {
-                    b.Navigation("Patient3s");
-                });
-
             modelBuilder.Entity("Regix.Domain.EntitiesSoft.PatientControl", b =>
                 {
                     b.Navigation("Ginecologicos");
 
                     b.Navigation("Patient2s");
-
-                    b.Navigation("Patient3s");
 
                     b.Navigation("Patients");
                 });

@@ -24,32 +24,27 @@ public class Patient2
     public DateTime DateStart { get; set; }
 
     [MaxLength(256, ErrorMessageResourceName = "Validation_MaxLength", ErrorMessageResourceType = typeof(Resource))]
-    [Required(ErrorMessageResourceName = "Validation_Required", ErrorMessageResourceType = typeof(Resource))]
     [DataType(DataType.MultilineText)]
     [Display(Name = "Symptom Location")]
     public string? SymptomLocation { get; set; }
 
     [MaxLength(50, ErrorMessageResourceName = "Validation_MaxLength", ErrorMessageResourceType = typeof(Resource))]
-    [Required(ErrorMessageResourceName = "Validation_Required", ErrorMessageResourceType = typeof(Resource))]
     [Display(Name = "Pain Quality")]
-    public string PainQuality { get; set; } = null!;
+    public string? PainQuality { get; set; }
 
     [Range(0, 10, ErrorMessageResourceName = nameof(Resource.Validation_Combo), ErrorMessageResourceType = typeof(Resource))]
     [Display(Name = "Severity 0-10")]
     public int PainSeverity { get; set; }
 
     [MaxLength(100, ErrorMessageResourceName = "Validation_MaxLength", ErrorMessageResourceType = typeof(Resource))]
-    [Required(ErrorMessageResourceName = "Validation_Required", ErrorMessageResourceType = typeof(Resource))]
     [Display(Name = "Duration/Pattern")]
-    public string DurationPattern { get; set; } = null!;
+    public string? DurationPattern { get; set; }
 
     [MaxLength(100, ErrorMessageResourceName = "Validation_MaxLength", ErrorMessageResourceType = typeof(Resource))]
-    [Required(ErrorMessageResourceName = "Validation_Required", ErrorMessageResourceType = typeof(Resource))]
     [Display(Name = "Modifying Factors")]
-    public string ModifyingFactors { get; set; } = null!;
+    public string? ModifyingFactors { get; set; }
 
     [MaxLength(256, ErrorMessageResourceName = "Validation_MaxLength", ErrorMessageResourceType = typeof(Resource))]
-    [Required(ErrorMessageResourceName = "Validation_Required", ErrorMessageResourceType = typeof(Resource))]
     [DataType(DataType.MultilineText)]
     [Display(Name = "Related Symptoms")]
     public string? RelatedSymptoms { get; set; }
@@ -96,11 +91,11 @@ public class Patient2
 
     [MaxLength(100, ErrorMessageResourceName = "Validation_MaxLength", ErrorMessageResourceType = typeof(Resource))]
     [Display(Name = "Type Cancer")]
-    public string TypeCancer { get; set; } = null!;
+    public string? TypeCancer { get; set; }
 
     [MaxLength(100, ErrorMessageResourceName = "Validation_MaxLength", ErrorMessageResourceType = typeof(Resource))]
     [Display(Name = "Other")]
-    public string OtherPersonalMedical { get; set; } = null!;
+    public string? OtherPersonalMedical { get; set; }
 
     [Display(Name = "Tobacco")]
     public bool Tobacco { get; set; }

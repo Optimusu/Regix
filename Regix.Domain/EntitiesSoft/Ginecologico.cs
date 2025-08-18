@@ -15,9 +15,8 @@ public class Ginecologico
     public Guid PatientControlId { get; set; }
 
     [MaxLength(50, ErrorMessageResourceName = "Validation_MaxLength", ErrorMessageResourceType = typeof(Resource))]
-    [Required(ErrorMessageResourceName = "Validation_Required", ErrorMessageResourceType = typeof(Resource))]
     [Display(Name = "Menarquia")]
-    public string Menarquia { get; set; } = null!;
+    public string? Menarquia { get; set; }
 
     [Required]
     [Display(Name = "Last Menstruation")]
@@ -41,9 +40,8 @@ public class Ginecologico
     public bool LaborComplications { get; set; }
 
     [MaxLength(50, ErrorMessageResourceName = "Validation_MaxLength", ErrorMessageResourceType = typeof(Resource))]
-    [Required(ErrorMessageResourceName = "Validation_Required", ErrorMessageResourceType = typeof(Resource))]
     [Display(Name = "Explain")]
-    public string WhyComplication { get; set; } = null!;
+    public string? WhyComplication { get; set; }
 
     [Required]
     [Display(Name = "Last Cytology/Pap")]

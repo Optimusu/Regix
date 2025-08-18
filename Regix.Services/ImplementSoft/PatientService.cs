@@ -68,7 +68,7 @@ public class PatientService : IPatientService
             return new ActionResponse<IEnumerable<Patient>>
             {
                 WasSuccess = true,
-                Result = queryable
+                Result = modelo
             };
         }
         catch (Exception ex)

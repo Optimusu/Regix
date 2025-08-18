@@ -44,11 +44,13 @@ public class DataContext : IdentityDbContext<User>
     public DbSet<Regular> Regulars => Set<Regular>();
     public DbSet<EtniaRaza> EtniaRazas => Set<EtniaRaza>();
     public DbSet<Discapacidad> Discapacidads => Set<Discapacidad>();
+    public DbSet<Veteran> Veterans => Set<Veteran>();
 
     //EntitiesSoft
 
     public DbSet<Patient> Patients => Set<Patient>();
     public DbSet<Patient2> Patient2s => Set<Patient2>();
+    public DbSet<Patient3> Patient3s => Set<Patient3>();
     public DbSet<PatientControl> PatientControls => Set<PatientControl>();
     public DbSet<Ginecologico> Ginecologicos => Set<Ginecologico>();
 

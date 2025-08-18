@@ -39,6 +39,7 @@ public class SeedDb
         await CheckRegularPeriod();
         await CheckEtniaRazor();
         await CheckDiscapacidad();
+        await CheckVeteranStatus();
         await CheckUserAsync("Optimus U", "TrialPro", "hebalmert", "optimusu.soft@gmail.com", "+1 786 503", UserType.Admin);
     }
 
@@ -93,6 +94,18 @@ public class SeedDb
             await _userHelper.AddUserClaims(userType, username);
         }
         return user;
+    }
+
+    private async Task CheckVeteranStatus()
+    {
+        if (!_context.Veterans.Any())
+        {
+            _context.Veterans.Add(new Veteran { Name = "Yes", Active = true });
+            _context.Veterans.Add(new Veteran { Name = "No", Active = true });
+            _context.Veterans.Add(new Veteran { Name = "Prefer not to answer", Active = true });
+
+            await _context.SaveChangesAsync();
+        }
     }
 
     private async Task CheckDiscapacidad()

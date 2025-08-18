@@ -1,6 +1,11 @@
+using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
+using Regix.AppFront.AuthenticationProviders;
+using Regix.AppFront.GenericoModal;
 using Regix.AppFront.Helpers;
+using Regix.AppFront.Pages.Auth;
+using Regix.AppFront.Pages.EntitiesGen.IdentidadGeneroPage;
 using Regix.Domain.EntitiesSoft;
 using Regix.HttpServices;
 using System.Net.NetworkInformation;
@@ -15,6 +20,8 @@ public partial class RegisterPage
     [Inject] private NavigationManager _navigation { get; set; } = null!;
     [Inject] private HttpResponseHandler _responseHandler { get; set; } = null!;
     [Inject] private PatientControlStateService _patientState { get; set; } = null!;
+    [Inject] private SweetAlertService _sweetAlert { get; set; } = null!;
+    [Inject] private ILoginService LoginService { get; set; } = null!;
 
     [CascadingParameter] private Task<AuthenticationState> authenticationState { get; set; } = null!;
 
@@ -24,6 +31,7 @@ public partial class RegisterPage
     private bool ViewGinecologico = false;
     private bool CompletePatient = false;
     private bool CompletePatient2 = false;
+    private bool CompletePatient3 = false;
     private bool CompleteGinecologico3 = false;
 
     protected override async Task OnInitializedAsync()
@@ -42,10 +50,37 @@ public partial class RegisterPage
         if (errorHandled) return;
         PatientControl = responseHttp.Response!;
         _patientState.Set(PatientControl);
-        ViewGinecologico = PatientControl.Patients!.FirstOrDefault()!.SexoAsignado!.Name == "Female" ? true : false;
+        if (PatientControl.TPatient == 0)
+        {
+            ViewGinecologico = false;
+        }
+        else
+        {
+            ViewGinecologico = PatientControl.Patients!.FirstOrDefault()!.SexoAsignado!.Name == "Female" ? true : false;
+        }
         CompletePatient = PatientControl.TPatient == 0 ? false : true;
         CompletePatient2 = PatientControl.TPatient2 == 0 ? false : true;
+        CompletePatient3 = PatientControl.TPatient3 == 0 ? false : true;
         CompleteGinecologico3 = PatientControl.TGinecologico == 0 ? false : true;
+    }
+
+    private async Task CloseSessionAsync()
+    {
+        var result = await _sweetAlert.FireAsync(new SweetAlertOptions
+        {
+            Title = Messages.LogoutConfirmationTitle,          
+            Text = Messages.LogoutConfirmationText,            
+            Icon = SweetAlertIcon.Question,
+            ShowCancelButton = true,
+            ConfirmButtonText = Messages.LogoutConfirmButton,   
+            CancelButtonText = Messages.LogoutCancelButton
+        });
+
+        if (result.IsDismissed || result.Value != "true")
+            return;
+
+        await LoginService.LogoutAsync();
+        _navigation.NavigateTo($"/");
     }
 
     private void ClickPatient()
@@ -71,6 +106,19 @@ public partial class RegisterPage
         else
         {
             _navigation.NavigateTo($"/regpatient2s/edit/{PatientControl.Patient2s!.FirstOrDefault()!.Patient2Id}");
+        }
+    }
+
+    private void ClickPatient3()
+    {
+        //Llamamos a Register y enviamos el PatientControlId
+        if (PatientControl.TPatient2 == 0)
+        {
+            _navigation.NavigateTo($"/regpatient3s/create");
+        }
+        else
+        {
+            _navigation.NavigateTo($"/regpatient3s/edit/{PatientControl.Patient3s!.FirstOrDefault()!.Patient3Id}");
         }
     }
 

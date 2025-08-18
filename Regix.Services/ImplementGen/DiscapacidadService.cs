@@ -73,7 +73,7 @@ public class DiscapacidadService : IDiscapacidadService
                 queryable = queryable.Where(u => EF.Functions.Like(u.Name, $"%{pagination.Filter}%"));
             }
             await _httpContextAccessor.HttpContext!.InsertParameterPagination(queryable, pagination.RecordsNumber);
-            var modelo = await queryable.OrderBy(x => x.Name).Paginate(pagination).ToListAsync();
+            var modelo = await queryable.OrderBy(x => x.DiscapacidadId).Paginate(pagination).ToListAsync();
 
             return new ActionResponse<IEnumerable<Discapacidad>>
             {

@@ -17,5 +17,5 @@ public class Discapacidad
     [Display(Name = nameof(Resource.Active), ResourceType = typeof(Resource))]
     public bool Active { get; set; }
 
-    public ICollection<Patient>? Patients { get; set; }
+    public ICollection<Patient3>? Patient3s { get; set; }
 }
